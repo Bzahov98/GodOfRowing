@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:id="@+id/param1"
+    android:background="#F21213">
+
+    <TextView
+        android:text="@string/def_parameter_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:textSize="31dp"
+        android:id="@+id/param_value" />
+    <TextView
+        android:text="@string/def_parameter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="21dp"
+        android:id="@+id/param_name" />
+</RelativeLayout>

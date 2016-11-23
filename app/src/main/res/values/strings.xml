@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">GodOfRowing</string>
+    <string name="defaut">ParameterName</string>
+    <string name="def_parameter_name">ParName</string>
+    <string name="def_parameter_value">ParamValue</string>
+</resources>
