@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">GodOfRowing</string>
     <string name="defaut">ParameterName</string>
-    <string name="def_parameter_name">ParName</string>
+    <string name="def_parameter_name">P1</string>
     <string name="def_parameter_value">ParamValue</string>
+    <string name="sad">123123</string>
+    <string name="def_parameter_name2">P2</string>
+    <string name="def_parameter_name3">P3</string>
+    <string name="def_parameter_name4">P4</string>
+    <string name="def_parameter_name5">P5</string>
+    <string name="def_parameter_name6">P6</string>
 </resources>

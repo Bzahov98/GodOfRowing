@@ -14,7 +14,6 @@
         android:layout_height="0dp"
         android:layout_weight="1.8"
         android:background="#ed8404">
-        >
         <!-- Row 1 -->
         <TableRow
             android:id="@+id/main_table_row_1"
@@ -99,7 +98,7 @@
                 android:id="@+id/Row3_C_1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="#ed8404"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -171,20 +170,37 @@
         android:layout_height="0dp"
         android:background="@color/colorPrimary"
         android:layout_weight="0.4">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Menu"/>
     </HorizontalScrollView>
 
     <RelativeLayout
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.8"
         android:background="#F21">
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/first_text"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="graph"/>
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:text="kkk"
+            />
+        <TextView
+            android:id="@+id/second_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text=""
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/third_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=""
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            />
     </RelativeLayout>
 </LinearLayout>

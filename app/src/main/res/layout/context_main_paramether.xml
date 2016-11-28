@@ -1,26 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/param1"
-    android:background="#F21213">
+    android:orientation="horizontal"
+    android:background="#000">
 
-    <TextView
-        android:text="@string/def_parameter_value"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_alignParentStart="true"
-        android:textSize="31dp"
-        android:id="@+id/param_value" />
-    <TextView
-        android:text="@string/def_parameter_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#000"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="21dp"
-        android:id="@+id/param_name" />
+        android:id="@+id/ad"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/param_1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textSize="31sp"
+            android:text="@string/def_parameter_name"
+            android:onClick="ScrollItem"
+         />
+
+        <TextView
+            android:id="@+id/param_2"
+            android:text="@string/def_parameter_name2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:layout_alignBottom="@+id/param_1"
+            android:layout_toEndOf="@+id/param_1"
+            android:onClick="ScrollItem"/>
+        <TextView
+            android:id="@+id/param_3"
+            android:text="@string/def_parameter_name3"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:layout_alignBottom="@+id/param_2"
+            android:layout_toEndOf="@+id/param_2"
+            android:onClick="ScrollItem"/>
+
+        <TextView
+            android:id="@+id/param_4"
+            android:text="@string/def_parameter_name4"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:layout_alignBottom="@+id/param_3"
+            android:layout_toEndOf="@+id/param_3"
+            android:onClick="ScrollItem"
+            />
+        <TextView
+            android:id="@+id/param_5"
+            android:text="@string/def_parameter_name5"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:onClick="ScrollItem"
+            android:layout_alignBottom="@+id/param_4"
+            android:layout_toEndOf="@+id/param_4" />
+        <TextView
+            android:id="@+id/param_6"
+            android:text="@string/def_parameter_name6"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:onClick="ScrollItem"
+            android:layout_alignBottom="@+id/param_5"
+            android:layout_toEndOf="@+id/param_5" />
+    </RelativeLayout>
+
 </RelativeLayout>
