@@ -1,32 +1,28 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bzahov.elsys.godofrowing.MainGridView.ParameterAdapter;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import org.w3c.dom.Text;
-
-import java.util.zip.Inflater;
-
-import javax.sql.RowSet;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -34,9 +30,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorEventListener mSensorListener;
     private Sensor mAccelerometer;
     private float x_accelerometer;
+    private  ArrayList<Entry> xVals;
     private float y_accelerometer;
+    private  ArrayList<Entry> yVals;
     private float z_accelerometer;
+    private  ArrayList<Entry> zVals ;
     private int choosedDetailOption;
+    private LineData chartGraphData;
+    private LineChart lineGraphChart;
+    private LineDataSet dataSetX;
+    private LineDataSet dataSetZ;
+    private LineDataSet dataSetY;
+    ArrayList<ILineDataSet> lineDataSets;
+    private int i = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,67 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
+       SetGraph();
+    }
+
+    private void SetGraph() {
+
+        xVals = new ArrayList<Entry>();
+        yVals = new ArrayList<Entry>();
+        zVals = new ArrayList<Entry>();
+
+        lineGraphChart = (LineChart) findViewById(R.id.LineChart);
+        lineGraphChart.setVisibility(View.INVISIBLE); /// <---------------------------
+
+        lineGraphChart.setNoDataText("No Data at the moment");
+        lineGraphChart.setTouchEnabled(true);
+        lineGraphChart.setDragEnabled(true);
+        lineGraphChart.setHardwareAccelerationEnabled(true);
+        lineGraphChart.setPinchZoom(true);
+
+     //   yVals.add(new Entry(11, 10));
+
+        // create a dataset and give it a type
+        dataSetX = new LineDataSet(xVals, "X");
+        dataSetY = new LineDataSet(yVals, "Y");
+        dataSetZ = new LineDataSet(zVals, "Z");
+
+        lineDataSets = new ArrayList<>();
+
+        dataSetX.setFillColor(Color.WHITE);
+
+        // set the line to be drawn like this "- - - - - -"
+        // dataSetX.enableDashedLine(10f, 5f, 0f);
+        // dataSetX.enableDashedHighlightLine(10f, 5f, 0f);
+        //==========
+        dataSetX.addEntry(new Entry(0, 0));
+        dataSetX.setColor(Color.BLACK);
+        dataSetX.setCircleColor(Color.BLACK);
+        dataSetX.setValueTextSize(9f);
+
+        dataSetY.addEntry(new Entry(0, 0));
+        dataSetY.setColor(Color.YELLOW);
+        dataSetY.setCircleColor(Color.YELLOW);
+        dataSetY.setValueTextSize(9f);
+
+        dataSetZ.addEntry(new Entry(0, 0));
+        dataSetZ.setColor(Color.BLUE);
+        dataSetZ.setCircleColor(Color.BLUE);
+        dataSetZ.setValueTextSize(9f);
+        //==========
+
+        lineDataSets.add(dataSetX);
+        lineDataSets.add(dataSetY);
+        lineDataSets.add(dataSetZ);
+
+        lineGraphChart.setVisibleXRangeMaximum(70f);
+
+        lineGraphChart.setData(new LineData(lineDataSets));
+        // ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        //dataSets.add(dataSetX); // add the datasets
+
+        // create a data object with the datasets
+        // LineDataSet chartGraphDataSet = new LineData(xVals, "# of Calls");*/
     }
 
     // ScrollView child on Click
@@ -124,10 +192,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         TextView zText = (TextView) detailLayout.findViewById(R.id.third_text);
 
         if (choosedDetailOption == 1) {
-                xText.setText("X: = " + Float.toString(x_accelerometer));
-                yText.setText("Y: = " + Float.toString(y_accelerometer));
-                zText.setText("Z: = " + Float.toString(z_accelerometer));
+            lineGraphChart.setVisibility(View.VISIBLE);
+
+            xText.setText("X: = " + Float.toString(x_accelerometer));
+
+            yText.setText("Y: = " + Float.toString(y_accelerometer));
+
+            zText.setText("Z: = " + Float.toString(z_accelerometer));
+
         }else {
+            lineGraphChart.setVisibility(View.INVISIBLE);
             yText.setText("@");
             zText.setText("#");
         }
@@ -136,13 +210,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        Sensor mySensor = sensorEvent.sensor;
+        Sensor accSensor = sensorEvent.sensor;
 
-        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             x_accelerometer = sensorEvent.values[0];
+                xVals.add(new Entry(i, x_accelerometer));
             y_accelerometer = sensorEvent.values[1];
+                yVals.add(new Entry(i, y_accelerometer));
             z_accelerometer = sensorEvent.values[2];
+                zVals.add(new Entry(i, z_accelerometer));
 
+
+            lineGraphChart.notifyDataSetChanged();
+            lineGraphChart.invalidate();
+            i++;
             DetailsGraph();
         }
     }
