@@ -12,15 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -29,32 +29,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private SensorEventListener mSensorListener;
     private Sensor mAccelerometer;
+
     private float x_accelerometer;
     private  ArrayList<Entry> xVals;
+    private LineDataSet dataSetX;
+
     private float y_accelerometer;
     private  ArrayList<Entry> yVals;
+    private LineDataSet dataSetY;
+
     private float z_accelerometer;
     private  ArrayList<Entry> zVals ;
-    private int choosedDetailOption;
-    private LineData chartGraphData;
-    private LineChart lineGraphChart;
-    private LineDataSet dataSetX;
     private LineDataSet dataSetZ;
-    private LineDataSet dataSetY;
-    ArrayList<ILineDataSet> lineDataSets;
-    private int i = 1;
 
+    private int choosedDetailOption;
+
+    private LineChart lineGraphChart;
+    private LineData chartGraphData;
+    private ArrayList<ILineDataSet> lineDataSets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //TableLayout ParamTable = (TableLayout)findViewById(R.id.main_param_table);
-        TableRow RowOne = (TableRow) findViewById(R.id.main_table_row_1);
-
-        TableLayout ParamMete1r =  (TableLayout) findViewById(R.id.main_param_table);
         TextView ParamMeter = (TextView) findViewById(R.id.param_Meters);
         ParamMeter.setText("0000\nmeters");
         ParamMeter.setTextSize(17);
@@ -71,67 +69,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
-       SetGraph();
+        //============================
+        SetGraph();
     }
 
     private void SetGraph() {
 
-        xVals = new ArrayList<Entry>();
-        yVals = new ArrayList<Entry>();
-        zVals = new ArrayList<Entry>();
-
         lineGraphChart = (LineChart) findViewById(R.id.LineChart);
-        lineGraphChart.setVisibility(View.INVISIBLE); /// <---------------------------
-
+        lineGraphChart.getDescription().setEnabled(false);
+        lineGraphChart.getDescription().setEnabled(false);
         lineGraphChart.setNoDataText("No Data at the moment");
         lineGraphChart.setTouchEnabled(true);
         lineGraphChart.setDragEnabled(true);
         lineGraphChart.setHardwareAccelerationEnabled(true);
         lineGraphChart.setPinchZoom(true);
+        // add an empty data object
+        lineGraphChart.setData(new LineData());
+        lineGraphChart.getXAxis().setDrawLabels(false);
+        //lineGraphChart.getXAxis().setDrawGridLines(false);
+        lineGraphChart.invalidate();
 
-     //   yVals.add(new Entry(11, 10));
+        chartGraphData = lineGraphChart.getData();
 
-        // create a dataset and give it a type
-        dataSetX = new LineDataSet(xVals, "X");
-        dataSetY = new LineDataSet(yVals, "Y");
-        dataSetZ = new LineDataSet(zVals, "Z");
+        ILineDataSet setX = chartGraphData.getDataSetByIndex(0);
+        ILineDataSet setY = chartGraphData.getDataSetByIndex(1);
+        ILineDataSet setZ = chartGraphData.getDataSetByIndex(2);
 
-        lineDataSets = new ArrayList<>();
+        setX = createSet("X",Color.BLACK);
+        setY = createSet("Y",Color.YELLOW);
+        setZ = createSet("Z",Color.GREEN);
 
-        dataSetX.setFillColor(Color.WHITE);
-
-        // set the line to be drawn like this "- - - - - -"
-        // dataSetX.enableDashedLine(10f, 5f, 0f);
-        // dataSetX.enableDashedHighlightLine(10f, 5f, 0f);
-        //==========
-        dataSetX.addEntry(new Entry(0, 0));
-        dataSetX.setColor(Color.BLACK);
-        dataSetX.setCircleColor(Color.BLACK);
-        dataSetX.setValueTextSize(9f);
-
-        dataSetY.addEntry(new Entry(0, 0));
-        dataSetY.setColor(Color.YELLOW);
-        dataSetY.setCircleColor(Color.YELLOW);
-        dataSetY.setValueTextSize(9f);
-
-        dataSetZ.addEntry(new Entry(0, 0));
-        dataSetZ.setColor(Color.BLUE);
-        dataSetZ.setCircleColor(Color.BLUE);
-        dataSetZ.setValueTextSize(9f);
-        //==========
-
-        lineDataSets.add(dataSetX);
-        lineDataSets.add(dataSetY);
-        lineDataSets.add(dataSetZ);
-
-        lineGraphChart.setVisibleXRangeMaximum(70f);
-
-        lineGraphChart.setData(new LineData(lineDataSets));
-        // ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        //dataSets.add(dataSetX); // add the datasets
-
-        // create a data object with the datasets
-        // LineDataSet chartGraphDataSet = new LineData(xVals, "# of Calls");*/
+        chartGraphData.addDataSet(setX);
+        chartGraphData.addDataSet(setY);
+        chartGraphData.addDataSet(setZ);
     }
 
     // ScrollView child on Click
@@ -158,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 String p3Text = (String) p3.getText();
                 detailText.setText(p3Text);
                 choosedDetailOption = 3;
-               // Toast.makeText(this, p3Text + " Clicked ", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, p3Text + " Clicked ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.param_4:
                 TextView p4 = (TextView) findViewById(R.id.param_4);
@@ -179,12 +149,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 String p6Text = (String) p6.getText();
                 detailText.setText(p6Text);
                 choosedDetailOption = 6;
-               // Toast.makeText(this, p6Text + " Clicked ", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, p6Text + " Clicked ", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
-    //
     private void DetailsGraph() {
         RelativeLayout detailLayout = (RelativeLayout) findViewById(R.id.details);
         TextView xText = (TextView) detailLayout.findViewById(R.id.first_text);
@@ -194,18 +163,118 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (choosedDetailOption == 1) {
             lineGraphChart.setVisibility(View.VISIBLE);
 
+
             xText.setText("X: = " + Float.toString(x_accelerometer));
-
             yText.setText("Y: = " + Float.toString(y_accelerometer));
-
             zText.setText("Z: = " + Float.toString(z_accelerometer));
+
 
         }else {
             lineGraphChart.setVisibility(View.INVISIBLE);
-            yText.setText("@");
-            zText.setText("#");
+            yText.setText("");
+            zText.setText("");
         }
     }
+
+    private void addEntry(LineChart lineChart, float AccelerometerValue, int dataSetIndex) {
+
+        LineData data = lineChart.getData();
+
+        ILineDataSet set = data.getDataSetByIndex(dataSetIndex);
+
+        if (set == null) {
+            set = createSet();
+            data.addDataSet(set);
+        }
+
+        int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
+        data.addEntry(new Entry(entryCount, AccelerometerValue), dataSetIndex);
+        data.notifyDataChanged();
+
+        // let the chart know it's data has changed
+        lineChart.notifyDataSetChanged();
+
+        lineChart.setVisibleXRangeMaximum(6);
+        //lineGraphChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
+        // this automa1tically refreshes the chart (calls invalidate())
+        lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+    }
+
+    private ILineDataSet createSet() {
+        //Defaut
+        ArrayList<Entry> data = new ArrayList<>();
+        data.add(new Entry(0, 0.0f));
+
+        LineDataSet set = new LineDataSet(data, "");
+        set.setLineWidth(2.5f);
+        set.setCircleRadius(4.5f);
+        set.setColor(Color.rgb(240, 99, 99));
+        set.setCircleColor(Color.rgb(240, 99, 99));
+        set.setHighLightColor(Color.rgb(190, 190, 190));
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setValueTextSize(10f);
+        return set;
+    }
+
+    private ILineDataSet createSet(String dataSetName, int mainColor) {
+            //Custom
+            ArrayList<Entry> data = new ArrayList<>();
+                data.add(new Entry(0, 0.0f));
+
+            LineDataSet newSet = new LineDataSet(data, dataSetName);
+            newSet.setColor(mainColor);
+            newSet.setHighLightColor(Color.MAGENTA);
+            newSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            newSet.setValueTextSize(10f);
+            newSet.setLineWidth(2.5f);
+            newSet.setCircleRadius(4.5f);
+            return newSet;
+    }
+
+    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+    private void addDataSet( ArrayList vals) {
+
+        LineData data = lineGraphChart.getData();
+
+        if (data != null) {
+
+            int count = (data.getDataSetCount() + 1);
+
+            LineDataSet set = new LineDataSet(vals, "DataSet " + count);
+            set.setLineWidth(2.5f);
+            set.setCircleRadius(4.5f);
+
+            int color = mColors[count % mColors.length];
+
+            set.setColor(color);
+            set.setCircleColor(color);
+            set.setHighLightColor(color);
+            set.setValueTextSize(10f);
+            set.setValueTextColor(color);
+
+            data.addDataSet(set);
+            data.notifyDataChanged();
+            lineGraphChart.notifyDataSetChanged();
+            lineGraphChart.invalidate();
+        }
+    }
+
+    private void removeDataSet(int index) {
+
+        LineData data = lineGraphChart.getData();
+
+        if (data != null) {
+
+            if ( (data.getDataSetCount() - 1) > index) {
+                data.removeDataSet(data.getDataSetByIndex(index));
+            }else
+                data.removeDataSet(data.getDataSetByIndex(data.getDataSetCount() - 1));
+
+            lineGraphChart.notifyDataSetChanged();
+            lineGraphChart.invalidate();
+        }
+    }
+
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -214,16 +283,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             x_accelerometer = sensorEvent.values[0];
-                xVals.add(new Entry(i, x_accelerometer));
+            addEntry(lineGraphChart ,x_accelerometer,0);
             y_accelerometer = sensorEvent.values[1];
-                yVals.add(new Entry(i, y_accelerometer));
+           //     yVals.add(new Entry(i, y_accelerometer));
+            addEntry(lineGraphChart, y_accelerometer,1);
             z_accelerometer = sensorEvent.values[2];
-                zVals.add(new Entry(i, z_accelerometer));
-
+             //   zVals.add(new Entry(i, z_accelerometer));
+            addEntry(lineGraphChart ,z_accelerometer,2);
 
             lineGraphChart.notifyDataSetChanged();
             lineGraphChart.invalidate();
-            i++;
+           // i++;
             DetailsGraph();
         }
     }
