@@ -1,12 +1,14 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private LineData chartGraphData;
     private ArrayList<ILineDataSet> lineDataSets;
 
+    private GestureDetectorCompat mDetector;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         ParamMeter.setText("0000\nmeters");
         ParamMeter.setTextSize(17);
 
-
         HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View) ;
         LayoutInflater li = LayoutInflater.from(getBaseContext());
 
@@ -65,12 +69,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         scrollView.addView(v);
 
         //--------------Accelerometer preparation----------------------
+
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
         //============================
+
         SetGraph();
+
     }
 
     private void SetGraph() {
@@ -163,14 +170,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (choosedDetailOption == 1) {
             lineGraphChart.setVisibility(View.VISIBLE);
 
-
+            // Test Purpose
             xText.setText("X: = " + Float.toString(x_accelerometer));
             yText.setText("Y: = " + Float.toString(y_accelerometer));
             zText.setText("Z: = " + Float.toString(z_accelerometer));
 
 
-        }else {
+        }
+        if (choosedDetailOption == 2) {
+
+            //View fragment = inflater.inflate(R.layout.selector, container, false);
+
+            Intent myIntent = new Intent(this, RowMapFragment.class);
+            startActivity(myIntent);
+        }
+        else {
             lineGraphChart.setVisibility(View.INVISIBLE);
+
             yText.setText("");
             zText.setText("");
         }
@@ -275,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -311,4 +326,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
-}
+
+    }
