@@ -12,32 +12,32 @@
         android:id="@+id/main_param_table"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.8"
-        android:background="#ed8404">
+        android:layout_weight="1.6"
+        android:background="#000">
         <!-- Row 1 -->
         <TableRow
             android:id="@+id/main_table_row_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ed8404"
+            android:background="#000"
             android:weightSum="2">
             >
-                <TextView
-                android:id="@+id/param_Meters"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#ed8404"
+
+            <TextView
+            android:id="@+id/param_Meters"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
                 android:gravity="center"
-                android:padding="18dp"
-                android:text="Row 1\nColumn 1"
-                android:textColor="#fff" />
+            android:padding="18dp"
+            android:text="Row 1\nColumn 1"
+            android:textColor="#fff" />
+
             <TextView
                 android:id="@+id/Row1_C_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="Row 1\nColumn 2"
@@ -47,6 +47,7 @@
         <TableRow
             android:id="@+id/main_table_row_2"
             android:layout_width="match_parent"
+            android:background="#000"
             android:layout_height="match_parent"
             android:layout_marginTop="2dp"
             android:weightSum="3">
@@ -56,7 +57,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="32dp"
                 android:text="Row 2\nColumn 1"
@@ -68,7 +68,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="32dp"
                 android:text="Row 2\nColumn 2"
@@ -78,7 +77,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="32dp"
                 android:text="Row 2\nColumn 3"
@@ -99,7 +97,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:padding="16dp"
@@ -111,7 +108,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="Row 3\nColumn 2"
@@ -133,7 +129,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="Row 4\nColumn 1"
@@ -144,7 +139,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="Row 4\nColumn 2"
@@ -154,7 +148,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ed8404"
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="Row 4\nColumn 3"
@@ -176,7 +169,7 @@
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="1"
         android:background="#F21">
 
         <com.google.android.gms.maps.MapView android:layout_width="match_parent"

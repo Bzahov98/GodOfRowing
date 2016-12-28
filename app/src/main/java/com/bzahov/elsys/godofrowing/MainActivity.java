@@ -8,8 +8,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -26,7 +28,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends FragmentActivity implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private SensorEventListener mSensorListener;
@@ -125,10 +127,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case R.id.param_2:
                 TextView p2 = (TextView) findViewById(R.id.param_2);
-                String p2Text = (String) p2.getText();
-                detailText.setText(p2Text);
+
                 choosedDetailOption =2 ;
-                //Toast.makeText(this, p2Text + " Clicked ", Toast.LENGTH_SHORT).show();
+                lineGraphChart.setVisibility(View.INVISIBLE);
+                //TODO: ADD like fragment
+                Intent myIntent = new Intent(this, RowMapFragment.class);
+                startActivity(myIntent);
                 break;
             case R.id.param_3:
                 TextView p3 = (TextView) findViewById(R.id.param_3);
@@ -176,17 +180,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             zText.setText("Z: = " + Float.toString(z_accelerometer));
 
 
-        }
-        if (choosedDetailOption == 2) {
+        }else if (choosedDetailOption == 2) {
 
-            //View fragment = inflater.inflate(R.layout.selector, container, false);
-
-            Intent myIntent = new Intent(this, RowMapFragment.class);
-            startActivity(myIntent);
-        }
-        else {
-            lineGraphChart.setVisibility(View.INVISIBLE);
-
+        } else {
             yText.setText("");
             zText.setText("");
         }
@@ -248,9 +244,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-    private void addDataSet( ArrayList vals) {
 
-        LineData data = lineGraphChart.getData();
+    private void addDataSet( LineData data, ArrayList vals) {
 
         if (data != null) {
 
@@ -275,9 +270,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void removeDataSet(int index) {
-
-        LineData data = lineGraphChart.getData();
+    private void removeDataSet(LineData data, int index) {
 
         if (data != null) {
 
