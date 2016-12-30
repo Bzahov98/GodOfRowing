@@ -165,7 +165,7 @@
         android:layout_weight="0.4">
     </HorizontalScrollView>
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -174,7 +174,8 @@
 
         <com.google.android.gms.maps.MapView android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            android:id="@+id/details_mapView">
 
         </com.google.android.gms.maps.MapView>
 
@@ -209,5 +210,5 @@
             android:layout_alignParentEnd="true"
             android:gravity="center"
             />
-    </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

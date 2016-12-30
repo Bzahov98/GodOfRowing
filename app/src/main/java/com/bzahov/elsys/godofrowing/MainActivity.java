@@ -8,16 +8,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -52,8 +51,9 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
     private LineData chartGraphData;
     private ArrayList<ILineDataSet> lineDataSets;
 
-    private GestureDetectorCompat mDetector;
-
+    android.support.v4.app.FragmentManager fragmentManager;
+    android.support.v4.app.FragmentTransaction fragmentTransaction;
+    Fragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,11 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
         //============================
 
         SetGraph();
+
+        // fragment set
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        mapFragment = new MainMapFragment();
 
     }
 
@@ -116,7 +121,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
     // ScrollView child on Click
     public void ScrollItem(View view) {
 
-        //RelativeLayout detailLayout = (RelativeLayout) findViewById(R.id.details);
+        //RelativeLayout detailLayout = (RelativeLayout) findViewById(R.id.fragment_graph);
         TextView detailText = ((TextView) (findViewById(R.id.details)).findViewById(R.id.first_text));
 
         switch (view.getId()) {
@@ -124,24 +129,41 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
             case R.id.param_1:
                 choosedDetailOption = 1;
                 DetailsGraph();
+                if (!fragmentTransaction.isEmpty()){
+                    fragmentTransaction.remove(mapFragment);
+                }
                 break;
             case R.id.param_2:
-                TextView p2 = (TextView) findViewById(R.id.param_2);
 
+                // TODO: FIX BUG - after map open to can go to Graph, P3 ...
+                // TODO: FIX BUG - Throw Exeption "IllegalStateException: commit already called"  on consistent clicks on Map at Scroll View
+
+                if (choosedDetailOption != 2){
+                    lineGraphChart.setVisibility(View.INVISIBLE);
+                    fragmentTransaction.replace(R.id.details, mapFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
                 choosedDetailOption =2 ;
-                lineGraphChart.setVisibility(View.INVISIBLE);
-                //TODO: ADD like fragment
-                Intent myIntent = new Intent(this, RowMapFragment.class);
-                startActivity(myIntent);
+
                 break;
             case R.id.param_3:
+                lineGraphChart.setVisibility(View.INVISIBLE);
+                fragmentTransaction.remove(mapFragment);
+
                 TextView p3 = (TextView) findViewById(R.id.param_3);
                 String p3Text = (String) p3.getText();
                 detailText.setText(p3Text);
                 choosedDetailOption = 3;
                 // Toast.makeText(this, p3Text + " Clicked ", Toast.LENGTH_SHORT).show();
+                /*
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction FT = fm.beginTransaction();
+                MapFragment = new MapFragment();
+                */
                 break;
             case R.id.param_4:
+                lineGraphChart.setVisibility(View.INVISIBLE);
                 TextView p4 = (TextView) findViewById(R.id.param_4);
                 String p4Text = (String) p4.getText();
                 detailText.setText(p4Text);
@@ -149,6 +171,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
                 //Toast.makeText(this, p4Text + " Clicked ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.param_5:
+                lineGraphChart.setVisibility(View.INVISIBLE);
                 TextView p5 = (TextView) findViewById(R.id.param_5);
                 String p5Text = (String) p5.getText();
                 detailText.setText(p5Text);
@@ -156,6 +179,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
                 //Toast.makeText(this, p5Text + " Clicked ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.param_6:
+                lineGraphChart.setVisibility(View.INVISIBLE);
                 TextView p6 = (TextView) findViewById(R.id.param_6);
                 String p6Text = (String) p6.getText();
                 detailText.setText(p6Text);
@@ -166,7 +190,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
     }
 
     private void DetailsGraph() {
-        RelativeLayout detailLayout = (RelativeLayout) findViewById(R.id.details);
+        FrameLayout detailLayout = (FrameLayout) findViewById(R.id.details);
         TextView xText = (TextView) detailLayout.findViewById(R.id.first_text);
         TextView yText = (TextView) detailLayout.findViewById(R.id.second_text);
         TextView zText = (TextView) detailLayout.findViewById(R.id.third_text);
@@ -178,10 +202,6 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
             xText.setText("X: = " + Float.toString(x_accelerometer));
             yText.setText("Y: = " + Float.toString(y_accelerometer));
             zText.setText("Z: = " + Float.toString(z_accelerometer));
-
-
-        }else if (choosedDetailOption == 2) {
-
         } else {
             yText.setText("");
             zText.setText("");

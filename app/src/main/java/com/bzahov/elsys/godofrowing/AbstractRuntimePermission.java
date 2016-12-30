@@ -21,6 +21,9 @@ import java.security.Permission;
  * Created by bobo-pc on 12/24/2016.
  */
 
+
+// Using EasyPemissions so this class is USELESS
+// TODO: REMOVE
 public abstract class AbstractRuntimePermission extends FragmentActivity {
 
     private SparseIntArray mErorrStr;

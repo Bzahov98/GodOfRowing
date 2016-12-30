@@ -1,31 +1,24 @@
 package com.bzahov.elsys.godofrowing;
 
-import android.*;
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.security.Permission;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
+// USELESS TODO: REMOVE
 public class MapActivity extends FragmentActivity implements  OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     private GoogleMap mMap;
@@ -33,7 +26,7 @@ public class MapActivity extends FragmentActivity implements  OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.fragment_map);
         Log.d("Assert","onCreate");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
