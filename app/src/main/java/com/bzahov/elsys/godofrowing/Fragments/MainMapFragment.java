@@ -53,8 +53,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Eas
     public void onMapReady(GoogleMap googleMap) {
         Log.d("value", "onMapReady");
         mMap = googleMap;
-        //LatLng sofiaNDK = new LatLng(42.684694, 23.318871);
-        gotoLocation(42.685, 23.319, 17.0f);
+        LatLng sofiaNDK = new LatLng(42.684694, 23.318871);
+        gotoLocation(sofiaNDK, 17.0f);
         //mMap.addMarker(new MarkerOptions().position(sofiaNDK).title("Marker in NDK"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sofiaNDK));
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
@@ -97,9 +97,16 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Eas
         //this.onBackPressed();
         Log.d("Assert", "PermissionDenied");
     }
+
     private void gotoLocation(double lat,double lng,float zoom) {
         Log.d("value","gotoLocation called");
         LatLng latLng=new LatLng(lat,lng);
+        CameraUpdate update= CameraUpdateFactory.newLatLngZoom(latLng,zoom);
+        mMap.moveCamera(update);
+    }
+
+    private void gotoLocation(LatLng latLng, float zoom) {
+        Log.d("value","gotoLocation called");
         CameraUpdate update= CameraUpdateFactory.newLatLngZoom(latLng,zoom);
         mMap.moveCamera(update);
     }

@@ -11,7 +11,6 @@ import java.lang.reflect.Array;
  * Created by bobo-pc on 11/21/2016.
  */
 
-
 public class ParameterAdapter extends BaseAdapter {
     private final Context mContext;
     private final Array[] parameters;

@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -54,6 +55,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
     android.support.v4.app.FragmentManager fragmentManager;
     android.support.v4.app.FragmentTransaction fragmentTransaction;
     Fragment mapFragment;
+    Fragment graphFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         mapFragment = new MainMapFragment();
+        graphFragment = new MainGraphFragment();
 
     }
 
@@ -148,19 +151,14 @@ public class MainActivity extends FragmentActivity implements SensorEventListene
 
                 break;
             case R.id.param_3:
-                lineGraphChart.setVisibility(View.INVISIBLE);
-                fragmentTransaction.remove(mapFragment);
 
-                TextView p3 = (TextView) findViewById(R.id.param_3);
-                String p3Text = (String) p3.getText();
-                detailText.setText(p3Text);
+                lineGraphChart.setVisibility(View.INVISIBLE);
+
+                    fragmentTransaction.replace(R.id.details, graphFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 choosedDetailOption = 3;
-                // Toast.makeText(this, p3Text + " Clicked ", Toast.LENGTH_SHORT).show();
-                /*
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction FT = fm.beginTransaction();
-                MapFragment = new MapFragment();
-                */
+
                 break;
             case R.id.param_4:
                 lineGraphChart.setVisibility(View.INVISIBLE);
