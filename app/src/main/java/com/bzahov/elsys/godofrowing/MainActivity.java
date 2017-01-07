@@ -1,11 +1,6 @@
 package com.bzahov.elsys.godofrowing;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,22 +9,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.gms.maps.MapFragment;
-
-import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
@@ -48,9 +32,18 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView ParamMeter = (TextView) findViewById(R.id.param_Meters);
-        ParamMeter.setText("0000\nmeters");
-        ParamMeter.setTextSize(17);
+        TextView paramMeter = (TextView) findViewById(R.id.param_Meters);
+
+        paramMeter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TestActivity.class);
+                startActivity(intent);
+            }
+        });
+        paramMeter.setText("0000\nmeters");
+        paramMeter.setTextSize(17);
+
 
         HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View) ;
         LayoutInflater li = LayoutInflater.from(getBaseContext());
@@ -122,32 +115,33 @@ public class MainActivity extends FragmentActivity {
 
             case R.id.param_1:
                 choosedDetailOption = 1;
-
+                mapFragment.getView().setVisibility(View.INVISIBLE);
                 displayFragment(GRAPH_FRAGMENT);
 
                 break;
             case R.id.param_2:
-
-                // TODO: Google map is maybe SurfaceView, for now Can't hide that fragment, and show others !!!
-
+                choosedDetailOption = 2;
+                // TODO BUG: Google map is maybe SurfaceView, for now Can't hide that fragment, i can show graph fragment onto MapFragment
+                // TODO: add fragment for start/stop
+                // mapFragment.getView().setVisibility(View.VISIBLE);
                 displayFragment(MAP_FRAGMENT);
 
                 break;
             case R.id.param_3:
-
-                displayFragment(GRAPH_FRAGMENT);
-
+                //mapFragment.getView().setVisibility(View.INVISIBLE);
+                //displayFragment(GRAPH_FRAGMENT);
+                //getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
                 choosedDetailOption = 3;
 
                 break;
             case R.id.param_4:
-
+                mapFragment.getView().setVisibility(View.GONE);
                 choosedDetailOption = 4;
                 displayFragment(WITHOUT_FRAGMENT);
 
                 break;
             case R.id.param_5:
-
+                mapFragment.getView().setVisibility(View.INVISIBLE);
                 displayFragment(WITHOUT_FRAGMENT);
                 choosedDetailOption = 5;
 

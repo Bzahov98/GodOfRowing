@@ -1,7 +1,7 @@
 Activity Resolver Table:
   Non-Data Actions:
       android.intent.action.MAIN:
-        b1db85 com.bzahov.elsys.godofrowing/.MainActivity
+        b1db85 com.bzahov.elsys.godofrowing/.com.bzahov.elsys.godofrowing.TestActivity
 
 Key Set Manager:
   [com.bzahov.elsys.godofrowing]
