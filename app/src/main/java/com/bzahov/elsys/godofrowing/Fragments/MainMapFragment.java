@@ -1,6 +1,8 @@
 package com.bzahov.elsys.godofrowing.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,7 +48,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class MainMapFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, OnConnectionFailedListener {
 
     private static final String TAG = MainMapFragment.class.getSimpleName();
-    private static final long MIN_TIME_BW_UPDATES = 1000; //1 second
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 5; //1 second
     private GoogleMap mMap;
 
     private LocationManager locationManager;
@@ -56,6 +58,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Marker mCurrLocationMarker;
+    private CommunicationChannel mCommChListner;
 
 
     @Override
@@ -216,6 +219,29 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     }
 
+    public interface CommunicationChannel
+    {
+        void setCommunication(String msg);
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        if(context instanceof CommunicationChannel)
+        {
+            mCommChListner = (CommunicationChannel)context;
+        }
+        else
+        {
+            throw new ClassCastException();
+        }
+    }
+    public void sendMessage(String msg)
+    {
+        mCommChListner.setCommunication(msg);
+    }
+
     private void gotoLocation(double lat,double lng,float zoom) {
         Log.d("value","gotoLocation called");
         LatLng latLng=new LatLng(lat,lng);
@@ -250,30 +276,39 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            Log.d("marker","marker Removed");
-            mCurrLocationMarker.remove();
-        }
-        LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        gotoLocation(newLatLng,13);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(newLatLng);
-        markerOptions.title("Current Position");
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-        if (mGoogleApiClient != null) {
-           LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
-        Toast.makeText(getContext(),"Speed is " + location.getSpeed() + "km/h",Toast.LENGTH_LONG ).show();
-        Log.d(TAG,"Speed: " + location.getSpeed());
+
+            Log.e(TAG,"onLocationChanged");
+           if (location != null) {
+                mLastLocation = location;
+                Log.d(TAG,"marker Removed");
+                //mCurrLocationMarker.remove();
+            }else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
+            LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            gotoLocation(newLatLng,21);
+           /* MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(newLatLng);
+            markerOptions.title("Current Position");
+            mCurrLocationMarker = mMap.addMarker(markerOptions);*/
+            if (mGoogleApiClient != null) {
+               //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            }
+        if (location.hasSpeed()){
+            float currentSpeed = location.getSpeed();
+            Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
+            Log.d(TAG,"Speed: " + currentSpeed);
+            sendMessage(Float.toString(currentSpeed) + "\nkm/h");
+        }else Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
+        Log.d(TAG,"Location has't Speed");
     }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "onConnected");
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(MIN_TIME_BW_UPDATES);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(500);
+
+        mLocationRequest.setFastestInterval(123);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
@@ -283,20 +318,20 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Toast.makeText(getContext(), "Suspended", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onPause");
         if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 }

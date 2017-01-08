@@ -53,13 +53,13 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/Row2_C_1"
+                android:id="@+id/main_table_speed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Row 2\nColumn 1"
+                android:text="0.00\n km/h"
                 android:textColor="#fff"
                 />
 

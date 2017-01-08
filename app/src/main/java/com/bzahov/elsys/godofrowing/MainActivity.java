@@ -15,11 +15,14 @@ import android.widget.TextView;
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements MainMapFragment.CommunicationChannel{
 
     private static final int WITHOUT_FRAGMENT = 0;
     private static final int MAP_FRAGMENT = 1;
     private static final int GRAPH_FRAGMENT = 2;
+
+
+    private static final String TAG = MainMapFragment.class.getSimpleName();
 
     private int choosedDetailOption;
 
@@ -102,7 +105,7 @@ public class MainActivity extends FragmentActivity {
                 hideFragment(mapFragment);
                 break;
             default:
-                Log.d("displayFrg()", fragmentNumber + " Doesn't exist");
+                Log.d(TAG, fragmentNumber + " Doesn't exist");
                 return;
         }
         ft.commit();
@@ -117,7 +120,6 @@ public class MainActivity extends FragmentActivity {
                 choosedDetailOption = 1;
                 mapFragment.getView().setVisibility(View.INVISIBLE);
                 displayFragment(GRAPH_FRAGMENT);
-
                 break;
             case R.id.param_2:
                 choosedDetailOption = 2;
@@ -160,6 +162,7 @@ public class MainActivity extends FragmentActivity {
     public void removeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
+        Log.d(TAG,"removeFragment: " + fragment.getClass().getSimpleName());
         if (fragment.isAdded()) {
             //if (!fragment.isHidden()) {
             fragmentTransaction.remove(fragment);
@@ -170,8 +173,17 @@ public class MainActivity extends FragmentActivity {
         fragmentTransaction.commit();
     }
 
+    void setReceivedText(String msg)
+    {
+
+        Log.d(TAG,"setReceivedText " + msg);
+        TextView textView = (TextView) findViewById(R.id.main_table_speed);
+        textView.setText(msg);
+    }
+
     @Override
     public void onBackPressed() {
+        Log.d(TAG,"onBackPressed");
         if (choosedDetailOption == 2){
 
             removeFragment(mapFragment);
@@ -179,4 +191,9 @@ public class MainActivity extends FragmentActivity {
        super.onBackPressed();
     }
 
+    @Override
+    public void setCommunication(String msg) {
+           setReceivedText(msg);
+        Log.d(TAG,"set Text from map Fragment");
     }
+}
