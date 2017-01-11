@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 
-public class MainActivity extends FragmentActivity implements MainMapFragment.CommunicationChannel{
+public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
 
     private static final int WITHOUT_FRAGMENT = 0;
     private static final int MAP_FRAGMENT = 1;
@@ -118,15 +118,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Co
 
             case R.id.param_1:
                 choosedDetailOption = 1;
-                mapFragment.getView().setVisibility(View.INVISIBLE);
-                displayFragment(GRAPH_FRAGMENT);
+                if(mapFragment != null) {mapFragment.getView().setVisibility(View.INVISIBLE);}
+                if(graphFragment != null) {displayFragment(GRAPH_FRAGMENT);}
                 break;
             case R.id.param_2:
                 choosedDetailOption = 2;
                 // TODO BUG: Google map is maybe SurfaceView, for now Can't hide that fragment, i can show graph fragment onto MapFragment
                 // TODO: add fragment for start/stop
                 // mapFragment.getView().setVisibility(View.VISIBLE);
-                displayFragment(MAP_FRAGMENT);
+                if(mapFragment != null) {displayFragment(MAP_FRAGMENT);}
 
                 break;
             case R.id.param_3:
@@ -137,9 +137,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Co
 
                 break;
             case R.id.param_4:
-                mapFragment.getView().setVisibility(View.GONE);
                 choosedDetailOption = 4;
-                displayFragment(WITHOUT_FRAGMENT);
+                if(mapFragment != null) {
+                    mapFragment.getView().setVisibility(View.GONE);
+                    displayFragment(WITHOUT_FRAGMENT);
+                }
 
                 break;
             case R.id.param_5:
@@ -173,14 +175,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Co
         fragmentTransaction.commit();
     }
 
-    void setReceivedText(String msg)
-    {
-
-        Log.d(TAG,"setReceivedText " + msg);
-        TextView textView = (TextView) findViewById(R.id.main_table_speed);
-        textView.setText(msg);
-    }
-
     @Override
     public void onBackPressed() {
         Log.d(TAG,"onBackPressed");
@@ -192,8 +186,16 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Co
     }
 
     @Override
-    public void setCommunication(String msg) {
-           setReceivedText(msg);
-        Log.d(TAG,"set Text from map Fragment");
+    public void setMapCommunication(String speed) {
+        TextView textView = (TextView) findViewById(R.id.main_table_speed_gps);
+        textView.setText(speed);
+        Log.d(TAG,"set speed from map Fragment");
+    }
+
+    @Override
+    public void setGraphCommunication(String speed) {
+        TextView textView = (TextView) findViewById(R.id.main_table_speed_accel);
+        textView.setText(speed);
+        Log.d(TAG,"set speed from graph Fragment");
     }
 }

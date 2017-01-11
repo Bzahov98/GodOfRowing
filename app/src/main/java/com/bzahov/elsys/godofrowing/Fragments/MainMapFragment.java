@@ -1,7 +1,6 @@
 package com.bzahov.elsys.godofrowing.Fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,7 +37,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -58,7 +56,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Marker mCurrLocationMarker;
-    private CommunicationChannel mCommChListner;
+    private MapFrgCommunicationChannel mCommChListner;
 
 
     @Override
@@ -160,8 +158,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady");
         mMap = googleMap;
-        LatLng sofiaNDK = new LatLng(42.684694, 23.318871);
-        gotoLocation(sofiaNDK, 23.0f);
+        LatLng sofiaNDK = new LatLng(42.68, 23.31);
+        gotoLocation(sofiaNDK, 16);
 
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
@@ -219,18 +217,18 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     }
 
-    public interface CommunicationChannel
+    public interface MapFrgCommunicationChannel
     {
-        void setCommunication(String msg);
+        void setMapCommunication(String msg);
     }
 
     @Override
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        if(context instanceof CommunicationChannel)
+        if(context instanceof MapFrgCommunicationChannel)
         {
-            mCommChListner = (CommunicationChannel)context;
+            mCommChListner = (MapFrgCommunicationChannel)context;
         }
         else
         {
@@ -239,7 +237,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
     public void sendMessage(String msg)
     {
-        mCommChListner.setCommunication(msg);
+        mCommChListner.setMapCommunication(msg);
     }
 
     private void gotoLocation(double lat,double lng,float zoom) {
@@ -282,23 +280,25 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 mLastLocation = location;
                 Log.d(TAG,"marker Removed");
                 //mCurrLocationMarker.remove();
-            }else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
-            LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            gotoLocation(newLatLng,21);
-           /* MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(newLatLng);
-            markerOptions.title("Current Position");
-            mCurrLocationMarker = mMap.addMarker(markerOptions);*/
-            if (mGoogleApiClient != null) {
-               //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            }
-        if (location.hasSpeed()){
-            float currentSpeed = location.getSpeed();
-            Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
-            Log.d(TAG,"Speed: " + currentSpeed);
-            sendMessage(Float.toString(currentSpeed) + "\nkm/h");
-        }else Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"Location has't Speed");
+                LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                gotoLocation(newLatLng,16);
+               /* MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(newLatLng);
+                markerOptions.title("Current Position");
+                mCurrLocationMarker = mMap.addMarker(markerOptions);*/
+                if (mGoogleApiClient != null) {
+                   //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+                }
+                if (location.hasSpeed()){
+                    float currentSpeed = location.getSpeed();
+                    Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
+                    Log.d(TAG,"Speed: " + currentSpeed);
+                    sendMessage(Float.toString(currentSpeed) + "\nkm/h");
+                }else{
+                    Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"Location has't Speed");
+                }
+           }else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
     }
 
 

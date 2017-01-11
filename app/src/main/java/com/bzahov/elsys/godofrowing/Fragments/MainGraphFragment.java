@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by bobo-pc on 12/30/2016.
@@ -46,6 +51,17 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
     private LineDataSet dataSetZ;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private float x_gForce;
+    private float y_gForce;
+    private float z_gForce;
+
+    private boolean show_gForce = true;
+    float appliedAcceleration = 0;
+    float currentAcceleration = 0;
+    float velocity = 0;
+    Date lastUpdate;
+    private double calibration;
+    private GraphFrgCommunicationChannel mCommChListner;
 
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -84,6 +100,9 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
             mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
+            calibration = Double.NaN;
+            lastUpdate = new Date(System.currentTimeMillis());
+
             return v;
         }
 
@@ -92,6 +111,25 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
         }
 
+    private void updateVelocity() {
+        // Calculate how long this acceleration has been applied.
+        Date timeNow = new Date(System.currentTimeMillis());
+        long timeDelta = timeNow.getTime()-lastUpdate.getTime();
+        lastUpdate.setTime(timeNow.getTime());
+
+        // Calculate the change in velocity at the
+        // current acceleration since the last update.
+        float deltaVelocity = appliedAcceleration * (timeDelta/1000);
+        appliedAcceleration = currentAcceleration;
+
+        // Add the velocity change to the current velocity.
+        velocity += deltaVelocity;
+        Random rand = new Random();
+        float  n = rand.nextFloat() + 1;
+        sendMessage(Float.toString(100 * velocity)+ " \n m\\sec" );
+
+    }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -99,18 +137,38 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
         if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             x_accelerometer = sensorEvent.values[0];
-            addEntry(lineGraphChart ,x_accelerometer,0);
+            x_gForce = x_accelerometer / 9.81f;
+            //
             y_accelerometer = sensorEvent.values[1];
+            y_gForce = y_accelerometer / 9.81f;
             //     yVals.add(new Entry(i, y_accelerometer));
-            addEntry(lineGraphChart, y_accelerometer,1);
             z_accelerometer = sensorEvent.values[2];
+            z_gForce = z_accelerometer / 9.81f;
             //   zVals.add(new Entry(i, z_accelerometer));
-            addEntry(lineGraphChart ,z_accelerometer,2);
 
-            lineGraphChart.notifyDataSetChanged();
-            lineGraphChart.invalidate();
-            // i++;
-            //DetailsGraph();
+            double newAcceler = Math.sqrt(Math.pow(x_accelerometer, 2) + Math.pow(y_accelerometer, 2) + Math.pow(z_accelerometer, 2));
+
+            if (calibration == Double.NaN)
+                calibration = newAcceler;
+            else {
+                updateVelocity();
+                currentAcceleration = (float) newAcceler;
+
+                if (show_gForce) {
+                    addEntry(lineGraphChart, x_gForce, 0);
+                    addEntry(lineGraphChart, y_gForce, 2);
+                    addEntry(lineGraphChart, z_gForce, 1);
+                } else {
+                    addEntry(lineGraphChart, x_accelerometer, 0);
+                    addEntry(lineGraphChart, z_accelerometer, 2);
+                    addEntry(lineGraphChart, y_accelerometer, 1);
+                }
+
+                lineGraphChart.notifyDataSetChanged();
+                lineGraphChart.invalidate();
+                // i++;
+                //DetailsGraph();
+            }
         }
     }
 
@@ -118,6 +176,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
     private void addEntry(LineChart lineChart, float AccelerometerValue, int dataSetIndex) {
 
         LineData data = lineChart.getData();
@@ -141,7 +200,6 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
         // this automa1tically refreshes the chart (calls invalidate())
         lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
     }
-
 
     private ILineDataSet createSet() {
         //Defaut
@@ -213,5 +271,34 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
             lineGraphChart.notifyDataSetChanged();
             lineGraphChart.invalidate();
         }
+    }
+
+    @Override
+    public void onPause() {
+        mSensorManager.unregisterListener(this);
+        super.onPause();
+    }
+
+    public interface GraphFrgCommunicationChannel
+    {
+        void setGraphCommunication(String msg);
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        if(context instanceof GraphFrgCommunicationChannel)
+        {
+            mCommChListner = (GraphFrgCommunicationChannel)context;
+        }
+        else
+        {
+            throw new ClassCastException();
+        }
+    }
+    public void sendMessage(String msg)
+    {
+        mCommChListner.setGraphCommunication(msg);
     }
 }

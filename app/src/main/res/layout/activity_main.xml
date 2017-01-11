@@ -53,7 +53,7 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/main_table_speed"
+                android:id="@+id/main_table_speed_gps"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
                 />
 
             <TextView
-                android:id="@+id/Row2_C_2"
+                android:id="@+id/main_table_speed_accel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
