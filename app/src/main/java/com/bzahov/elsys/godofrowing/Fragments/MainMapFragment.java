@@ -295,7 +295,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     Log.d(TAG,"Speed: " + currentSpeed);
                     sendMessage(Float.toString(currentSpeed) + "\nkm/h");
                 }else{
-                    Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
                     Log.d(TAG,"Location has't Speed");
                 }
            }else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();

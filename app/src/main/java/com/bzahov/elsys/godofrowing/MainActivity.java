@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.bzahov.elsys.godofrowing.Fragments.MainGforceGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
+import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 
 public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
@@ -20,7 +22,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private static final int WITHOUT_FRAGMENT = 0;
     private static final int MAP_FRAGMENT = 1;
     private static final int GRAPH_FRAGMENT = 2;
-
+    private static final int GFORCE_FRAGMENT = 3;
+    private static final int LINACC_FRAGMENT = 4;
 
     private static final String TAG = MainMapFragment.class.getSimpleName();
 
@@ -29,6 +32,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private FragmentManager fragmentManager;
     private Fragment mapFragment;
     private Fragment graphFragment;
+    private MainGforceGraphFragment gForceGraphFragment;
+    private MainLinAccGraphFragment lAccelGraphFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +64,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //----------- fragment set--------------------------
         mapFragment = new MainMapFragment();
         graphFragment = new MainGraphFragment();
-
+        gForceGraphFragment = new MainGforceGraphFragment();
+        lAccelGraphFragment = new MainLinAccGraphFragment();
     }
 
     public void showFragment(final Fragment fragment){
@@ -69,7 +77,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 fragmentTransaction.show(fragment);
             }
         }else { // fragment needs to be added to frame container
-            fragmentTransaction.add(R.id.details, fragment, "A");
+            fragmentTransaction.add(R.id.details, fragment, fragment.getTag());
         }
         fragmentTransaction.commit();
     }
@@ -95,15 +103,32 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             case 0:
                 hideFragment(mapFragment);
                 hideFragment(graphFragment);
+                hideFragment(gForceGraphFragment);
+                hideFragment(lAccelGraphFragment);
                 break;
             case 1: // MapFragment
-                showFragment(mapFragment);
                 hideFragment(graphFragment);
+                hideFragment(gForceGraphFragment);
+                hideFragment(lAccelGraphFragment);
+                showFragment(mapFragment);
                 break;
             case 2: // GraphFragment
-                showFragment(graphFragment);
                 hideFragment(mapFragment);
+                hideFragment(gForceGraphFragment);
+                hideFragment(lAccelGraphFragment);
+                showFragment(graphFragment);
                 break;
+            case 3: // GforceFragment
+                hideFragment(graphFragment);
+                hideFragment(mapFragment);
+                hideFragment(lAccelGraphFragment);
+                showFragment(gForceGraphFragment);
+                break;
+            case 4:
+                hideFragment(mapFragment);
+                hideFragment(graphFragment);
+                hideFragment(gForceGraphFragment);
+                showFragment(lAccelGraphFragment);
             default:
                 Log.d(TAG, fragmentNumber + " Doesn't exist");
                 return;
@@ -118,30 +143,24 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
             case R.id.param_1:
                 choosedDetailOption = 1;
-                if(mapFragment != null) {mapFragment.getView().setVisibility(View.INVISIBLE);}
-                if(graphFragment != null) {displayFragment(GRAPH_FRAGMENT);}
+                /*if(mapFragment != null) {mapFragment.getView().setVisibility(View.INVISIBLE);}*/
+                /*if(graphFragment != null)*/ {displayFragment(GRAPH_FRAGMENT);}
                 break;
             case R.id.param_2:
                 choosedDetailOption = 2;
                 // TODO BUG: Google map is maybe SurfaceView, for now Can't hide that fragment, i can show graph fragment onto MapFragment
                 // TODO: add fragment for start/stop
                 // mapFragment.getView().setVisibility(View.VISIBLE);
-                if(mapFragment != null) {displayFragment(MAP_FRAGMENT);}
+                /*if(mapFragment != null) */{displayFragment(MAP_FRAGMENT);}
 
                 break;
             case R.id.param_3:
-                //mapFragment.getView().setVisibility(View.INVISIBLE);
-                //displayFragment(GRAPH_FRAGMENT);
-                //getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
                 choosedDetailOption = 3;
-
+                /*if(mapFragment != null) */{displayFragment(GFORCE_FRAGMENT);}
                 break;
             case R.id.param_4:
                 choosedDetailOption = 4;
-                if(mapFragment != null) {
-                    mapFragment.getView().setVisibility(View.GONE);
-                    displayFragment(WITHOUT_FRAGMENT);
-                }
+                displayFragment(LINACC_FRAGMENT);
 
                 break;
             case R.id.param_5:
