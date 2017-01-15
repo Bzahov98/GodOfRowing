@@ -164,7 +164,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
                 break;
             case R.id.param_5:
-                mapFragment.getView().setVisibility(View.INVISIBLE);
+//              mapFragment.getView().setVisibility(View.INVISIBLE);
                 displayFragment(WITHOUT_FRAGMENT);
                 choosedDetailOption = 5;
 
@@ -188,7 +188,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             //if (!fragment.isHidden()) {
             fragmentTransaction.remove(fragment);
 
-            mapFragment.onDestroy();
+         //   mapFragment.onDestroy();
             //}
         }
         fragmentTransaction.commit();
