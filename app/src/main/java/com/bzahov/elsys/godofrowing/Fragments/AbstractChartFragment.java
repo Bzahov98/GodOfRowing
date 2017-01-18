@@ -21,7 +21,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bobo-pc on 1/14/2017.
@@ -46,6 +48,7 @@ public abstract class AbstractChartFragment extends Fragment {
 
 	protected SensorManager mSensorManager;
 	protected Sensor mAccelerometer;
+	private int[] firstAtListIndex;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -53,7 +56,10 @@ public abstract class AbstractChartFragment extends Fragment {
 
 		setGraph(v);
 		setSensor();
-
+		firstAtListIndex = new int [10];
+		for (int i = 0; i < 3 ; i++){
+			firstAtListIndex[i] = 0;
+		}
 		/*mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
@@ -103,19 +109,21 @@ public abstract class AbstractChartFragment extends Fragment {
 		if (set == null) {
 			set = createSet();
 			data.addDataSet(set);
+			firstAtListIndex[dataSetIndex] = 0;
 		}
 
 		int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
+
 		data.addEntry(new Entry(entryCount, AccelerometerValue), dataSetIndex);
 		data.notifyDataChanged();
 
 		// let the chart know it's data has changed
 		lineChart.notifyDataSetChanged();
 
-		lineChart.setVisibleXRangeMaximum(6);
-		//lineGraphChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
+		lineChart.setVisibleXRangeMaximum(10);
+		//lineChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 		// this automa1tically refreshes the chart (calls invalidate())
-		lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+		lineChart.moveViewTo(data.getEntryCount() - 2, 20f, YAxis.AxisDependency.LEFT);
 	}
 
 	protected ILineDataSet createSet() {

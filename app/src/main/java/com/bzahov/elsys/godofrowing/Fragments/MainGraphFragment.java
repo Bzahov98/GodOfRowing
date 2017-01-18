@@ -70,7 +70,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 			lineGraphChart = (LineChart) v.findViewById(R.id.LineChartFrag);
 
 			setGraph(v);
-
+			//super.onCreateView(inflater,parent,savedInstanceState);
 		//=========================
 
 			mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
@@ -140,13 +140,10 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
 		// Add the velocity change to the current velocity.
 		velocity += deltaVelocity;
-		Random rand = new Random();
-		float  n = rand.nextFloat() + 1;
 		String velosity = Float.toString(100 * velocity) + " \n m\\sec";
 		Log.e("Acceler", velosity);
 		Toast.makeText(getContext(),velosity,Toast.LENGTH_SHORT).show();
 		sendMessage(velosity);
-
 	}
 
 	@Override
