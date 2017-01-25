@@ -33,6 +33,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -52,6 +54,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private LocationManager locationManager;
     private Location mLastLocation;
     private double latitude;
+    private MapView mMapView;
     private double longitude;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -63,14 +66,27 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        FragmentManager manager = getFragmentManager();
+        /*FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         SupportMapFragment fragment = new SupportMapFragment();
         transaction.add(R.id.details, fragment);
         transaction.commit();
-
+        view.getRootView().setVisibility(View.INVISIBLE);
         Log.d(TAG,"onCreate View");
-        fragment.getMapAsync(this);
+        fragment.getMapAsync(this);*/
+
+        mMapView = (MapView) view.findViewById(R.id.mapFragment);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(this);
+
         return view;
     }
 
@@ -124,7 +140,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             {
                 dialog.cancel();
                 Log.d(TAG, "NegativeButton");
-                Toast.makeText(getContext(),"Cancaled", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Cancaled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -271,6 +287,17 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         return longitude;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        android.app.Fragment fragment = getActivity().getFragmentManager().findFragmentById(R.id.map);
+        if (null != fragment) {
+            android.app.FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+            ft.remove(fragment);
+            ft.commit();
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -287,18 +314,18 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 markerOptions.title("Current Position");
                 mCurrLocationMarker = mMap.addMarker(markerOptions);*/
                 if (mGoogleApiClient != null) {
-                   //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+                //   LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
                 }
                 if (location.hasSpeed()){
                     float currentSpeed = location.getSpeed();
-                    Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
-                    Log.d(TAG,"Speed: " + currentSpeed);
+                    //Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
+                     Log.d(TAG,"Speed: " + currentSpeed);
                     sendMessage(Float.toString(currentSpeed) + "\nkm/h");
                 }else{
                     //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
                     Log.d(TAG,"Location has't Speed");
                 }
-           }else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
+           }//else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -331,7 +358,26 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onPause");
         if (mGoogleApiClient != null) {
-            //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 }

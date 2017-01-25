@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.bzahov.elsys.godofrowing.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,14 +92,15 @@ public abstract class AbstractChartFragment extends Fragment {
 		ILineDataSet setX = chartGraphData.getDataSetByIndex(0);
 		ILineDataSet setY = chartGraphData.getDataSetByIndex(1);
 		ILineDataSet setZ = chartGraphData.getDataSetByIndex(2);
+		ILineDataSet setj = chartGraphData.getDataSetByIndex(3);
 
 		setX = createSet("X", Color.BLACK);
 		setY = createSet("Y",Color.YELLOW);
 		setZ = createSet("Z",Color.GREEN);
-
 		chartGraphData.addDataSet(setX);
 		chartGraphData.addDataSet(setY);
 		chartGraphData.addDataSet(setZ);
+		//chartGraphData.addDataSet(setj);
 	}
 
 	protected void addEntry(LineChart lineChart, float AccelerometerValue, int dataSetIndex) {
@@ -112,10 +115,39 @@ public abstract class AbstractChartFragment extends Fragment {
 			firstAtListIndex[dataSetIndex] = 0;
 		}
 
-		int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
+		/*if (set.getEntryCount() > GRAPH_WIDTH) {
+			set.(0);
+			set.removeEntry(0);
 
-		data.addEntry(new Entry(entryCount, AccelerometerValue), dataSetIndex);
+			lineData.getXVals().add(entry_date_time);
+			lineData.addEntry(new Entry((float) (Math.random() * 40) + 30f, GRAPH_WIDTH), 0);
+
+			// lineData.getXVals().add(entry_date_time);
+			// Move all entries 1 to the left..
+			for (int i=0; i < set.getEntryCount(); i++) {
+				Entry e = set.getEntryForXIndex(i);
+				if (e==null) continue;
+
+				e.setXIndex(e.getXIndex() - 1);
+			}
+		}
+		else{
+			lineData.getXVals().add(entry_date_time);
+			lineData.addEntry(new Entry((float) (Math.random() * 40) + 30f, lineData.getXValCount()-1), 0);
+		}
+
+		// let the chart know it's data has changed
+		mChart.notifyDataSetChanged();
+		mChart.invalidate();
+
+*/
+		DecimalFormat df = new DecimalFormat("0.00");
+
+		int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
+		//data.removeEntry(0,dataSetIndex);
+		set.addEntry(new Entry(entryCount+1, Float.parseFloat(df.format(AccelerometerValue))));
 		data.notifyDataChanged();
+		lineChart.invalidate();
 
 		// let the chart know it's data has changed
 		lineChart.notifyDataSetChanged();
@@ -124,6 +156,9 @@ public abstract class AbstractChartFragment extends Fragment {
 		//lineChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 		// this automa1tically refreshes the chart (calls invalidate())
 		lineChart.moveViewTo(data.getEntryCount() - 2, 20f, YAxis.AxisDependency.LEFT);
+
+		firstAtListIndex[dataSetIndex]++;
+
 	}
 
 	protected ILineDataSet createSet() {

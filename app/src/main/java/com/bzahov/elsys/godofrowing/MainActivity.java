@@ -62,15 +62,16 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         scrollView.addView(v);
 
         //----------- fragment set--------------------------
-        mapFragment = new MainMapFragment();
+
         graphFragment = new MainGraphFragment();
         gForceGraphFragment = new MainGforceGraphFragment();
         lAccelGraphFragment = new MainLinAccGraphFragment();
+        mapFragment = new MainMapFragment();
     }
 
     public void showFragment(final Fragment fragment){
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();//.addToBackStack(null);
 
         if (fragment.isAdded()) {
             if (fragment.isHidden()) {
@@ -79,19 +80,19 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }else { // fragment needs to be added to frame container
             fragmentTransaction.add(R.id.details, fragment, fragment.getTag());
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitNow();
     }
 
     public void hideFragment(final Fragment fragment){
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();//.addToBackStack(null);
 
         if (fragment.isAdded()) {
             //if (!fragment.isHidden()) {
                 fragmentTransaction.hide(fragment);
             //}
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitNow();
     }
 
     protected void displayFragment( final int fragmentNumber) {
@@ -101,10 +102,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         switch (fragmentNumber){
 
             case 0:
-                hideFragment(mapFragment);
-                hideFragment(graphFragment);
-                hideFragment(gForceGraphFragment);
-                hideFragment(lAccelGraphFragment);
+                removeFragment(mapFragment);
+                removeFragment(graphFragment);
+                removeFragment(gForceGraphFragment);
+                removeFragment(lAccelGraphFragment);
                 break;
             case 1: // MapFragment
                 hideFragment(graphFragment);
@@ -150,13 +151,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 choosedDetailOption = 2;
                 // TODO BUG: Google map is maybe SurfaceView, for now Can't hide that fragment, i can show graph fragment onto MapFragment
                 // TODO: add fragment for start/stop
-                // mapFragment.getView().setVisibility(View.VISIBLE);
-                /*if(mapFragment != null) */{displayFragment(MAP_FRAGMENT);}
-
+                displayFragment(MAP_FRAGMENT);
                 break;
             case R.id.param_3:
                 choosedDetailOption = 3;
-                /*if(mapFragment != null) */{displayFragment(GFORCE_FRAGMENT);}
+                displayFragment(GFORCE_FRAGMENT);
                 break;
             case R.id.param_4:
                 choosedDetailOption = 4;
@@ -164,15 +163,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
                 break;
             case R.id.param_5:
-//              mapFragment.getView().setVisibility(View.INVISIBLE);
                 displayFragment(WITHOUT_FRAGMENT);
+                removeFragment(mapFragment);
                 choosedDetailOption = 5;
 
                 break;
             case R.id.param_6:
 
                 displayFragment(WITHOUT_FRAGMENT);
-
+              //  mapFragment.getChildFragmentManager().
                 choosedDetailOption = 6;
 
                 break;
@@ -188,10 +187,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             //if (!fragment.isHidden()) {
             fragmentTransaction.remove(fragment);
 
-         //   mapFragment.onDestroy();
+            fragment.onDestroy();
             //}
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitNow();
     }
 
     @Override
@@ -199,7 +198,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         Log.d(TAG,"onBackPressed");
         if (choosedDetailOption == 2){
 
-            removeFragment(mapFragment);
+            //removeFragment(mapFragment);
         }
        super.onBackPressed();
     }

@@ -8,13 +8,17 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static java.security.AccessController.getContext;
 
@@ -26,24 +30,37 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
     private int accelerometerAccuracy;
     private int linearAccelAccuracy;
     private Sensor mLinAcceleration;
-    private float x_lAccel;
-    private float y_lAccel;
-    private float z_lAccel;
-    private double[] gravity;
-    private double[] linear_acceleration;
+
+    private float[] accelerationOnAxis = new float[] {0,0,0} ;
+    //gravities on axis
+    private float[] gravityOnAxis;
     private float x_gravity;
     private float y_gravity;
     private float z_gravity;
+    //Linear accelerations
+    private float[] linearAcceleration;
     private float x_linear_acceleration;
     private float y_linear_acceleration;
     private float z_linear_acceleration;
     private Date lastUpdate;
-    private boolean hasLinAccel;
+
+    // LPFilter
+    private float timeConstant = 0.18f;
+    private float alpha = 0.9f;
+    private float dt = 0;
+
+    // Timestamps for the low-pass filter
+    private float timestamp = System.nanoTime();
+    private float timestampOld = System.nanoTime();
+    private int count;
+    private float currentAcceleration;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, parent, savedInstanceState);
-        lastUpdate = new Date(System.currentTimeMillis());
+        // lineGraphChart.getLineData().getDataSetByIndex(3).setVisible(true);
+        lastUpdate = null;
         return view;
     }
 
@@ -62,6 +79,7 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor accSensor = sensorEvent.sensor;
 
+    //    deltaT = mAccelerometer.getD;
         if (accSensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
             Log.d("LinAccel","has ");
             x_linear_acceleration  = sensorEvent.values[0];
@@ -69,16 +87,32 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
             z_linear_acceleration  = sensorEvent.values[2];
 
             if (x_linear_acceleration == 0 && y_linear_acceleration == 0 && z_linear_acceleration == 0){
-                return;
+                return; // does not have Sensor.TYPE_LINEAR_ACCELERATION
             }
+            addEntry(lineGraphChart, x_linear_acceleration, 0);
+            addEntry(lineGraphChart, y_linear_acceleration, 1);
+            addEntry(lineGraphChart, z_linear_acceleration, 2);
         }
 
         if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            System.arraycopy(sensorEvent.values, 0, this.accelerationOnAxis, 0, sensorEvent.values.length);
+
             x_accelerometer = sensorEvent.values[0];
             y_accelerometer = sensorEvent.values[1];
             z_accelerometer = sensorEvent.values[2];
 
-            final float alpha = 0.8f; // TODO: t / (t + dT)'
+            timestamp = System.nanoTime();
+
+            float deltaTime = timestamp - timestampOld;
+
+            dt = 1 / (count / ((deltaTime) / 1000000000.0f));
+
+            count++;
+
+            alpha = timeConstant / (timeConstant + dt);
+              // long tDelta = currentUpdate.getTime() - lastUpdate.getTime();
+               // long t = 1 / (2 * Math.PI * fc);
+                //alpha = t / (t + tDelta);
 
             x_gravity = alpha * x_gravity + (1 - alpha) * x_accelerometer;
             y_gravity = alpha * y_gravity + (1 - alpha) * y_accelerometer;
@@ -87,13 +121,31 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
             x_linear_acceleration = x_accelerometer - x_gravity;
             y_linear_acceleration = y_accelerometer - y_gravity;
             z_linear_acceleration = z_accelerometer - z_gravity;
+
+            gravityOnAxis      = new float[] { x_gravity , y_gravity , z_gravity };
+            linearAcceleration = new float[] { x_linear_acceleration , y_linear_acceleration , z_linear_acceleration };
         }
+
+           currentAcceleration = (((float) Math.pow(x_linear_acceleration, 2)) + (float)Math.pow(y_linear_acceleration, 2)+ (float)Math.pow(z_linear_acceleration, 2));
+
             addEntry(lineGraphChart, x_linear_acceleration, 0);
             addEntry(lineGraphChart, y_linear_acceleration, 1);
             addEntry(lineGraphChart, z_linear_acceleration, 2);
-            lineGraphChart.notifyDataSetChanged();
-            lineGraphChart.invalidate();
+            addEntry(lineGraphChart, currentAcceleration, 3);
 
+        lineGraphChart.notifyDataSetChanged();
+        lineGraphChart.invalidate();
+
+    }
+    protected float[] filter(float[] input, float[] output, float alpha) {
+        if (output == null) return input;
+        if (Float.isNaN(alpha)){
+            alpha = 0.8f; //low pass
+        }
+        for (int i=0; i<input.length; i++) {
+            output[i] = output[i] + alpha * (input[i] - output[i]);
+        }
+        return output;
     }
 
     @Override

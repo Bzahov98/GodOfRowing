@@ -56,7 +56,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 	private float y_gForce;
 	private float z_gForce;
 
-	private boolean show_gForce = true;
+	private boolean show_gForce = false;
 	float appliedAcceleration = 0;
 	float currentAcceleration = 0;
 	float velocity = 0;
@@ -129,8 +129,11 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
 	private void updateVelocity() {
 		// Calculate how long this acceleration has been applied.
+
 		Date timeNow = new Date(System.currentTimeMillis());
 		long timeDelta = timeNow.getTime()-lastUpdate.getTime();
+		Log.e("Acceler", timeNow.toString() + " D: "+ Long.toString(timeDelta));
+		Toast.makeText(getContext(),timeNow.toString() + " D: "+ Long.toString(timeDelta),Toast.LENGTH_SHORT);
 		lastUpdate.setTime(timeNow.getTime());
 
 		// Calculate the change in velocity at the
@@ -138,18 +141,22 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		float deltaVelocity = appliedAcceleration * (timeDelta/1000);
 		appliedAcceleration = currentAcceleration;
 
+		Log.e("Acceler", "Delta: "+Float.toString(deltaVelocity) + " D: "+ Long.toString(timeDelta));
+
 		// Add the velocity change to the current velocity.
 		velocity += deltaVelocity;
-		String velosity = Float.toString(100 * velocity) + " \n m\\sec";
+		String velosity = Float.toString(100 * velocity);// + " \n m\\sec";
 		Log.e("Acceler", velosity);
-		Toast.makeText(getContext(),velosity,Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getContext(),Float.toString(deltaVelocity),Toast.LENGTH_SHORT).show();
 		sendMessage(velosity);
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {
 
-        Sensor accSensor = sensorEvent.sensor;
+		Log.e("Acceler", "Sensor");
+
+		Sensor accSensor = sensorEvent.sensor;
 
 		if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			x_accelerometer = sensorEvent.values[0];
@@ -164,27 +171,22 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
 			double newAcceler = Math.sqrt(Math.pow(x_accelerometer, 2) + Math.pow(y_accelerometer, 2) + Math.pow(z_accelerometer, 2));
 
-			if (calibration == Double.NaN)
-				calibration = newAcceler;
-			else {
-				updateVelocity();
-				currentAcceleration = (float) newAcceler;
-
-				if (show_gForce) {
-					addEntry(lineGraphChart, x_gForce, 0);
-					addEntry(lineGraphChart, y_gForce, 2);
-					addEntry(lineGraphChart, z_gForce, 1);
-				} else {
-					addEntry(lineGraphChart, x_accelerometer, 0);
-					addEntry(lineGraphChart, z_accelerometer, 2);
-					addEntry(lineGraphChart, y_accelerometer, 1);
-				}
-
-				lineGraphChart.notifyDataSetChanged();
-				lineGraphChart.invalidate();
+			if (calibration == Double.NaN){ calibration = newAcceler;}
+			updateVelocity();
+			currentAcceleration = (float) newAcceler;
+			if (show_gForce) {
+				addEntry(lineGraphChart, x_gForce, 0);
+				addEntry(lineGraphChart, y_gForce, 1);
+				addEntry(lineGraphChart, z_gForce, 2);
+			} else {
+				addEntry(lineGraphChart, x_accelerometer, 0);
+				addEntry(lineGraphChart, y_accelerometer, 1);
+				addEntry(lineGraphChart, z_accelerometer, 2);
+			}
+			lineGraphChart.notifyDataSetChanged();
+			lineGraphChart.invalidate();
 				// i++;
 				//DetailsGraph();
-			}
 		}
 	}
 
@@ -328,5 +330,4 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		mSensorManager.unregisterListener(this);
 
 	}
-
 }

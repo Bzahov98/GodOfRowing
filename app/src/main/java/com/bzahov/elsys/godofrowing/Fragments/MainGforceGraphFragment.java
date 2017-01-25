@@ -39,8 +39,8 @@ public class MainGforceGraphFragment extends AbstractChartFragment implements Se
             //   zVals.add(new Entry(i, z_accelerometer));
 
             addEntry(lineGraphChart, x_gForce, 0);
-            addEntry(lineGraphChart, y_gForce, 2);
-            addEntry(lineGraphChart, z_gForce, 1);
+            addEntry(lineGraphChart, y_gForce, 1);
+            addEntry(lineGraphChart, z_gForce, 2);
             lineGraphChart.notifyDataSetChanged();
             lineGraphChart.invalidate();
         }
