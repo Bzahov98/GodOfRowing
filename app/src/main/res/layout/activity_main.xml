@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="3"
-    tools:context="com.bzahov.elsys.godofrowing.MainActivity">
+    tools:context="com.bzahov.elsys.godofrowing.MainActivity"
+    android:orientation="vertical">
 
     <TableLayout
         android:id="@+id/main_param_table"
@@ -24,7 +24,7 @@
             >
 
             <TextView
-            android:id="@+id/param_Meters"
+            android:id="@+id/main_table_param_meters"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -34,13 +34,13 @@
             android:textColor="#fff" />
 
             <TextView
-                android:id="@+id/Row1_C_2"
+                android:id="@+id/main_table_param_StrokePerMinute"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Row 1\nColumn 2"
+                android:text="0 \nSPM"
                 android:textColor="#fff" />
         </TableRow>
         <!-- Row 2 -->
@@ -53,7 +53,7 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/main_table_speed_gps"
+                android:id="@+id/main_table_Param_speed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
                 />
 
             <TextView
-                android:id="@+id/main_table_speed_accel"
+                android:id="@+id/main_table_Param_speed_accel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,13 +73,13 @@
                 android:text="Row 2\nColumn 2"
                 android:textColor="#fff" />
 
-            <TextView android:id="@+id/Row2_C_3"
+            <TextView android:id="@+id/main_table_Ave_Speed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Row 2\nColumn 3"
+                android:text="0.0\nave Speed"
                 android:textColor="#fff" />
         </TableRow>
 
@@ -100,7 +100,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:padding="16dp"
-                android:text="Row 3\n Column 1"
+                android:text="Row 3\n Columjn 1"
                 android:textColor="#fff" />
 
             <TextView
@@ -172,7 +172,8 @@
         android:layout_weight="1"
         android:background="#F21">
 
-        <com.google.android.gms.maps.MapView android:layout_width="match_parent"
+        <com.google.android.gms.maps.MapView
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"
             android:id="@+id/details_mapView">
@@ -192,7 +193,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:gravity="center"
-            android:text="kkk"
+            android:text=""
             />
         <TextView
             android:id="@+id/second_text"
@@ -210,5 +211,74 @@
             android:layout_alignParentEnd="true"
             android:gravity="center"
             />
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:gravity="center"
+            android:translationZ="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/mapController">
+
+            <TextView
+
+                android:id="@+id/mapControllerStart"
+                android:text="Start Activity"
+                android:onClick="StartPauseActivity"
+                android:background="#494"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:linksClickable="false"
+                android:textColorLink="@android:color/holo_green_dark"
+                android:padding="7dp" />
+
+            <TextView
+                android:id="@+id/mapControllerStop"
+                android:text="Stop"
+                android:visibility="gone"
+                android:onClick="StopActivity"
+                android:background="#912"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+
+                android:padding="7dp" />
+
+        </LinearLayout>
+        -->
+
     </FrameLayout>
+
+    <!--<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="79dp"
+        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:layout_marginBottom="21dp"
+        android:id="@+id/mapController">
+
+        <TextView
+
+            android:id="@+id/mapControllerStart"
+            android:text="Start Activity"
+            android:onClick="StartPauseActivity"
+            android:background="#494"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:linksClickable="false"
+            android:textColorLink="@android:color/holo_green_dark"
+            android:padding="7dp" />
+
+        <TextView
+            android:id="@+id/mapControllerStopPause"
+            android:text="Stop"
+            android:visibility="gone"
+            android:onClick="StopActivity"
+            android:background="#912"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:padding="7dp" />
+
+    </LinearLayout>
+    -->
 </LinearLayout>

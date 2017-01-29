@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Icon;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -37,8 +38,11 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -93,14 +97,13 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"onCreate");
+        Log.d(TAG, "onCreate");
 
         locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
-        }
-        else {
+        } else {
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showSettingsAlert();
             }
@@ -120,7 +123,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     private static final int MY_PERMISSION_REQUEST_LOCATION = 3;
 
-    private void showSettingsAlert(){
+    private void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
         alertDialog.setTitle("GPS request").setCancelable(false);
@@ -128,16 +131,14 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int id) {
+            public void onClick(DialogInterface dialog, int id) {
                 Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(callGPSSettingIntent);
                 Log.d(TAG, "PossitiveButton");
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
                 Log.d(TAG, "NegativeButton");
                 //Toast.makeText(getContext(),"Cancaled", Toast.LENGTH_SHORT).show();
@@ -153,17 +154,17 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 Manifest.permission.ACCESS_FINE_LOCATION,
         };
         Log.d(TAG, "CheckLocationPermissions");
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
-                ActivityCompat.requestPermissions(getActivity(), permStrArray ,MY_PERMISSION_REQUEST_LOCATION);
-            }else   {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(getActivity(), permStrArray, MY_PERMISSION_REQUEST_LOCATION);
+            } else {
                 ActivityCompat.requestPermissions(getActivity(), permStrArray,
                         MY_PERMISSION_REQUEST_LOCATION);
             }
             return false;
-        }else {
+        } else {
             Log.d(TAG, "HavePermission");
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showSettingsAlert();
             }
         }
@@ -188,9 +189,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
-            }else checkLocationPermission();
-        }
-        else {
+            } else checkLocationPermission();
+        } else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
@@ -204,28 +204,30 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
-            case MY_PERMISSION_REQUEST_LOCATION:{
-                if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         Log.d(TAG, "Location Permission Granted: " + MY_PERMISSION_REQUEST_LOCATION);
-                        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                             showSettingsAlert();
                         }
-                        if (mGoogleApiClient == null){
+                        if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                }else {
+                } else {
                     // permission denied
                     Log.d(TAG, "Location Permission denied: " + MY_PERMISSION_REQUEST_LOCATION);
                     Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            } case 404: {
+            }
+            case 404: {
                 break;
-            }default: {
+            }
+            default: {
                 Log.d(TAG, "Location Code Wrong: " + requestCode);
                 break;
             }
@@ -233,44 +235,45 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     }
 
-    public interface MapFrgCommunicationChannel
-    {
+    public interface MapFrgCommunicationChannel {
         void setMapCommunication(String msg);
+
+        void sendNewLocation(Location location);
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof MapFrgCommunicationChannel)
-        {
-            mCommChListner = (MapFrgCommunicationChannel)context;
-        }
-        else
-        {
+        if (context instanceof MapFrgCommunicationChannel) {
+            mCommChListner = (MapFrgCommunicationChannel) context;
+        } else {
             throw new ClassCastException();
         }
     }
-    public void sendMessage(String msg)
-    {
+
+    public void sendMessage(String msg) {
         mCommChListner.setMapCommunication(msg);
     }
 
-    private void gotoLocation(double lat,double lng,float zoom) {
-        Log.d("value","gotoLocation called");
-        LatLng latLng=new LatLng(lat,lng);
-        CameraUpdate update= CameraUpdateFactory.newLatLngZoom(latLng,zoom);
+    public void sendLocation(Location location) {
+        mCommChListner.sendNewLocation(location);
+    }
+
+    private void gotoLocation(double lat, double lng, float zoom) {
+        Log.d("value", "gotoLocation called");
+        LatLng latLng = new LatLng(lat, lng);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         mMap.moveCamera(update);
     }
 
     private void gotoLocation(LatLng latLng, float zoom) {
-        Log.d("value","gotoLocation called");
-        CameraUpdate update= CameraUpdateFactory.newLatLngZoom(latLng,zoom);
+        Log.d("value", "gotoLocation called");
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         mMap.moveCamera(update);
     }
 
-    public double getLatitude(){
-        if(mLastLocation != null){
+    public double getLatitude() {
+        if (mLastLocation != null) {
             latitude = mLastLocation.getLatitude();
         }
 
@@ -278,8 +281,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         return latitude;
     }
 
-    public double getLongitude(){
-        if(mLastLocation != null){
+    public double getLongitude() {
+        if (mLastLocation != null) {
             longitude = mLastLocation.getLongitude();
         }
 
@@ -299,33 +302,39 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         }
     }
 
+    public static float round(float source, int positions) {
+        long multiplier = (long) Math.pow(10, positions);
+        return  ((float)((int) (source * multiplier)) / multiplier);
+    }
+
     @Override
     public void onLocationChanged(Location location) {
-
-            Log.e(TAG,"onLocationChanged");
-           if (location != null) {
-                mLastLocation = location;
-                Log.d(TAG,"marker Removed");
-                //mCurrLocationMarker.remove();
-                LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                gotoLocation(newLatLng,16);
-               /* MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(newLatLng);
-                markerOptions.title("Current Position");
-                mCurrLocationMarker = mMap.addMarker(markerOptions);*/
-                if (mGoogleApiClient != null) {
+        Toast.makeText(this.getContext(), "asd", Toast.LENGTH_SHORT);
+        Log.e("as", "onLocationChanged");
+        if (location != null) {
+            mLastLocation = location;
+            Log.d(TAG, "marker Removed");
+            //mCurrLocationMarker.remove();
+            LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            gotoLocation(newLatLng, 16);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
+            markerOptions.position(newLatLng);
+            markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(),2)) + " m/s");
+            mCurrLocationMarker = mMap.addMarker(markerOptions);
+            sendLocation(location);
+            if (mGoogleApiClient != null) {
                 //   LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-                }
-                if (location.hasSpeed()){
-                    float currentSpeed = location.getSpeed();
-                    //Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
-                     Log.d(TAG,"Speed: " + currentSpeed);
-                    sendMessage(Float.toString(currentSpeed) + "\nkm/h");
-                }else{
-                    //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,"Location has't Speed");
-                }
-           }//else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
+            }
+            if (location.hasSpeed()) {
+                float currentSpeed = location.getSpeed();
+                //Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
+                Log.d(TAG, "Speed: " + currentSpeed);
+            } else {
+                //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Location has't Speed");
+            }
+        }//else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -333,12 +342,11 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "onConnected");
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(500);
+        mLocationRequest.setInterval(5000);
 
-        mLocationRequest.setFastestInterval(123);
+        mLocationRequest.setFastestInterval(777);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
     }
@@ -347,6 +355,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onConnectionSuspended(int i) {
         Toast.makeText(getContext(), "Suspended", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -358,7 +367,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onPause");
         if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
         mMapView.onPause();
     }
@@ -366,13 +375,31 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onResume() {
         super.onResume();
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+           if (mGoogleApiClient != null) {
+               mGoogleApiClient.connect();
+           }
+
+            //  LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
         mMapView.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
         mMapView.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
