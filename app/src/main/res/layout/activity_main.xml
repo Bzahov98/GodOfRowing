@@ -134,15 +134,16 @@
                 android:text="Row 4\nColumn 1"
                 android:textColor="#fff" />
 
-            <TextView
-                android:id="@+id/Row4_C_2"
+            <Chronometer
+                android:id="@+id/main_table_chronometer"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="16dp"
-                android:text="Row 4\nColumn 2"
-                android:textColor="#fff" />
+                android:textColor="#fff"/>
+
+
+
             <TextView
                 android:id="@+id/Row4_C_3"
                 android:layout_width="0dp"

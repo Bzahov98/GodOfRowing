@@ -3,19 +3,19 @@ package com.bzahov.elsys.godofrowing;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.Fragments.MainControllerFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGforceGraphFragment;
@@ -25,8 +25,6 @@ import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
 
@@ -54,6 +52,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private FrameLayout detLayot;
     private float averageSpeed;
     private float currentSpeed;
+    private boolean isFirst;
+    private long startTime;
+    private long stopTime;
+    private Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         scrollView.addView(v);
 
         //----------- fragment set--------------------------
-        isStarted = false;
+
         graphFragment = new MainGraphFragment();
         gForceGraphFragment = new MainGforceGraphFragment();
         lAccelGraphFragment = new MainLinAccGraphFragment();
@@ -92,6 +94,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //activityControler.getRootView().bringToFront();
         //detLayot.invalidate();
 
+        isStarted = false;
+        isFirst = true;
+
+       chronometer = (Chronometer) findViewById(R.id.main_table_chronometer);
     }
 
     public void showFragment(final Fragment fragment){
@@ -252,6 +258,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         TextView speedView = (TextView) findViewById(R.id.main_table_Param_speed);
         TextView aveSpeedView = (TextView) findViewById(R.id.main_table_Ave_Speed);
         TextView meterView = (TextView) findViewById(R.id.main_table_param_meters);
+        TextView testMperSec = (TextView) findViewById(R.id.Row3_C_1);
         if (isStarted) {
             //int size = allLocations.size() - 1;
             allLocations.add(newLocation);
@@ -259,7 +266,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 currentSpeed = newLocation.getSpeed();
                 allSpeeds.add(currentSpeed);
                 calculateAverageSpeed();
-                speedView.setText(round(currentSpeed,2) + "\n m/s");
+                int speed = calcsecondsPer500m(currentSpeed);
+                int[] result = splitToComponentTimes(speed);
+                testMperSec.setText(round(currentSpeed,2) + "\nm/s\nTest");
+                speedView.setText(/*result[0] + ":" + */result[1] + ":" + result[2] + "\nper 500m");
                 aveSpeedView.setText(round(averageSpeed,2) + "\nave m/s");
             }
             int size = allLocations.size()-1;
@@ -274,15 +284,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }
     }
 
-    private void calculateAverageSpeed() {
-        float newAverSpeed = 0f;
-
-        for (Float curSpeed : allSpeeds) {
-            newAverSpeed += curSpeed;
-        }
-        int count = allSpeeds.size()-1;
-        averageSpeed =  newAverSpeed /  count ;
-    }
 
     @Override
     public void setGraphCommunication(String speed) {
@@ -295,6 +296,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     public void StopActivity(View view) {
         if (isStarted) {
             isStarted = false;
+            stopTime = System.nanoTime();
+
             TextView startFrg = (TextView) findViewById(R.id.mapControllerStart);
             TextView stopFrg = (TextView) findViewById(R.id.mapControllerStop);
 
@@ -310,17 +313,32 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             allLocations.clear();
             allSpeeds.clear();
 
+            isFirst = true;
+
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.stop();
+
             meterView.setText(Long.toString(totalMeters) + "\n meters");
             aveSpeedView.setText(Long.toString(totalMeters) + "\nave meters");
             speedView.setText(Long.toString(totalMeters) + "\n m/s");
 
             startFrg.setText("Start Activity");
 
-            // showAnalisys()
+            // TODO: showAnalisys()
         }
     }
 
-    public static int calcMilisecondsPer500m(float speed) {
+    private void calculateAverageSpeed() {
+        float newAverSpeed = 0f;
+
+        for (Float curSpeed : allSpeeds) {
+            newAverSpeed += curSpeed;
+        }
+        int count = allSpeeds.size()-1;
+        averageSpeed =  newAverSpeed /  count ;
+    }
+
+    public static int calcsecondsPer500m(float speed) {
 
         double seconds = 0;
 
@@ -331,20 +349,48 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 seconds = 0;
             }
         }
-        return (int)seconds * 1000;
+        return (int)seconds;
     }
+
+    public static int[] splitToComponentTimes(long input)
+    {
+        int hours = (int) input / 3600;
+        int remainder = (int) input - hours * 3600;
+        int mins = remainder / 60;
+        remainder = remainder - mins * 60;
+        int secs = remainder;
+
+        int[] result = {hours , mins , secs};
+        return result;
+    }
+
 
     public void StartPauseActivity(View view) { // OnClick of Controller at MapFragment
         TextView startFrg = (TextView) findViewById(R.id.mapControllerStart);
         TextView stopFrg = (TextView) findViewById(R.id.mapControllerStop);
-        showFragment(mapFragment);
-        stopFrg.setVisibility(View.VISIBLE);
+        if  (isFirst) {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            showFragment(mapFragment);
+            stopFrg.setVisibility(View.VISIBLE);
+            startTime = System.nanoTime();
+            isFirst = false;
+        }
+
         if (isStarted){ //pause
             startFrg.setText("Resume");
             isStarted =false;
+            chronometer.stop();
         }else {
+            chronometer.start();
             isStarted = true;
             startFrg.setText("Pause");
         }
     }
+    /*public void startChronometer(View view) {
+        chronometer.start();
+    }
+
+    public void stopChronometer(View view) {
+        chronometer.stop();
+    }*/
 }
