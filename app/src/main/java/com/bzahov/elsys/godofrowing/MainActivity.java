@@ -24,6 +24,7 @@ import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
@@ -43,10 +44,13 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private Fragment graphFragment;
     private MainGforceGraphFragment gForceGraphFragment;
     private MainLinAccGraphFragment lAccelGraphFragment;
+
     private List<Location> allLocations = new ArrayList<>();
+    private List<Float> allSpeeds = new ArrayList<>();
+    private List<Float> allStrokes = new ArrayList<>();
+
     private long totalMeters;
     private boolean isStarted;
-    private List<Float> allSpeeds = new ArrayList<>();
     private MainControllerFragment controllerFragment;
     private LinearLayout activityControler;
     private FrameLayout detLayot;
@@ -56,6 +60,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private long startTime;
     private long stopTime;
     private Chronometer chronometer;
+    private long lastStroke;
+    private long newStroke;
+    private float averageStroke;
+    private float currentStrokeRate;
+    private int numStrokes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //activityControler.getRootView().bringToFront();
         //detLayot.invalidate();
 
+        lastStroke = 0;
+        newStroke = 0;
         isStarted = false;
         isFirst = true;
 
@@ -230,27 +241,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     @Override
-    public void onBackPressed() {
-        Log.d(TAG,"onBackPressed");
-        if (choosedDetailOption == 2){
-
-            //removeFragment(mapFragment);
-        }
-       super.onBackPressed();
-    }
-
-    @Override
     public void setMapCommunication(String speed) {
         if  (isStarted){
             TextView textView = (TextView) findViewById(R.id.main_table_Param_speed);
             textView.setText(speed);
             Log.d(TAG,"set speed from map Fragment");
         }
-    }
-
-    public static float round(float source, int positions) {
-        long multiplier = (long) Math.pow(10, positions);
-        return  ((float)((int) (source * multiplier)) / multiplier);
     }
 
     @Override
@@ -312,6 +308,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             totalMeters = 0;
             allLocations.clear();
             allSpeeds.clear();
+            allStrokes.clear();
+            currentStrokeRate = 0;
+            averageStroke = 0;
+            newStroke = 0;
+            lastStroke = 0;
 
             isFirst = true;
 
@@ -325,7 +326,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             startFrg.setText("Start Activity");
 
             // TODO: showAnalisys()
+            showAnalisys();
         }
+    }
+
+    private void showAnalisys() {
+        
     }
 
     private void calculateAverageSpeed() {
@@ -386,11 +392,50 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             startFrg.setText("Pause");
         }
     }
-    /*public void startChronometer(View view) {
-        chronometer.start();
+
+    public void strokeCounterRate(View view) {
+        TextView strokeView = (TextView) findViewById(R.id.main_table_param_StrokePerMinute);
+
+        numStrokes++;
+
+        newStroke = System.currentTimeMillis();
+
+        float timeBetweenStrokes = (newStroke - lastStroke) / 1000.0f;
+        if (numStrokes == 0 || timeBetweenStrokes == 0 || timeBetweenStrokes >=60){
+                strokeView.setText(0 + "\nSPM");
+        }else {
+            currentStrokeRate = 60.0f/timeBetweenStrokes;
+            strokeView.setText((int)currentStrokeRate + "\nSPM");
+            allStrokes.add(round(currentStrokeRate,2));
+            averageStroke = calcAverageStrokeRate();
+        }
+
+        lastStroke = newStroke;
     }
 
-    public void stopChronometer(View view) {
-        chronometer.stop();
-    }*/
+    private float calcAverageStrokeRate() {
+        long newAverRate = 0;
+
+        for (Float curStroke : allStrokes) {
+           newAverRate += curStroke;
+        }
+        int count = allStrokes.size()-1;
+        averageStroke =  newAverRate /  count;
+        return averageSpeed ;
+    }
+
+    public static float round(float source, int positions) {
+        long multiplier = (long) Math.pow(10, positions);
+        return  ((float)((int) (source * multiplier)) / multiplier);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG,"onBackPressed");
+        if (choosedDetailOption == 2){
+
+            //removeFragment(mapFragment);
+        }
+        super.onBackPressed();
+    }
 }
