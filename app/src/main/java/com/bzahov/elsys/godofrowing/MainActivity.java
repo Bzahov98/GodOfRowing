@@ -331,7 +331,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void showAnalisys() {
-        
+        Intent intent = new Intent(this.getBaseContext(), ResultActivity.class);
+        startActivity(intent);
     }
 
     private void calculateAverageSpeed() {

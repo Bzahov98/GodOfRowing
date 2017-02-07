@@ -10,4 +10,6 @@
     <string name="def_parameter_name5">Balance</string>
     <string name="def_parameter_name6"></string>
     <string name="title_activity_map">Map</string>
+    <string name="action_settings">aaa</string>
+    <string name="notFinished">commingSoon</string>
 </resources>

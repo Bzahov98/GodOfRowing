@@ -3,267 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8308ed003522a2ee8958311afcc4cfd0470377cd">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-10.0.1_291aca85a0e27002ca0fd8aaffaa41004dae3f09\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-10.0.1_9285c7d5481ff1c738e3c5442f7dfad2987e732f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f6cf557be4dbd0282ea2388633e5378634423226">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-10.0.1_df706805f67261f474a3b27fd7702da07f4dea98\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_3e8657baef8d00a0013d7247eab68fc8a92cde76\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8010ae6ed32828a145b25ec97bc07b7a83c6318f">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-10.0.1_a2948fd33713334a301c434d067db73568f004cc\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_784da49b13abe4b0daaf6c02db1e329c6a90fc7a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9cca2818594cc5348806d6662133491e7ea0fa8d">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-10.0.1_fc31cfd98808f46c4d77252c7534b73c80247303\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_cf288d80233feb4adebe0e33b5c0ed1fe200721f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_873151c93d9683c5b43b149e9c1e7fdd51720c30\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_93427c65c4b0dd5457ce1889cab5aad7eeced284\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\libs\internal_impl-24.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.0.0_25606a5a13aba4654ff6047b2e2017c4ca4824dd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.0.1_242356946341cb91bfbde109aade178067bab59e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="dd39827d2067497e60e21da48a7926000b6d4b0c">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-10.0.1_566f14c41cbab55615c30f07aff3ac2259680bca\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="771267c5b0c7a5b348d3205dcfa1f871af7e0177">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-10.0.1_e42ebc7489e28a051a03b0b3a32822e2fd889db8\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="408a599ac77cd17fe8e8919326bec617b3d005bd">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-10.0.1_11e39515b7b40a1c674cccc4c4b78b12c01a5ed1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-clearcut\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="1d193729baf37df3d902a423291423a0df7e3779">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-clearcut-10.0.1_1659468f4406fec359189d42b4a2a93f384f278f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_3bcd5c30bfa8623412a7bb891dd5fd902d19b2d6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="ae80d328a8548b4610ead6c624bab8c6a6984f5b">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-10.0.1_5d74cda0bdb48f0c648bb6fad1d1ba878384aafe\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-10.0.1_cd47c2d54454e8c1d3e0f9fb5f8959f73a5c4c37\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7a64bf6dc775198eed9db9468a133adf7dfe6562">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-10.0.1_56bf656affbedc6f38b10b083dad17a1ed4b9979\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\bobo-pc\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v3.0.1\369f9aa48a629b4e92557b37326f42dc3de796e4\MPAndroidChart-v3.0.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="369f9aa48a629b4e92557b37326f42dc3de796e4">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v3.0.1_89ef41b2b915d5e3e8a86017e3c4f7ecea81d62e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="c6e1f361e9d61aece9dac39b77fcc98a337a144d">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-10.0.1_0fa9419a63840367755ed6b58439c5a551d81571\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_9e0b95feb9a15e6e6af8c492c828625a52b4eae7\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_f39b307d69342522dd6627a549ebdfba4486fa1c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-crash\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="de29a39f9260f88151b1ef453140e71c76b6c415">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-crash-10.0.1_f2f947da6e328581220a9c454aa5af5b78dedc2e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4c829ff0ccfecb28a999ee46d9e75948dfc777a4">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-10.0.1_5acf2f3124d040f6ab02b1ff4cb0b1f80d7ac4ac\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4b17463c814bdc562fb0392fa3494063623a0904">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-10.0.1_83c5c46997aeea710d66db9a5b07fee5b86a50a4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="27777b3cad3c20b1acab19f6e37fe3e03371bf6e">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-10.0.1_19f398a3a7a4b46b08b50997721c7c8f6827316c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="ba6aa5e69ef31dee57208125323cee958fc67565">
-        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-10.0.1_86f2abdedcf94d92766484c098612cca80ba9305\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -282,12 +21,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8308ed003522a2ee8958311afcc4cfd0470377cd">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-10.0.1_291aca85a0e27002ca0fd8aaffaa41004dae3f09\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="39907d5c8f5902fffef30160ca7447c93b82405c">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appinvite-10.0.1_9c62ed13e9ac6edc4ec256873330027c4b8bbaa7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-10.0.1_9285c7d5481ff1c738e3c5442f7dfad2987e732f\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -306,6 +63,15 @@
         revision="24.0.3"
         sha1="971509bbe30bb7b971fc1c49d7b23d0d818830ac">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-10.0.1_1aa54ee82ba684edc161bbe8a89bb427f9d8cbdd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f6cf557be4dbd0282ea2388633e5378634423226">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-10.0.1_df706805f67261f474a3b27fd7702da07f4dea98\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -336,12 +102,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_3e8657baef8d00a0013d7247eab68fc8a92cde76\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8010ae6ed32828a145b25ec97bc07b7a83c6318f">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-10.0.1_a2948fd33713334a301c434d067db73568f004cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="8f128aeeb7e31271b28a7adb9dac1f3a6ed9f5e7">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-10.0.1_c7a364b39d51c1af3c235d4479beeea3c6be33ea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_784da49b13abe4b0daaf6c02db1e329c6a90fc7a\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -363,12 +156,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9cca2818594cc5348806d6662133491e7ea0fa8d">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-10.0.1_fc31cfd98808f46c4d77252c7534b73c80247303\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_cf288d80233feb4adebe0e33b5c0ed1fe200721f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="a48dc0b148059764d32500be558702d5ff932058">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.0.1_7da51957c4f09caf6ed577eb8f262c14a4262603\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_873151c93d9683c5b43b149e9c1e7fdd51720c30\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -390,11 +210,20 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_93427c65c4b0dd5457ce1889cab5aad7eeced284\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="6be978a081fc4290901e684ad42d83290db90b7d">
+        sha1="ec7b897be2ef8a099d337b78e0424468f24d6a8f">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_a387fb9dd2b98648ddef6bd92794245a448615c0\classes.dex" />
     </item>
     <item
@@ -408,12 +237,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\libs\internal_impl-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.0.0_25606a5a13aba4654ff6047b2e2017c4ca4824dd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_be9dc2dd51fa60709de6ac19fe5408831c6dd2c1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.0.1_242356946341cb91bfbde109aade178067bab59e\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -441,6 +288,15 @@
         revision="24.0.3"
         sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_36ef2ff5b61e970ad5286ae61b046443b147631a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="dd39827d2067497e60e21da48a7926000b6d4b0c">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-10.0.1_566f14c41cbab55615c30f07aff3ac2259680bca\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -489,12 +345,57 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="771267c5b0c7a5b348d3205dcfa1f871af7e0177">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-10.0.1_e42ebc7489e28a051a03b0b3a32822e2fd889db8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="408a599ac77cd17fe8e8919326bec617b3d005bd">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-10.0.1_11e39515b7b40a1c674cccc4c4b78b12c01a5ed1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-iid\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="6bb5d347ebc0c6ef3c83a905222a688da5d2f7b4">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-iid-10.0.1_e0cc7486364369ca94363fdc464e6bb953ab322a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-clearcut\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1d193729baf37df3d902a423291423a0df7e3779">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-clearcut-10.0.1_1659468f4406fec359189d42b4a2a93f384f278f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_3bcd5c30bfa8623412a7bb891dd5fd902d19b2d6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ae80d328a8548b4610ead6c624bab8c6a6984f5b">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-10.0.1_5d74cda0bdb48f0c648bb6fad1d1ba878384aafe\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -511,7 +412,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="69839e89cb13c067315d36cd6cf9bced398c3a40">
+        sha1="03397485f92f465676de84cf31a1cfd434696eed">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_bd4e6bac906e331887314b78925782334b7a81da\classes.dex" />
     </item>
     <item
@@ -525,12 +426,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-10.0.1_cd47c2d54454e8c1d3e0f9fb5f8959f73a5c4c37\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7a64bf6dc775198eed9db9468a133adf7dfe6562">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-10.0.1_56bf656affbedc6f38b10b083dad17a1ed4b9979\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="f23ad0f8e58713ff4b55f61c0bbde3830378347c">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-10.0.1_d9f83c62d030b4bfd4a7a09c4da3e2ce7cb23010\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\bobo-pc\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v3.0.1\369f9aa48a629b4e92557b37326f42dc3de796e4\MPAndroidChart-v3.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="369f9aa48a629b4e92557b37326f42dc3de796e4">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v3.0.1_89ef41b2b915d5e3e8a86017e3c4f7ecea81d62e\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -543,12 +471,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c6e1f361e9d61aece9dac39b77fcc98a337a144d">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-10.0.1_0fa9419a63840367755ed6b58439c5a551d81571\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_51b7beb5c657cae2a500159f7d1b7616399fe103\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_9e0b95feb9a15e6e6af8c492c828625a52b4eae7\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -579,6 +525,33 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_f39b307d69342522dd6627a549ebdfba4486fa1c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-crash\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="de29a39f9260f88151b1ef453140e71c76b6c415">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-crash-10.0.1_f2f947da6e328581220a9c454aa5af5b78dedc2e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4c829ff0ccfecb28a999ee46d9e75948dfc777a4">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-10.0.1_5acf2f3124d040f6ab02b1ff4cb0b1f80d7ac4ac\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -606,6 +579,24 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4b17463c814bdc562fb0392fa3494063623a0904">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-10.0.1_83c5c46997aeea710d66db9a5b07fee5b86a50a4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="27777b3cad3c20b1acab19f6e37fe3e03371bf6e">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-10.0.1_19f398a3a7a4b46b08b50997721c7c8f6827316c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -630,6 +621,15 @@
         revision="24.0.3"
         sha1="028f8255cb977b29cdffbfcf05caa0459686120c">
         <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-drive-10.0.1_ce5f1c68ecc59fde8dd1897a629897ad199f1f55\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidProjects\GodOfRowing\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ba6aa5e69ef31dee57208125323cee958fc67565">
+        <dex dex="D:\AndroidProjects\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-10.0.1_86f2abdedcf94d92766484c098612cca80ba9305\classes.dex" />
     </item>
 
 </items>
