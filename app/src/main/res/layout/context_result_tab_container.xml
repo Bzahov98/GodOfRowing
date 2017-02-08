@@ -5,27 +5,15 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:srcCompat="@android:drawable/star_big_on"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/parameterPic"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:padding="5dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/parameter_value"
-        android:textAlignment="center"
         android:padding="5dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/parameterName"
-        android:paddingLeft="20dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="parameterName"
@@ -35,6 +23,18 @@
         android:textAlignment="center"
         android:padding="5dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/parameterPic" />
-</RelativeLayout>
+        android:layout_centerInParent="true"
+        android:layout_alignEnd="@+id/parameterPic"/>
+ 
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/parameter_value"
+        android:textAlignment="center"
+        android:padding="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@+id/parameterName"
+        />
+</RelativeLayout
+    >

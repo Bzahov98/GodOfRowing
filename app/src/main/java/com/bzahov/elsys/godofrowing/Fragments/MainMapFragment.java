@@ -310,7 +310,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onLocationChanged(Location location) {
         Toast.makeText(this.getContext(), "asd", Toast.LENGTH_SHORT);
-        Log.e("as", "onLocationChanged");
+        Log.d("as", "onLocationChanged" + location.toString());
         if (location != null) {
             mLastLocation = location;
             Log.d(TAG, "marker Removed");

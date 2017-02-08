@@ -29,10 +29,10 @@
         </activity>
         <activity android:name=".TestActivity" />
 
-        <activity
-            android:name=".ResultActivity"
-
-            />
+        <activity android:name=".ResultActivity"/>
+        <activity android:name=".ResultContentSplitterActivity"/>
+        <activity android:name=".ResultContentAnalysisActivity"/>
+        <activity android:name=".ResultContentSettingsActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
