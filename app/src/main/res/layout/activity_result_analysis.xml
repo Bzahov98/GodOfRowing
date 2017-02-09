@@ -13,6 +13,7 @@
         layout="@layout/context_result_tab_container"
         />_-->
 
+
     <ScrollView
         android:layout_alignParentTop="true"
         android:id="@+id/res_analysis_scroll_view"
@@ -23,36 +24,58 @@
         >
 
         <RelativeLayout
-            android:id="@+id/aa"
+            android:id="@+id/tab_content_analysis_layout"
             android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
             android:layout_height="wrap_content">
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/res_map_analysis"
+            <include
                 android:layout_alignParentTop="true"
+                android:id="@+id/res_analysis_meters_total"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/layout_result_paramers"
+                />
+            <com.google.android.gms.maps.MapView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="175dp"
+                android:id="@+id/res_analysis_map"
+                android:onClick="onMapClickAnalysis"
+                android:layout_below="@+id/res_analysis_meters_total"
 
-            <include
-                android:id="@+id/res_elapsed_time"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                layout="@layout/context_result_tab_container"
-                android:layout_below="@+id/res_map_analysis"
                 />
             <include
-                android:id="@+id/res_meters_total"
+                android:id="@+id/res_analysis_elapsed_time"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                layout="@layout/context_result_tab_container"
-                android:layout_below="@+id/res_elapsed_time"
+                android:layout_below="@+id/res_analysis_map"
+                layout="@layout/layout_result_paramers"
                 />
             <include
-                android:id="@+id/res_speed_average"
+                android:id="@+id/res_analysis_empty"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                layout="@layout/context_result_tab_container"
-                android:layout_below="@+id/res_meters_total"/>
+                android:layout_below="@+id/res_analysis_elapsed_time"
+                layout="@layout/layout_result_paramers"
+                />
+            <include
+                android:id="@+id/res_analysis_speed_average"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/res_analysis_empty"
+                layout="@layout/layout_result_paramers"/>
+            <include
+                android:id="@+id/res_analysis_speed_max"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/res_analysis_speed_average"
+                layout="@layout/layout_result_paramers"/>
+            <include
+                android:id="@+id/res_empytu"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/res_analysis_speed_max"
+                layout="@layout/layout_result_paramers"/>
 
         </RelativeLayout>
     </ScrollView>

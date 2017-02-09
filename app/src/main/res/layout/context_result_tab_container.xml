@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
         app:srcCompat="@android:drawable/star_big_on"
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_alignEnd="@+id/parameterPic"/>
- 
+
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -35,6 +35,6 @@
         android:padding="5dp"
         android:layout_alignParentEnd="true"
         android:layout_alignEnd="@+id/parameterName"
-        />
+        />-->
 </RelativeLayout
     >
