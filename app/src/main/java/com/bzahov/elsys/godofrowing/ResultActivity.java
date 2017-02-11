@@ -39,6 +39,7 @@ public class ResultActivity extends TabActivity {
                      .setContent(new Intent(this  ,ResultContentSettingsActivity.class )));
              host.setCurrentTab(0);
 
+             host.getTabWidget().setBackgroundColor(getResources().getColor(R.color.wallet_holo_blue_light));
              //host = (TabHost) findViewById(R.id.res_tab_host);
 
              // SetHostTab();

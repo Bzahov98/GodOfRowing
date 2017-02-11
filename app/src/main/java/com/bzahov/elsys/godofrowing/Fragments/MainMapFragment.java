@@ -180,9 +180,9 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        /*Location myLocation = getmLastLocation();
-        if(myLocation != null) {
-            gotoLocation(myLocation.getLatitude(), myLocation.getLongitude(), 17.0f);
+        /*Location MyLocation = getmLastLocation();
+        if(MyLocation != null) {
+            gotoLocation(MyLocation.getLatitude(), MyLocation.getLongitude(), 17.0f);
         }*/
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

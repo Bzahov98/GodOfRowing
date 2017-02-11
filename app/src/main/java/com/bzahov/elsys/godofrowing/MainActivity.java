@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,15 +18,20 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.Fragments.MainControllerFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGforceGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
+import com.bzahov.elsys.godofrowing.Model.ResourcesFromActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
@@ -44,28 +51,38 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private Fragment graphFragment;
     private MainGforceGraphFragment gForceGraphFragment;
     private MainLinAccGraphFragment lAccelGraphFragment;
-
+    private MainControllerFragment controllerFragment;
+    private long timeWhenStopped = 0;
     private List<Location> allLocations = new ArrayList<>();
     private List<Float> allSpeeds = new ArrayList<>();
     private List<Float> allStrokes = new ArrayList<>();
 
-    private long totalMeters;
+
     private boolean isStarted;
-    private MainControllerFragment controllerFragment;
+    private boolean isFirst;
+
     private LinearLayout activityControler;
     private FrameLayout detLayot;
-    private float averageSpeed;
-    private float currentSpeed;
-    private boolean isFirst;
+
+    private Chronometer chronometer;
+
     private long startTime;
     private long stopTime;
-    private Chronometer chronometer;
+
+    private float averageSpeed;
+    private float currentSpeed;
+    private long totalMeters;
     private long lastStroke;
     private long newStroke;
-    private float averageStroke;
+    private float averageStrokeRate;
     private float currentStrokeRate;
     private int numStrokes;
-
+    private long elapsedTime;
+    private FirebaseDatabase database;
+    private float maxSpeed;
+    private String elapsedTimeStr;
+    private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,8 +124,29 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         newStroke = 0;
         isStarted = false;
         isFirst = true;
+        elapsedTime = 0;
+        maxSpeed = 0;
 
+        database = FirebaseDatabase.getInstance();
        chronometer = (Chronometer) findViewById(R.id.main_table_chronometer);
+
+        startActivity(new Intent(MainActivity.this, LogInActivity.class));
+
+        auth = FirebaseAuth.getInstance();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                Toast.makeText(getBaseContext(),user.getProviderId(),Toast.LENGTH_SHORT);
+                if (user == null) {
+                    // if user is null launch login activity
+                    startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                    finish();
+                }else{
+                    //helloUserText.setText("Hello  " + user.getEmail() +"");
+                }
+            }
+        };
     }
 
     public void showFragment(final Fragment fragment){
@@ -280,7 +318,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }
     }
 
-
     @Override
     public void setGraphCommunication(String speed) {
         TextView textView = (TextView) findViewById(R.id.main_table_Param_speed_accel);
@@ -288,9 +325,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         Log.d(TAG,"set speed from graph Fragment");
     }
 
-
     public void StopActivity(View view) {
-        if (isStarted) {
+        //if (isStarted) {
             isStarted = false;
             stopTime = System.nanoTime();
 
@@ -303,6 +339,19 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
             stopFrg.setVisibility(View.GONE);
 
+            DatabaseReference myRef = database.getReference("message");
+
+           // ResourcesFromActivity rfa = new ResourcesFromActivity( allStrokes,
+            //        allSpeeds,allLocations, totalMeters,averageStrokeRate,maxSpeed,averageSpeed);
+
+            //elapsedTime = startTime - chronometer.getBase();
+            elapsedTimeStr = chronometer.getText().toString();
+        ((TextView) findViewById(R.id.Row3_C_1)).setText(elapsedTimeStr);
+            ResourcesFromActivity rfa = new ResourcesFromActivity(totalMeters,averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr);
+            DatabaseReference data = database.getReference("message");
+            data.setValue(rfa);
+
+
             averageSpeed = 0;
             currentSpeed = 0;
             totalMeters = 0;
@@ -310,14 +359,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             allSpeeds.clear();
             allStrokes.clear();
             currentStrokeRate = 0;
-            averageStroke = 0;
+            averageStrokeRate = 0;
             newStroke = 0;
+            maxSpeed = 0;
             lastStroke = 0;
-
+            elapsedTime = 0;
             isFirst = true;
-
-            chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.stop();
+            chronometer.setBase(System.currentTimeMillis());
+
 
             meterView.setText(Long.toString(totalMeters) + "\n meters");
             aveSpeedView.setText(Long.toString(totalMeters) + "\nave meters");
@@ -327,12 +377,20 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
             // TODO: showAnalisys()
             showAnalisys();
-        }
+       // }
     }
 
     private void showAnalisys() {
-        Intent intent = new Intent(this.getBaseContext(), ResultActivity.class);
-        startActivity(intent);
+        Intent resultIntent = new Intent(this.getBaseContext(), ResultActivity.class);
+        // Write a message to the database
+        //database = FirebaseDatabase.getInstance();
+       /* DatabaseReference myRef = database.getReference("message");
+        //DatabaseReference myRef2 = database.getReference("aaa");
+       // myRef2.setValue(allLocations);
+       // myRef.setValue(allLocations);
+        myRef.setValue(totalMeters);
+*/
+        startActivity(resultIntent);
     }
 
     private void calculateAverageSpeed() {
@@ -340,8 +398,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         for (Float curSpeed : allSpeeds) {
             newAverSpeed += curSpeed;
+            if(curSpeed>maxSpeed){
+                maxSpeed = curSpeed;
+            }
         }
-        int count = allSpeeds.size()-1;
+        int count = allSpeeds.size();
         averageSpeed =  newAverSpeed /  count ;
     }
 
@@ -359,8 +420,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         return (int)seconds;
     }
 
-    public static int[] splitToComponentTimes(long input)
-    {
+    public static int[] splitToComponentTimes(long input) {
         int hours = (int) input / 3600;
         int remainder = (int) input - hours * 3600;
         int mins = remainder / 60;
@@ -371,24 +431,33 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         return result;
     }
 
-
-    public void StartPauseActivity(View view) { // OnClick of Controller at MapFragment
+    public void startPauseActivity(View view) { // OnClick of Controller at MapFragment
         TextView startFrg = (TextView) findViewById(R.id.mapControllerStart);
         TextView stopFrg = (TextView) findViewById(R.id.mapControllerStop);
         if  (isFirst) {
-            chronometer.setBase(SystemClock.elapsedRealtime());
+
+            //chronometer.setBase(SystemClock.elapsedRealtime());
+            //chronometer.setBase(SystemClock.currentThreadTimeMillis());
+            chronometer.start();
+            startTime = SystemClock.currentThreadTimeMillis();
             showFragment(mapFragment);
             stopFrg.setVisibility(View.VISIBLE);
-            startTime = System.nanoTime();
+            startTime = System.currentTimeMillis();
             isFirst = false;
         }
-
         if (isStarted){ //pause
             startFrg.setText("Resume");
             isStarted =false;
+            stopTime = System.currentTimeMillis();
+            elapsedTime += stopTime - startTime;
+            timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
             chronometer.stop();
-        }else {
+
+        }else { //resume
+            chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
             chronometer.start();
+            startTime = System.currentTimeMillis();
+            //chronometer.setBase(System.currentTimeMillis());
             isStarted = true;
             startFrg.setText("Pause");
         }
@@ -404,11 +473,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         float timeBetweenStrokes = (newStroke - lastStroke) / 1000.0f;
         if (numStrokes == 0 || timeBetweenStrokes == 0 || timeBetweenStrokes >=60){
                 strokeView.setText(0 + "\nSPM");
+                currentStrokeRate = 0;
         }else {
             currentStrokeRate = 60.0f/timeBetweenStrokes;
             strokeView.setText((int)currentStrokeRate + "\nSPM");
             allStrokes.add(round(currentStrokeRate,2));
-            averageStroke = calcAverageStrokeRate();
+            averageStrokeRate = calcAverageStrokeRate();
         }
 
         lastStroke = newStroke;
@@ -420,8 +490,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         for (Float curStroke : allStrokes) {
            newAverRate += curStroke;
         }
-        int count = allStrokes.size()-1;
-        averageStroke =  newAverRate /  count;
+        int count = allStrokes.size();
+        averageStrokeRate =  newAverRate /  count;
         return averageSpeed ;
     }
 

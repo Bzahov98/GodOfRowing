@@ -6,20 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ResultContentAnalysisActivity">
 
-    <!--<include
-        android:id="@+id/res_elapsed_aaa"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        layout="@layout/context_result_tab_container"
-        />_-->
-
-
     <ScrollView
         android:layout_alignParentTop="true"
         android:id="@+id/res_analysis_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
         android:paddingBottom="12dp"
         >
 
@@ -71,10 +62,22 @@
                 android:layout_below="@+id/res_analysis_speed_average"
                 layout="@layout/layout_result_paramers"/>
             <include
-                android:id="@+id/res_empytu"
+                android:id="@+id/res_analysis_empty2"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_below="@+id/res_analysis_speed_max"
+                layout="@layout/layout_result_paramers"/>
+            <include
+                android:id="@+id/res_analysis_empty3"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/res_analysis_empty2"
+                layout="@layout/layout_result_paramers"/>
+            <include
+                android:id="@+id/res_analysis_empty4"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/res_analysis_empty3"
                 layout="@layout/layout_result_paramers"/>
 
         </RelativeLayout>
