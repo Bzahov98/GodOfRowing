@@ -1,6 +1,5 @@
 package com.bzahov.elsys.godofrowing;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,10 +14,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bzahov.elsys.godofrowing.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by bobo-pc on 2/11/2017.
@@ -31,20 +35,26 @@ public class SignInActivity extends AppCompatActivity {
         private FirebaseAuth auth;
         private EditText signupInputEmail, signupInputPassword;
         private TextInputLayout signupInputLayoutEmail, signupInputLayoutPassword;
+        private EditText signupInputUsername;
+        private TextInputLayout signupInputLayoutUsername;
+        private DatabaseReference mDatabase;
 
 
-        @Override
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
         auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         signupInputLayoutEmail = (TextInputLayout) findViewById(R.id.signup_input_layout_email);
         signupInputLayoutPassword = (TextInputLayout) findViewById(R.id.signup_input_layout_password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
+        signupInputLayoutUsername = (TextInputLayout) findViewById(R.id.signup_input_layout_username);
+        progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
         signupInputEmail = (EditText) findViewById(R.id.signup_input_email);
         signupInputPassword = (EditText) findViewById(R.id.signup_input_password);
+        signupInputUsername = (EditText) findViewById(R.id.signup_input_username);
 
         btnSignUp = (Button) findViewById(R.id.btn_signup);
         btnLinkToLogIn = (Button) findViewById(R.id.btn_link_login);
@@ -74,7 +84,6 @@ public class SignInActivity extends AppCompatActivity {
 
         String email = signupInputEmail.getText().toString().trim();
         String password = signupInputPassword.getText().toString().trim();
-
         if(!checkEmail()) {
             return;
         }
@@ -99,12 +108,24 @@ public class SignInActivity extends AppCompatActivity {
                             Log.d(TAG,"Authentication failed." + task.getException());
 
                         } else {
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            //startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            createNewUser(task.getResult().getUser());
                             finish();
                         }
                     }
                 });
         Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void createNewUser(FirebaseUser userFromRegistration) {
+        String username = signupInputUsername.getText().toString().trim();
+        String password = signupInputPassword.getText().toString().trim();
+        String email = userFromRegistration.getEmail();
+        String userId = userFromRegistration.getUid();
+
+        User user = new User(username, email,password);
+
+            mDatabase.child("users").child(userId).setValue(user);
     }
 
     private boolean checkEmail() {

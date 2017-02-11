@@ -40,13 +40,13 @@ public class LogInActivity extends AppCompatActivity {
 
             loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
             loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
-            progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
 
             loginInputEmail = (EditText) findViewById(R.id.login_input_email);
             loginInputPassword = (EditText) findViewById(R.id.login_input_password);
 
             btnLogin = (Button) findViewById(R.id.btn_login);
-            btnLinkToSignUp = (Button) findViewById(R.id.btn_link_signup);
+            btnLinkToSignUp = (Button) findViewById(R.id.btn_link_signin);
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override

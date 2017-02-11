@@ -30,7 +30,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
@@ -82,6 +85,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private String elapsedTimeStr;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +143,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    mUser = firebaseAuth.getCurrentUser();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -340,7 +345,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
             stopFrg.setVisibility(View.GONE);
 
-            DatabaseReference myRef = database.getReference("message");
+            DatabaseReference myRef = database.getReference();
 
            // ResourcesFromActivity rfa = new ResourcesFromActivity( allStrokes,
             //        allSpeeds,allLocations, totalMeters,averageStrokeRate,maxSpeed,averageSpeed);
@@ -348,9 +353,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             //elapsedTime = startTime - chronometer.getBase();
             elapsedTimeStr = chronometer.getText().toString();
         ((TextView) findViewById(R.id.Row3_C_1)).setText(elapsedTimeStr);
-            ResourcesFromActivity rfa = new ResourcesFromActivity(totalMeters,averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr);
-            DatabaseReference data = database.getReference("message");
-            data.setValue(rfa);
+
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
+
+        ResourcesFromActivity rfa = new ResourcesFromActivity(totalMeters,averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr);
+            DatabaseReference data = database.getReference().child("message");//+ currentDateTimeString);
+            DatabaseReference data2 = database.getReference().child("users/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
+            data2.setValue(rfa);
+      //  data.setValue("aa");
+            //data.setValue(rfa);
 
 
             averageSpeed = 0;

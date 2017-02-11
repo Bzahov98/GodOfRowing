@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +8,15 @@
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".LogInActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="113dp"
+        app:srcCompat="@drawable/logo"
+        android:id="@+id/logIn_logo_image"
+        android:layout_gravity="center" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_input_layout_email"
         android:layout_width="match_parent"
@@ -27,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp">
+
         <EditText
             android:id="@+id/login_input_password"
             android:layout_width="match_parent"
@@ -34,6 +45,21 @@
             android:ems="10"
             android:inputType="textPassword"
             android:hint="@string/hint_password" />
+
+        <Switch
+            android:text="Remember me: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_switch_remember"
+            android:paddingStart="10dp"
+            android:layout_weight="1" />
+
+        <Switch
+            android:text="Anonymous:      "
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_switch_anonymous" />
     </android.support.design.widget.TextInputLayout>
 
     <Button android:id="@+id/btn_login"
@@ -43,16 +69,16 @@
         android:background="@color/colorPrimaryDark"
         android:layout_marginTop="40dp"
         android:textColor="@android:color/white"/>
-    <Button android:id="@+id/btn_link_signup"
+    <Button android:id="@+id/btn_link_signin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_link_to_signup"
+        android:text="@string/btn_link_to_signin"
         android:background="@android:color/transparent"
         android:layout_marginTop="10dp"
         android:textColor="@color/colorPrimaryDark"/>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"/>
+        android:id="@+id/login_progressBar"/>
 
 </LinearLayout>
