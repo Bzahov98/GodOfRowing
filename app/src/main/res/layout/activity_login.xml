@@ -35,6 +35,7 @@
             android:inputType="textPassword"
             android:hint="@string/hint_password" />
     </android.support.design.widget.TextInputLayout>
+
     <Button android:id="@+id/btn_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

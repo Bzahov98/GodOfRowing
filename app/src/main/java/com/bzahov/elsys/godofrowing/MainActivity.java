@@ -5,7 +5,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -81,8 +80,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private FirebaseDatabase database;
     private float maxSpeed;
     private String elapsedTimeStr;
-    private FirebaseAuth.AuthStateListener authListener;
-    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,14 +96,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 startActivity(intent);
             }
         });
+
         paramMeter.setText("0000\nmeters");
         paramMeter.setTextSize(17);
 
 
-        HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View) ;
+        HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View);
         LayoutInflater li = LayoutInflater.from(getBaseContext());
 
-        View v = li.inflate(R.layout.context_main_paramether,null,false);
+        View v = li.inflate(R.layout.context_main_paramether, null, false);
         scrollView.addView(v);
 
         //----------- fragment set--------------------------
@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         gForceGraphFragment = new MainGforceGraphFragment();
         lAccelGraphFragment = new MainLinAccGraphFragment();
         mapFragment = new MainMapFragment();
-       // controllerFragment = new MainControllerFragment();
+        // controllerFragment = new MainControllerFragment();
         //controllerFragment.
         activityControler = (LinearLayout) findViewById(R.id.mapController);
         detLayot = (FrameLayout) findViewById(R.id.details);
@@ -128,27 +128,28 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         maxSpeed = 0;
 
         database = FirebaseDatabase.getInstance();
-       chronometer = (Chronometer) findViewById(R.id.main_table_chronometer);
+        chronometer = (Chronometer) findViewById(R.id.main_table_chronometer);
 
         startActivity(new Intent(MainActivity.this, LogInActivity.class));
 
-        auth = FirebaseAuth.getInstance();
-        authListener = new FirebaseAuth.AuthStateListener() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                Toast.makeText(getBaseContext(),user.getProviderId(),Toast.LENGTH_SHORT);
-                if (user == null) {
-                    // if user is null launch login activity
-                    startActivity(new Intent(MainActivity.this, LogInActivity.class));
-                    finish();
-                }else{
-                    //helloUserText.setText("Hello  " + user.getEmail() +"");
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Toast.makeText(getBaseContext(),user.getEmail(),Toast.LENGTH_LONG);
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
+                // ...
             }
         };
-    }
 
+    }
     public void showFragment(final Fragment fragment){
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();//.addToBackStack(null);
@@ -508,5 +509,17 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             //removeFragment(mapFragment);
         }
         super.onBackPressed();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }

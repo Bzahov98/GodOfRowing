@@ -6,28 +6,29 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by bobo-pc on 2/10/2017.
  */
 public class LogInActivity extends AppCompatActivity {
 
-
         private static final String TAG = "LoginActivity";
         private Button btnLogin, btnLinkToSignUp;
         private ProgressBar progressBar;
-        private FirebaseAuth auth;
+        private FirebaseAuth mAuth;
+        private FirebaseAuth.AuthStateListener mAuthListener;
         private EditText loginInputEmail, loginInputPassword;
         private TextInputLayout loginInputLayoutEmail, loginInputLayoutPassword;
 
@@ -35,7 +36,7 @@ public class LogInActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
-            auth = FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
 
             loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
             loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
@@ -57,15 +58,44 @@ public class LogInActivity extends AppCompatActivity {
             btnLinkToSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Intent intent = new Intent(com.androidtutorialpoint.firebaseauthentication.LoginActivity.this, SignupActivity.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
+                    startActivity(intent);
                 }
             });
+
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user != null) {
+                        // User is signed in
+                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    } else {
+                        // User is signed out
+                        Log.d(TAG, "onAuthStateChanged:signed_out");
+                    }
+                    // ...
+                }
+            };
         }
 
         /**
          * Validating form
          */
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            mAuth.addAuthStateListener(mAuthListener);
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            if (mAuthListener != null) {
+                mAuth.removeAuthStateListener(mAuthListener);
+            }
+        }
         private void submitForm() {
             String email = loginInputEmail.getText().toString().trim();
             String password = loginInputPassword.getText().toString().trim();
@@ -81,21 +111,22 @@ public class LogInActivity extends AppCompatActivity {
 
             progressBar.setVisibility(View.VISIBLE);
             //authenticate user
-            auth.signInWithEmailAndPassword(email, password)
+            mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             // If sign in fails, Log a message to the LogCat. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
+                            // the mAuth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             progressBar.setVisibility(View.GONE);
                             if (!task.isSuccessful()) {
                                 // there was an error
-                                Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(com.bzahov.elsys.godofrowing.LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "signInWithEmail", task.getException());
                             } else {
-                                Intent intent = new Intent(LogInActivity.this, MainActivity.class); //+
-                                startActivity(intent);
+                                //Intent intent = new Intent(LogInActivity.this, MainActivity.class); //+
+                                //startActivity(intent);
+                                LogInActivity.this.finish();
                                 finish();
                             }
                         }

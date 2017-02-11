@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class SignInActivity extends AppCompatActivity {
 
-        private static final String TAG = "SigninActivity" ;
+        private static final String TAG = "SignInActivity" ;
         private Button btnSignUp,btnLinkToLogIn;
         private ProgressBar progressBar;
         private FirebaseAuth auth;
@@ -46,7 +46,7 @@ public class SignInActivity extends AppCompatActivity {
         signupInputEmail = (EditText) findViewById(R.id.signup_input_email);
         signupInputPassword = (EditText) findViewById(R.id.signup_input_password);
 
-        btnSignUp = (Button) findViewById(R.id.btn_signup); 
+        btnSignUp = (Button) findViewById(R.id.btn_signup);
         btnLinkToLogIn = (Button) findViewById(R.id.btn_link_login);
 
 
