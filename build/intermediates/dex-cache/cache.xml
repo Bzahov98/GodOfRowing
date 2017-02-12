@@ -169,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="448f5c31045c10007bfc9ee8d0a4c398ec69c2b5">
+        sha1="b8a43d89842c533c0c9c802322365f00c593c4fc">
         <dex dex="D:\AndroidProjects\New folder\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_5ad21e94e2b23c738d1c4f4f1c4a8dd38d5179ae\classes.dex" />
     </item>
     <item
@@ -538,7 +538,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="159831ba18e8f14ae441007e3d18e455c17da47a">
+        sha1="ef6a5237ea7ace44f17cc4e0729b11c34bf00006">
         <dex dex="D:\AndroidProjects\New folder\GodOfRowing\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_64a8c31977be9db2079a3624e2a0078372ac958e\classes.dex" />
     </item>
     <item

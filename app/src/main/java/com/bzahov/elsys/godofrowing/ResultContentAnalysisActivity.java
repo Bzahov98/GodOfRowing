@@ -1,8 +1,9 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.Model.ResourcesFromActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +19,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,16 +32,22 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class ResultContentAnalysisActivity extends Activity implements OnMapReadyCallback, ValueEventListener {
 
+    private static final String TAG = "ResConttAnalysisAct-y";
     private MapView mapView;
     private RelativeLayout analysisContainer;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseUser mUser;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth mAuth;
+    private FirebaseUser useraaa;
+    private DatabaseReference myUserRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_analysis);
+
         ScrollView a = (ScrollView) findViewById(R.id.res_analysis_scroll_view);
-        a.setVisibility(View.VISIBLE);
-        // a.setBackground(getDrawable(R.drawable.icon_settings));
         mapView = (MapView) findViewById(R.id.res_analysis_map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -50,9 +60,63 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
         setParameters(R.id.res_analysis_speed_average, R.drawable.icon_speed, "Ave sec/500m", " 0:00");
         setParameters(R.id.res_analysis_speed_max, R.drawable.icon_speed, "Max Speed/500m", " 0:00");
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.addListenerForSingleValueEvent(this);
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    mUser = firebaseAuth.getCurrentUser();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    startActivity(new Intent(ResultContentAnalysisActivity.this, LogInActivity.class));
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+
+        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    mAuth.getCurrentUser().reload();
+                    mUser = firebaseAuth.getCurrentUser();
+
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    startActivity(new Intent(ResultContentAnalysisActivity.this, LogInActivity.class));
+                    Toast.makeText(getBaseContext(),"Welcome ",Toast.LENGTH_LONG).show();
+                    Log.d("SED", "signed_out: ");
+                }
+            }
+        };*/
+
+        if (mAuth.getCurrentUser() == null) {
+            mAuth.getCurrentUser().reload();
+             Toast.makeText(getBaseContext(),"WTF",Toast.LENGTH_SHORT).show();
+        }
+        else{
+             mUser = FirebaseAuth.getInstance().getCurrentUser();
+            //myUserRef = database.getReference("users").child(mUser.getUid()).child("activities") ;
+            myUserRef = database.getReference("message");
+
+            Toast.makeText(getBaseContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
+
+            myUserRef.addValueEventListener(this);
+        }
+
+        DatabaseReference myRef = database.getReference("lastActivity");
+
+
+
         // Read from the database
     }
 
@@ -100,5 +164,31 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+        if (mAuth.getCurrentUser() != null){
+            mUser = mAuth.getCurrentUser();
+        }else Toast.makeText(getBaseContext(),"WTF >>>>>>",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.addAuthStateListener(mAuthListener);
+        if (mAuth.getCurrentUser() != null){
+            mUser = mAuth.getCurrentUser();
+        }else Toast.makeText(getBaseContext(),"WTF >>>>>>",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }

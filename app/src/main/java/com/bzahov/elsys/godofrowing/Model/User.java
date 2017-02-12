@@ -1,6 +1,9 @@
 package com.bzahov.elsys.godofrowing.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.List;
+
 /**
  * Created by bobo-pc on 2/11/2017.
  */
@@ -12,7 +15,7 @@ public class User {
     private String username;
     private String email;
     private String pass; // for test
-    //public int age;
+    private List<ResourcesFromActivity> resourcesFromActivityList;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -24,6 +27,9 @@ public class User {
         this.pass = password;
     }
 
+    public List<ResourcesFromActivity> getResourcesFromActivityList() {
+        return resourcesFromActivityList;
+    }
 
     public String getUsername() {
         return username;

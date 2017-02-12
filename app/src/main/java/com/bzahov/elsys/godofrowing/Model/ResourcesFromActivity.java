@@ -3,14 +3,21 @@ package com.bzahov.elsys.godofrowing.Model;
 import android.location.Location;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bobo-pc on 2/10/2017.
  */
+@IgnoreExtraProperties
 public class ResourcesFromActivity {
 
+    private String currentTime;
     private long elapsedTime;
     private String elapsedTimeStr;
     private float averageSpeed;
@@ -50,7 +57,7 @@ public class ResourcesFromActivity {
                                  float averageStrokeRate,
                                  float maxSpeed,
                                  float averageSpeed,
-                                 String elapsedTimeStr) {
+                                 String elapsedTimeStr, String currentTime) {
         /*this.allStrokes = allStrokes;
         this.allSpeeds = allSpeeds;
         this.allLocations = allLocations;*/
@@ -59,6 +66,7 @@ public class ResourcesFromActivity {
         this.maxSpeed = maxSpeed;
         this.averageSpeed = averageSpeed;
         this.elapsedTimeStr = elapsedTimeStr;
+        this.currentTime = currentTime;
     }
 
     public long getElapsedTimeLong() {
@@ -119,6 +127,23 @@ public class ResourcesFromActivity {
                 ", allSpeeds=" + allSpeeds.toString() +
                 ", allStrokes=" + allStrokes.toString() +
                 '}';*/
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("averageSpeed", averageSpeed);
+        result.put("maxSpeed", maxSpeed);
+        result.put("averageStrokeRate", averageStrokeRate);
+        result.put("totalMeters", getTotalMeters());
+        result.put("elapsedTime", elapsedTime);
+        result.put("currentTime",currentTime);
+
+        return result;
     }
 
 }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,16 +32,17 @@ public class LogInActivity extends AppCompatActivity {
         private FirebaseAuth.AuthStateListener mAuthListener;
         private EditText loginInputEmail, loginInputPassword;
         private TextInputLayout loginInputLayoutEmail, loginInputLayoutPassword;
+        private Switch anonymousSwitch;
 
-        @Override
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
             mAuth = FirebaseAuth.getInstance();
-
             loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
             loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
             progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
+            anonymousSwitch = (Switch) findViewById(R.id.login_switch_anonymous);
 
             loginInputEmail = (EditText) findViewById(R.id.login_input_email);
             loginInputPassword = (EditText) findViewById(R.id.login_input_password);
@@ -54,7 +56,6 @@ public class LogInActivity extends AppCompatActivity {
                     submitForm();
                 }
             });
-
             btnLinkToSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -100,17 +101,22 @@ public class LogInActivity extends AppCompatActivity {
             String email = loginInputEmail.getText().toString().trim();
             String password = loginInputPassword.getText().toString().trim();
 
-            if(!checkEmail()) {
-                return;
-            }
-            if(!checkPassword()) {
-                return;
-            }
-            loginInputLayoutEmail.setErrorEnabled(false);
-            loginInputLayoutPassword.setErrorEnabled(false);
+            if (anonymousSwitch.isChecked()) {
+                email = "anonymous@gmail.com";
+                password = "anonymous";
+            } else {
+                if (!checkEmail()) {
+                    return;
+                }
+                if (!checkPassword()) {
+                    return;
+                }
+                loginInputLayoutEmail.setErrorEnabled(false);
+                loginInputLayoutPassword.setErrorEnabled(false);
 
-            progressBar.setVisibility(View.VISIBLE);
-            //authenticate user
+                progressBar.setVisibility(View.VISIBLE);
+                //authenticate user}
+            }
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -179,5 +185,10 @@ public class LogInActivity extends AppCompatActivity {
         protected void onResume() {
             super.onResume();
             progressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onBackPressed() {
+            //super.onBackPressed();
         }
 }
