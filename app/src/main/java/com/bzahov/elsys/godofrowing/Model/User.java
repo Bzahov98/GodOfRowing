@@ -10,8 +10,8 @@ import java.util.List;
 
 // [START blog_user_class]
 @IgnoreExtraProperties
-public class User {
-
+public class User { // Data Class for Send information
+    private int uId;
     private String username;
     private String email;
     private String pass; // for test
@@ -21,7 +21,7 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String email,String password) {
+    public User(String Uid, String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.pass = password;
@@ -41,6 +41,9 @@ public class User {
 
     public String getPass() {
         return pass;
+    }
+    public int getuId() {
+        return uId;
     }
 
 }

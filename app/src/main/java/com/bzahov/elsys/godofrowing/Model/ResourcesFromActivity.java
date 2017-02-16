@@ -28,7 +28,9 @@ public class ResourcesFromActivity {
     //private List<Float> allSpeeds = new ArrayList<>();
     //private List<Float> allStrokes = new ArrayList<>();
 
-    public ResourcesFromActivity(){}
+    public ResourcesFromActivity(){
+        // Default constructor required for calls to DataSnapshot.getValue(ResourcesFromActivity.class)
+    }
 
     public ResourcesFromActivity(/*@Nullable List<Float> allStrokes,
                                  @Nullable List<Float> allSpeeds,
@@ -49,7 +51,7 @@ public class ResourcesFromActivity {
 
     }
 
-    //TODO: implement own Location method, because Location haven't empty constructor
+    //TODO: implement own Location method, because Location haven't empty constructor for DataShapshot.getValue
     public ResourcesFromActivity(/*@Nullable List<Float> allStrokes,
                                  @Nullable List<Float> allSpeeds,
                                  @Nullable List<Location> allLocations,*/

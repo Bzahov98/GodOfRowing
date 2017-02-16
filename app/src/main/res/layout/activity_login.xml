@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".LogInActivity">
+    tools:context=".AuthenticationActivities.LogInActivity">
 
 
     <ImageView
@@ -47,18 +47,20 @@
             android:hint="@string/hint_password" />
 
         <Switch
-            android:text="Remember me: "
+            android:text="@string/login_remember_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/login_switch_remember"
             android:paddingStart="10dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:checked="true" />
 
         <Switch
-            android:text="Anonymous:      "
+            android:text="@string/login_anonymous"
             android:paddingStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onAnonymouSwitchClick"
             android:id="@+id/login_switch_anonymous" />
     </android.support.design.widget.TextInputLayout>
 
@@ -67,14 +69,22 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_login"
         android:background="@color/colorPrimaryDark"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textColor="@android:color/white"/>
     <Button android:id="@+id/btn_link_signin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_link_to_signin"
         android:background="@android:color/transparent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorPrimaryDark"/>
+    <Button android:id="@+id/btn_link_forgot_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="@string/str_link_to_forgot_pass"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="5dp"
         android:textColor="@color/colorPrimaryDark"/>
     <ProgressBar
         android:layout_width="wrap_content"

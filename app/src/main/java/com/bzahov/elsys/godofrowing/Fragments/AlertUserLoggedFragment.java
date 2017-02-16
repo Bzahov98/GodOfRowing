@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.Toast;
 
-import com.bzahov.elsys.godofrowing.LogInActivity;
+import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.R;
 
 public class AlertUserLoggedFragment extends DialogFragment {

@@ -26,4 +26,7 @@
     <string name="err_msg_password">Enter a valid password with min 6 characters.</string>
     <string name="btn_link_to_signin">Don\'t have an account, SignIn !!</string>
     <string name="hint_username">Username</string>
+    <string name="str_link_to_forgot_pass">Forgot Password</string>
+    <string name="login_anonymous">Anonymous:</string>
+    <string name="login_remember_me">Remember me:</string>
 </resources>
