@@ -1,5 +1,6 @@
 package com.bzahov.elsys.godofrowing;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         private static final String TAG = "MainActivity";
 
+        private static final int REQUEST_LOGIN_INTENT = 1;
+
         private int choosedDetailOption;
 
         private FragmentManager fragmentManager;
@@ -95,6 +98,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         private FirebaseAuth.AuthStateListener mAuthListener;
         private FirebaseAuth mAuth;
         private FirebaseUser mUser;
+    private boolean result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,24 +140,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         elapsedTime = 0;
 
         database = FirebaseDatabase.getInstance();
-
-        /*new AlertDialog.Builder(getBaseContext())
-                .setTitle("Account")
-                .setMessage("You are loged in ")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-*/
-
+        result = true;
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -170,7 +157,9 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     showSettingsAlert();
                 } else {
                     // User is signed out
-                    startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                    Intent i = new Intent(MainActivity.this, LogInActivity.class);
+
+                    startActivityForResult(i,REQUEST_LOGIN_INTENT);
                     Log.d(TAG, "onAuthStateChanged:signed_out: ");
                 }
                 // ...
@@ -333,22 +322,21 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         dataRef.setValue(rfa);
     }
 
-    /*private void writeNewPost(String userId, String username, String title, String body) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
+    /*private void writeNew(String userId, String username, String title, String body) {
         User key = database.getReference().child("users").child(mUser.getUid()).push().;
         User user = new User(, username, title, body);
         Map<String, Object> postValues = user.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+        childUpdates.put("/message/" + key, postValues);
+        childUpdates.put("/user/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
     }*/
 
     private void showAnalisys() {
         Intent resultIntent = new Intent(this.getBaseContext(), ResultActivity.class);
+        result = false;
         startActivity(resultIntent);
     }
 
@@ -580,29 +568,23 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void showSettingsAlert() {
-
-        /*        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getBaseContext());
-
-        alertDialog.setTitle("sw").setCancelable(false);
-
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-        alertDialog.setPositiveButton("Log in at another account", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent callGPSSettingIntent = new Intent(getBaseContext(),LogInActivity.class);
-                startActivity(callGPSSettingIntent);
-                Log.d(TAG, "PossitiveButton");
-            }
-        });
-        alertDialog.setNegativeButton("stay at "+ mUser.getEmail(), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-                Log.d(TAG, "NegativeButton");
-                //Toast.makeText(getContext(),"Cancaled", Toast.LENGTH_SHORT).show();
-            }
-        });
- */
-        DialogFragment alertUserLoggedFragment = AlertUserLoggedFragment.newInstance(mUser.getEmail());
-        alertUserLoggedFragment.show(getSupportFragmentManager(),"alertUserLoggedFragment");
+        if (result) {
+            DialogFragment alertUserLoggedFragment = AlertUserLoggedFragment.newInstance(mUser.getEmail());
+            alertUserLoggedFragment.show(getSupportFragmentManager(), "alertUserLoggedFragment");
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_LOGIN_INTENT) {
+            if(resultCode == Activity.RESULT_OK){
+                 result = data.getBooleanExtra("returnFromLogIn",false);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
 }
+//614 71

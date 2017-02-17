@@ -132,9 +132,10 @@ public class LogInActivity extends Activity {
                                 Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                 Log.e(TAG, "signInWithEmail", task.getException());
                             } else {
-                                //Intent intent = new Intent(LogInActivity.this, MainActivity.class); //+
+                                Intent returnIntent = new Intent(); //+
                                 //startActivity(intent);
-                                LogInActivity.this.finish();
+                                returnIntent.putExtra("returnFormLogIn",false);
+                                setResult(Activity.RESULT_OK,returnIntent);
                                 finish();
                             }
                         }
