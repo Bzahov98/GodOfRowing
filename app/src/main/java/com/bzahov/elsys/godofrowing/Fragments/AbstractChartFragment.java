@@ -152,7 +152,8 @@ public abstract class AbstractChartFragment extends Fragment {
 		// let the chart know it's data has changed
 		lineChart.notifyDataSetChanged();
 
-		lineChart.setVisibleXRangeMaximum(10);
+		lineChart.setVisibleXRangeMaximum(50);
+		lineChart.setVisibleXRangeMinimum(40);
 		//lineChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 		// this automa1tically refreshes the chart (calls invalidate())
 		lineChart.moveViewTo(data.getEntryCount() - 2, 20f, YAxis.AxisDependency.LEFT);

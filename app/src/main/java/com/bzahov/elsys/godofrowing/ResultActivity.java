@@ -4,12 +4,15 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
- /**
+import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentAnalysisActivity;
+import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentHistoryActivity;
+import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentSplitterActivity;
+
+/**
  * Created by bobo-pc on 2/6/2017.
  */
 public class ResultActivity extends TabActivity {
@@ -36,7 +39,7 @@ public class ResultActivity extends TabActivity {
              host.addTab(host
                      .newTabSpec("Tab for settings")
                      .setIndicator("",getResources().getDrawable(R.drawable.icon_settings,null))
-                     .setContent(new Intent(this  ,ResultContentSettingsActivity.class )));
+                     .setContent(new Intent(this  ,ResultContentHistoryActivity.class )));
              host.setCurrentTab(0);
 
              host.getTabWidget().setBackgroundColor(getResources().getColor(R.color.wallet_holo_blue_light));

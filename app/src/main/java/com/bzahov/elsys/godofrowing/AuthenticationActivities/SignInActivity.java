@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.MainActivity;
-import com.bzahov.elsys.godofrowing.Model.User;
+import com.bzahov.elsys.godofrowing.Models.User;
 import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +37,7 @@ public class SignInActivity extends AppCompatActivity {
         private EditText signupInputEmail, signupInputPassword;
         private TextInputLayout signupInputLayoutEmail, signupInputLayoutPassword;
         private EditText signupInputUsername;
+        private EditText signupInputAge;
         private TextInputLayout signupInputLayoutUsername;
         private DatabaseReference mDatabase;
 
@@ -56,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         signupInputEmail = (EditText) findViewById(R.id.signup_input_email);
         signupInputPassword = (EditText) findViewById(R.id.signup_input_password);
         signupInputUsername = (EditText) findViewById(R.id.signup_input_username);
+        signupInputUsername = (EditText) findViewById(R.id.signup_input_age);
 
         btnSignUp = (Button) findViewById(R.id.btn_signup);
         btnLinkToLogIn = (Button) findViewById(R.id.btn_link_login);
@@ -124,6 +126,11 @@ public class SignInActivity extends AppCompatActivity {
         String password = signupInputPassword.getText().toString().trim();
         String email = userFromRegistration.getEmail();
         String userId = userFromRegistration.getUid();
+
+        String age = signupInputAge.getText().toString().trim();
+        if (android.text.TextUtils.isDigitsOnly(age)) {
+
+        }
 
         User user = new User(uId,username, email,password);
 

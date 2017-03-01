@@ -105,13 +105,13 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		ILineDataSet setY = chartGraphData.getDataSetByIndex(1);
 		ILineDataSet setZ = chartGraphData.getDataSetByIndex(2);
 
-		setX = createSet("X", Color.BLACK);
+		setX = createSet("X", Color.YELLOW);
 		setY = createSet("Y",Color.YELLOW);
 		setZ = createSet("Z",Color.GREEN);
 
 		chartGraphData.addDataSet(setX);
-		chartGraphData.addDataSet(setY);
-		chartGraphData.addDataSet(setZ);
+		//chartGraphData.addDataSet(setY);
+		//chartGraphData.addDataSet(setZ);
 	}
 
 
@@ -148,7 +148,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		String velosity = Float.toString(100 * velocity);// + " \n m\\sec";
 //		Log.e("Acceler", velosity);
 		//Toast.makeText(getContext(),Float.toString(deltaVelocity),Toast.LENGTH_SHORT).show();
-		sendMessage(velosity);
+		//sendMessage(velosity);
 	}
 
 	@Override
@@ -169,9 +169,11 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 			z_gForce = z_accelerometer / 9.81f;
 			//   zVals.add(new Entry(i, z_accelerometer));
 
-			double newAcceler = Math.sqrt(Math.pow(x_accelerometer, 2) + Math.pow(y_accelerometer, 2) + Math.pow(z_accelerometer, 2));
+			float newAcceler = (float) Math.sqrt(Math.pow(x_accelerometer, 2) + Math.pow(y_accelerometer, 2) + Math.pow(z_accelerometer, 2));
 
-			if (calibration == Double.NaN){ calibration = newAcceler;}
+			if (calibration == Double.NaN){
+				calibration = newAcceler;
+			}
 			updateVelocity();
 			currentAcceleration = (float) newAcceler;
 			if (show_gForce) {
@@ -179,9 +181,9 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 				addEntry(lineGraphChart, y_gForce, 1);
 				addEntry(lineGraphChart, z_gForce, 2);
 			} else {
-				addEntry(lineGraphChart, x_accelerometer, 0);
-				addEntry(lineGraphChart, y_accelerometer, 1);
-				addEntry(lineGraphChart, z_accelerometer, 2);
+				addEntry(lineGraphChart, newAcceler, 0);
+				//addEntry(lineGraphChart, y_accelerometer, 1);
+				//addEntry(lineGraphChart, z_accelerometer, 2);
 			}
 			lineGraphChart.notifyDataSetChanged();
 			lineGraphChart.invalidate();

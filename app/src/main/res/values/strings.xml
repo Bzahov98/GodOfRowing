@@ -29,4 +29,13 @@
     <string name="str_link_to_forgot_pass">Forgot Password</string>
     <string name="login_anonymous">Anonymous:</string>
     <string name="login_remember_me">Remember me:</string>
+    <string name="enter_total_meters">Enter Total Meters</string>
+    <string name="hint_age">Age</string>
+    <string name="logo">logo</string>
+    <string name="param_meters_text">meters</string>
+    <string name="param_spm_def_text">0 \nSPM</string>
+    <string name="param_def_speed_per500">0:00\nper 500m</string>
+    <string name="param_def_ave_speed_per500">0 min\nper 500m</string>
+    <string name="param_def_speed_msec">0:0\nave Speed</string>
+    <string name="param_def_ave_spm">0\nave SPM</string>
 </resources>

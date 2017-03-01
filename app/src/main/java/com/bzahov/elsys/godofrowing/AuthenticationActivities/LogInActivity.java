@@ -41,6 +41,7 @@ public class LogInActivity extends Activity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
             mAuth = FirebaseAuth.getInstance();
+
             loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
             loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
             progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
