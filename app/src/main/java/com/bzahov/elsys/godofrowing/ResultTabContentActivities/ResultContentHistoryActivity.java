@@ -1,5 +1,6 @@
 package com.bzahov.elsys.godofrowing.ResultTabContentActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +11,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
-import com.bzahov.elsys.godofrowing.RecyclerView.HistoryAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -50,9 +52,9 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
 
 
     private Query mQuery;
-    private HistoryAdapter mMyAdapter;
     private ArrayList<ResourcesFromActivity> mAdapterItems;
     private ArrayList<String> mAdapterKeys;
+    private FirebaseRecyclerAdapter<ResourcesFromActivity, FirebaseResViewHolder> mMyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "WTF", Toast.LENGTH_SHORT).show();
         } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            mListItemRef = database.getReference("users").child(mUser.getUid()).child("activities").getRef() ;
+            mListItemRef = database.getReference("users").child(mUser.getUid()).child("activities") ;
             //myUserRef = database.getReference("message");
 
             Toast.makeText(getBaseContext(), mUser.getEmail(), Toast.LENGTH_SHORT).show();
@@ -102,34 +104,37 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
     private void setupFirebase() {
         //Firebase.setAndroidContext(this);
         //String firebaseLocation = getResources().getString(R.string.firebase_location);
-        mQuery = database.getReference();
+        mQuery = mListItemRef;//database.getReference();
     }
 
     private void setupRecyclerview() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         //mMyAdapter = new HistoryAdapter(mQuery, ResourcesFromActivity.class, mAdapterItems, mAdapterKeys);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, FirebaseResViewHolder.class, mListItemRef) {
 
- /*       mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResourcesHolder>(ResourcesFromActivity.class, android.R.layout.cat, ResourcesHolder.class, mListItemRef) {
             @Override
-            public ResourcesFromActivity onCreateViewHolder(ViewGroup parent, int viewType) {
-                return null;
+            public void populateViewHolder(FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
+               // resourcesViewHolder.setName(resourcesFromActivity.getCurrentTime());
+                Log.e("holder",position+ " " + resourcesFromActivity.getCurrentTime() + "\n" + resourcesFromActivity.toString());
+                resourcesViewHolder.setKey(getRef(position).getKey());
+                resourcesViewHolder.bindSportActivity(resourcesFromActivity);
             }
 
             @Override
-            public void onBindViewHolder(ResourcesFromActivity holder, int position) {
-
+            public void onBindViewHolder(FirebaseResViewHolder viewHolder, int position) {
+                super.onBindViewHolder(viewHolder, position);
+                //viewHolder.setText("aaa");
             }
 
             @Override
-            public void populateViewHolder(ResourcesHolder chatMessageViewHolder, ResourcesFromActivity chatMessage, int position) {
-                chatMessageViewHolder.setName(chatMessage.getCurrentTime());
-                chatMessageViewHolder.setText(chatMessage.getElapsedTimeString());
+            public boolean onFailedToRecycleView(FirebaseResViewHolder holder) {
+                Log.e("ohh","aaa");
+                return super.onFailedToRecycleView(holder);
             }
         };
         recyclerView.setAdapter(mMyAdapter);
-*/
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -148,17 +153,17 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMyAdapter.destroy();
+        mMyAdapter.cleanup();
     }
 
     public static class ResourcesHolder extends RecyclerView.ViewHolder {
         private final TextView mNameField;
-        private final TextView mTextField;
+        //private final TextView mTextField;
 
         public ResourcesHolder(View itemView) {
             super(itemView);
-            mNameField = (TextView) itemView.findViewById(android.R.id.text1);
-            mTextField = (TextView) itemView.findViewById(android.R.id.text2);
+            mNameField = (TextView) itemView.findViewById(R.id.list_item_child_meters_total);
+            //mTextField = (TextView) itemView.findViewById(android.R.id.);
         }
 
         public void setName(String name) {
@@ -166,7 +171,78 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
         }
 
         public void setText(String text) {
-            mTextField.setText(text);
+           // mTextField.setText(text);
         }
     }
+
+    public static class FirebaseResViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final int MAX_WIDTH = 200;
+        private static final int MAX_HEIGHT = 200;
+        private boolean childVisible;
+        RelativeLayout childLayout;
+        View mView;
+        String key = "";
+        Context mContext;
+
+        public FirebaseResViewHolder(View itemView) {
+            super(itemView);
+            childVisible = false;
+            mView = itemView;
+            mContext = itemView.getContext();
+            itemView.setOnClickListener(this);
+            childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_child);
+        }
+
+        public void bindSportActivity(ResourcesFromActivity model) {
+            //ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
+            TextView nameTextView = (TextView) childLayout.findViewById(R.id.list_item_child_meters_total);
+            TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+            //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
+
+            headerTextView.setText(key);
+            nameTextView.setText(Long.toString(model.getTotalMeters()));
+  //          categoryTextView.setText(restaurant.getCategories().get(0));
+    //        ratingTextView.setText("Rating: " + restaurant.getRating() + "/5");
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (childLayout.getVisibility() == View.VISIBLE){
+                childVisible = false;
+                childLayout.setVisibility(View.GONE);
+
+            }else {
+                childVisible = true;
+                childLayout.setVisibility(View.VISIBLE);
+            }
+            /*final ArrayList<Restaurant> restaurants = new ArrayList<>();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        restaurants.add(snapshot.getValue(Restaurant.class));
+                    }
+
+                    int itemPosition = getLayoutPosition();
+
+                    Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
+                    intent.putExtra("position", itemPosition + "");
+                    intent.putExtra("restaurants", Parcels.wrap(restaurants));
+
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });*/
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+    }
+
 }

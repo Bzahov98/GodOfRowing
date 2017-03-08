@@ -7,7 +7,7 @@
     android:id="@+id/res_param_layout">
 
     <ImageView
-        android:id="@+id/res_layout_parameter_image"
+        android:id="@+id/list_item_head_header"
         android:tint="#f9f6f6"
         android:foregroundTint="#f9f6f6"
         android:layout_width="50dp"
@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/res_layout_parameter_name"
         android:text="not loaded"
-        android:layout_toRightOf="@id/res_layout_parameter_image"
+        android:layout_toRightOf="@id/list_item_head_header"
         android:layout_width="wrap_content"
         android:gravity="left"
         android:paddingTop="10dp"
@@ -30,7 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"/>
     <TextView
-        android:id="@+id/res_layout_parameter_value"
+        android:id="@+id/list_item_head_text_workout"
         android:layout_width="wrap_content"
         android:textStyle="bold"
         android:paddingTop="10dp"
@@ -44,5 +44,15 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+    <ImageView
+        android:id="@+id/res_layout_parameter_image_end"
+        android:tint="#f9f6f6"
+        android:foregroundTint="#f9f6f6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingRight="10dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="10dp"
+        />
 
 </RelativeLayout>

@@ -105,15 +105,15 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
             mAuth.getCurrentUser().reload();
              Toast.makeText(getBaseContext(),"WTF",Toast.LENGTH_SHORT).show();
         }
-        else{
-             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            myUserRef = database.getReference("users").child(mUser.getUid()).child("activities");
+            else{
+                 mUser = FirebaseAuth.getInstance().getCurrentUser();
+                myUserRef = database.getReference("users").child(mUser.getUid()).child("activities");
 
-            myUserRef = database.getReference("message");
+                myUserRef = database.getReference("message");
 
-            Toast.makeText(getBaseContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
 
-            myUserRef.addValueEventListener(this);
+                myUserRef.addValueEventListener(this);
         }
 
         DatabaseReference myRef = database.getReference("lastActivity");
@@ -149,14 +149,14 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     private void setParameters(int viewID, int imageID, @Nullable String name, String value){
         RelativeLayout viewById = ((RelativeLayout) analysisContainer.findViewById(viewID));
         if (imageID != 0) {
-            ImageView imageView = ((ImageView) viewById.findViewById(R.id.res_layout_parameter_image));
+            ImageView imageView = ((ImageView) viewById.findViewById(R.id.list_item_head_header));
             imageView.setImageResource(imageID);
         }
         if (name != null) {
             TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
             nameView.setText(name);
         }if (value != null){
-            TextView  valueView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_value));
+            TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
             valueView.setText(value);
         }
     }

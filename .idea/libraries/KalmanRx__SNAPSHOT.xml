@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="KalmanRx--SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.kibotu/KalmanRx/-SNAPSHOT/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.kibotu/KalmanRx/-SNAPSHOT/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kibotu/KalmanRx/-SNAPSHOT/4cd00bd76696a62796684756fc2135a908c786f/KalmanRx--SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

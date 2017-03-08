@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by bobo-pc on 1/14/2017.
  */
-public class MainLinAccGraphFragment extends AbstractChartFragment implements SensorEventListener {
+public class MainLinAccGraphFragment extends BaseChartFragment implements SensorEventListener {
 
     private static final float CONST_FOR_POSSIBLE_WRONG = 0.3f;
     private static final int CONST_POSITIONS_FOR_INCREASE = 1;
@@ -53,6 +53,7 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
     private float currentAcceleration;
     private List<float[]> allAccelData = new ArrayList<>();
     private List<Float> allLinAccelData = new ArrayList<>();
+    private LinAccelFrgCommunicationChannel mCommChListner;
 
 
     @Override
@@ -128,17 +129,22 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
             linearAcceleration = new float[]{x_linear_acceleration, y_linear_acceleration, z_linear_acceleration};
 
             int length = linearAcceleration.length-1;
+            Log.d("LinearAccel on Axes","on x-" + x_linear_acceleration +
+                                               "on y-" + y_linear_acceleration +
+                                               "on z-" + z_linear_acceleration );
 
             allAccelData.add(linearAcceleration);
+
 
         }
 
         currentAcceleration = (float) (Math.pow(x_linear_acceleration, 2) + Math.pow(y_linear_acceleration, 2)+ Math.pow(z_linear_acceleration, 2));
         allLinAccelData.add(currentAcceleration);
 
+        Log.d("LinearAcceleration","total " + currentAcceleration );
         if (currentAcceleration <= (0 - CONST_FOR_POSSIBLE_WRONG)){
             if (last10Increasing()){
-                    notifyForNewStroke();
+                    setnotifyForNewStroke();
             }
         }
 
@@ -152,8 +158,14 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
 
     }
 
-    private void notifyForNewStroke() {
+    private void setnotifyForNewStroke() {
         //communication with activity
+        mCommChListner.notifyForNewStroke();
+        Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
+    }
+    public void sendNewLinAccel() {
+        //communication with activity
+        mCommChListner.sendNewLimAccel(currentAcceleration);
         Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
     }
 
@@ -210,7 +222,21 @@ public class MainLinAccGraphFragment extends AbstractChartFragment implements Se
         super.onPause();
 
         mSensorManager.unregisterListener(this);
+    }
+    public interface LinAccelFrgCommunicationChannel {
+        void notifyForNewStroke();
 
+        void sendNewLimAccel(float l);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof LinAccelFrgCommunicationChannel) {
+            mCommChListner = (MainLinAccGraphFragment.LinAccelFrgCommunicationChannel) context;
+        } else {
+            throw new ClassCastException();
+        }
     }
 
 }

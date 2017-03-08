@@ -24,7 +24,7 @@ public class HistoryAdapter extends FirebaseRecyclerAdapter<HistoryAdapter.ViewH
 
         public ViewHolder(View view) {
             super(view);
-            textViewName = (TextView) view.findViewById(R.id.textview_name);
+            textViewName = (TextView) view.findViewById(R.id.list_item_head_text_header);
             textViewTotMeters = (TextView) view.findViewById(R.id.list_item_child).findViewById(R.id.list_item_child_meters_total);
             //TODO:
         }

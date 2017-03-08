@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -177,7 +179,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         mMap = googleMap;
         LatLng sofiaNDK = new LatLng(42.68, 23.31);
         gotoLocation(sofiaNDK, 16);
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         /*Location MyLocation = getmLastLocation();
@@ -406,5 +409,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+    public void receiveDataFromMain(String rfa){
+        Toast.makeText(getContext(),rfa + "aaa",Toast.LENGTH_SHORT).show();
     }
 }

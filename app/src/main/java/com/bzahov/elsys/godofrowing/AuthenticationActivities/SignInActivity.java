@@ -57,7 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         signupInputEmail = (EditText) findViewById(R.id.signup_input_email);
         signupInputPassword = (EditText) findViewById(R.id.signup_input_password);
         signupInputUsername = (EditText) findViewById(R.id.signup_input_username);
-        signupInputUsername = (EditText) findViewById(R.id.signup_input_age);
+        signupInputAge = (EditText) findViewById(R.id.signup_input_age);
 
         btnSignUp = (Button) findViewById(R.id.btn_signup);
         btnLinkToLogIn = (Button) findViewById(R.id.btn_link_login);

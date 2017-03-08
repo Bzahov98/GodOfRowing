@@ -5,12 +5,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.icu.text.DecimalFormat;
 
 /**
  * Created by bobo-pc on 1/14/2017.
  */
-public class MainGforceGraphFragment extends AbstractChartFragment implements SensorEventListener{
+public class MainGforceGraphFragment extends BaseChartFragment implements SensorEventListener{
 
     private int accelerometerAccuracy;
     private float x_gForce;

@@ -29,6 +29,7 @@ import com.bzahov.elsys.godofrowing.Fragments.MainControllerFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGforceGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
+import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment.LinAccelFrgCommunicationChannel;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel {
+public class MainActivity extends FragmentActivity implements MainMapFragment.MapFrgCommunicationChannel, MainGraphFragment.GraphFrgCommunicationChannel,LinAccelFrgCommunicationChannel {
 
         private static final int WITHOUT_FRAGMENT = 0;
         private static final int MAP_FRAGMENT = 1;
@@ -166,7 +167,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     mUser = firebaseAuth.getCurrentUser();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
                     TextView aa = ((TextView) findViewById(R.id.main_table_Ave_Speed)); //test
-                    aa.setText(user.getEmail());
+                 //   aa.setText(user.getEmail());
                     Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
                     showSettingsAlert();
                 } else {
@@ -337,8 +338,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
         ;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss");
-        DateFormat dateFormatWrap = new SimpleDateFormat("yyyyMMddHHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("yyMMdd-HH:mm:ss");
+        DateFormat dateFormatWrap = new SimpleDateFormat("yyMMddHHmmss");
         String postTime = dateFormatWrap.format(new Date());
         String postTimePresentation = dateFormatWrap.format(new Date());
 
@@ -366,6 +367,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         result = false;
         startActivity(resultIntent);
     }
+
 
     @Override
     public void setMapCommunication(String speed) {
@@ -427,32 +429,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     public void strokeCounterRate(View view) {
-        TextView strokeView = (TextView) findViewById(R.id.main_table_param_StrokePerMinute);
-
-        numStrokes++;
-
-        newStroke = System.currentTimeMillis();
-
-        float timeBetweenStrokes = (newStroke - lastStroke) / 1000.0f;
-
-        Toast.makeText(getBaseContext(),timeBetweenStrokes + " ",Toast.LENGTH_SHORT).show();
-        if (numStrokes == 0 || timeBetweenStrokes == 0 || timeBetweenStrokes >=60){
-            strokeView.setText(0 + "\nSPM");
-            currentStrokeRate = 0;
-
-        }else {
-            currentStrokeRate = 60.0f/timeBetweenStrokes;
-            //currentStrokeRateInt = 60/(int)timeBetweenStrokes;
-            Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
-            strokeView.setText((int)currentStrokeRate + "\nSP2M" + currentStrokeRate + "!!");
-            //allStrokes.add(roundFloat(currentStrokeRate,2));
-            if (isStarted) {
-                calcAverageStrokeRate();
-            }
-        }
-        String s = Float.toString(roundFloat(averageStrokeRate,1));
-        aveSPMView.setText(s + "\nave/SPM");
-        lastStroke = newStroke;
+        countStrokeRate();
     }
 
     private void calculateAverageSpeed() {
@@ -649,5 +626,49 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    public void notifyForNewStroke() {
+        countStrokeRate();
+    }
+
+    private void countStrokeRate() {
+        TextView strokeView = (TextView) findViewById(R.id.main_table_param_StrokePerMinute);
+
+        numStrokes++;
+
+        newStroke = System.currentTimeMillis();
+
+        float timeBetweenStrokes = (newStroke - lastStroke) / 1000.0f;
+
+        Toast.makeText(getBaseContext(),timeBetweenStrokes + " ",Toast.LENGTH_SHORT).show();
+        if (numStrokes == 0 || timeBetweenStrokes == 0 || timeBetweenStrokes >=60){
+            strokeView.setText(0 + "\nSPM");
+            currentStrokeRate = 0;
+
+        }else {
+            currentStrokeRate = 60.0f/timeBetweenStrokes;
+            //currentStrokeRateInt = 60/(int)timeBetweenStrokes;
+            Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
+            strokeView.setText((int)currentStrokeRate + "\nSP2M" + currentStrokeRate + "!!");
+            //allStrokes.add(roundFloat(currentStrokeRate,2));
+            if (isStarted) {
+                calcAverageStrokeRate();
+            }
+        }
+        String s = Float.toString(roundFloat(averageStrokeRate,1));
+        aveSPMView.setText(s + "\nave/SPM");
+        lastStroke = newStroke;
+    }
+
+    @Override
+    public void sendNewLimAccel(float l) {
+        strokeCounterRate(null);
+    }
+    public void updateMapFragmentMark(ResourcesFromActivity rfa) {
+       /* if(mapFragment!=null){
+            mapFragment.receiveDataFromMain("jell");
+        }*/
     }
 }

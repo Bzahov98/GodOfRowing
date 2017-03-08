@@ -122,7 +122,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:padding="16dp"
-                android:text="Row 3\n Columjn 1"
+                android:text=""
                 android:textColor="#fff" />
 
             <TextView
@@ -153,7 +153,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="Row 4\nColumn 1"
+                android:text=""
                 android:textColor="#fff" />
 
             <Chronometer
@@ -174,7 +174,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="Row 4\nColumn 3"
+                android:text=""
                 android:textColor="#fff" />
 
         </TableRow>
@@ -204,13 +204,6 @@
 
         </com.google.android.gms.maps.MapView>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/LineChart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible">
-
-        </com.github.mikephil.charting.charts.LineChart>
         <TextView
             android:id="@+id/first_text"
             android:layout_width="wrap_content"
@@ -268,41 +261,16 @@
                 android:padding="7dp" />
 
         </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/LineChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+        </com.github.mikephil.charting.charts.LineChart>
         -->
 
     </FrameLayout>
 
-    <!--<LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="79dp"
-        android:layout_gravity="center|bottom"
-        android:gravity="center"
-        android:layout_marginBottom="21dp"
-        android:id="@+id/mapController">
-
-        <TextView
-
-            android:id="@+id/mapControllerStart"
-            android:text="Start Activity"
-            android:onClick="startPauseActivity"
-            android:background="#494"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:linksClickable="false"
-            android:textColorLink="@android:color/holo_green_dark"
-            android:padding="7dp" />
-
-        <TextView
-            android:id="@+id/mapControllerStopPause"
-            android:text="Stop"
-            android:visibility="gone"
-            android:onClick="StopActivity"
-            android:background="#912"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-
-            android:padding="7dp" />
-
-    </LinearLayout>
-    -->
 </LinearLayout>
