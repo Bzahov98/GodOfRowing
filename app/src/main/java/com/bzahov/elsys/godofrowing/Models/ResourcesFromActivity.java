@@ -1,6 +1,7 @@
 package com.bzahov.elsys.godofrowing.Models;
 
 import android.location.Location;
+import android.support.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -51,8 +52,8 @@ public class ResourcesFromActivity {
     }
 
     //TODO: implement own Location method, because Location haven't empty constructor for DataShapshot.getValue
-    public ResourcesFromActivity(/*@Nullable List<Float> allStrokes,
-                                 @Nullable List<Float> allSpeeds,
+    public ResourcesFromActivity(@Nullable ArrayList<MyLocation> allLocations,
+                                 /*@Nullable List<Float> allSpeeds,
                                  @Nullable List<Location> allLocations,*/
                                  long totalMeters,
                                  float averageStrokeRate,
@@ -62,6 +63,7 @@ public class ResourcesFromActivity {
         /*this.allStrokes = allStrokes;
         this.allSpeeds = allSpeeds;
         this.allLocations = allLocations;*/
+        this.myLocationsList = allLocations;
         this.totalMeters = totalMeters;
         this.averageStrokeRate = averageStrokeRate;
         this.maxSpeed = maxSpeed;

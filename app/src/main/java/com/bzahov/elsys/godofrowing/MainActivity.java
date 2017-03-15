@@ -31,6 +31,7 @@ import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment.LinAccelFrgCommunicationChannel;
 import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
+import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -109,6 +110,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private long pauseMeters;
     private ArrayList<ArrayList<Location>> allPausedLocations = new ArrayList<>();
     private TextView aveSPMView;
+    private ArrayList<MyLocation> allMyLocations = new ArrayList<>();
+    private int saveLocCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +172,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     TextView aa = ((TextView) findViewById(R.id.main_table_Ave_Speed)); //test
                  //   aa.setText(user.getEmail());
                     Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
-                    showSettingsAlert();
+                    //showSettingsAlert();
                 } else {
                     // User is signed out
                     Intent i = new Intent(MainActivity.this, LogInActivity.class);
@@ -343,7 +346,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         String postTime = dateFormatWrap.format(new Date());
         String postTimePresentation = dateFormatWrap.format(new Date());
 
-        ResourcesFromActivity rfa = new ResourcesFromActivity(totalMeters,averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, postTime);
+        ResourcesFromActivity rfa = new ResourcesFromActivity(allMyLocations,totalMeters,averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, postTime);
         DatabaseReference debugDataRef = database.getReference("message");//+ currentDateTimeString);
         debugDataRef.setValue(rfa);
         DatabaseReference dataRef = database.getReference().child("users/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
@@ -385,13 +388,27 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //TextView meterView = (TextView) findViewById(R.id.main_table_param_meters);
         TextView meterperSec = (TextView) findViewById(R.id.Row3_C_1);
         Location locationBefore;
+
         if (isStarted) {
             //int size = allLocations.size() - 1;
             allLocations.add(newLocation);
             if(newLocation.hasSpeed()) {
                 currentSpeed = newLocation.getSpeed();
                 allSpeeds.add(currentSpeed);
-               // allMySpeeds.add()
+                MyLocation a = new MyLocation(newLocation,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
+                MyLocation a = new MyLocation(newLocation);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);
+                */
+                saveLocCounter++;
+                if ( saveLocCounter <= 2 ){
+                    allMyLocations.add(a);
+                }else {
+                    int mylocSize = allMyLocations.size()-1;
+                    allMyLocations.get(mylocSize);
+                    if ( (saveLocCounter % 5 == 0 ) || (allMyLocations.get(mylocSize-1).distanceTo(allMyLocations.get(mylocSize)) >= 5)){
+                        allMyLocations.add(a);
+                    }
+                }
+                // allMySpeeds.add()
                 calculateAverageSpeed();
                 int speedCurrentToSec = calcSecondsPer500meters(currentSpeed);
                 int speedAverageToSec = calcSecondsPer500meters(averageSpeed);
@@ -400,7 +417,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
                 speedView.setText(speedCurentSplitted[1] + ":" + speedCurentSplitted[2] + "\nper 500m");
                 aveSpeedView.setText(speedAverageSplitted[1] + ":" + speedAverageSplitted[2] + "\nave per 500m");
-                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ "\n meter per second");
+                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ "\n m per sec");
             }
             int size = allLocations.size()-1;
             if (size > 1) {
@@ -412,7 +429,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 }
             }
         }else { // pause
-            lastPausedLocations.add(newLocation);
+            /*lastPausedLocations.add(newLocation);
             int size = lastPausedLocations.size()-1;
             if (size == 0){
                 pauseMeters = 0;
@@ -424,7 +441,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 if (newDistance < 100f){
                     pauseMeters += newDistance;
                 }
-              }
+              }*/
         }
     }
 
@@ -650,8 +667,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }else {
             currentStrokeRate = 60.0f/timeBetweenStrokes;
             //currentStrokeRateInt = 60/(int)timeBetweenStrokes;
-            Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
-            strokeView.setText((int)currentStrokeRate + "\nSP2M" + currentStrokeRate + "!!");
+            //Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
+            strokeView.setText((int)currentStrokeRate + "\nSPM");
             //allStrokes.add(roundFloat(currentStrokeRate,2));
             if (isStarted) {
                 calcAverageStrokeRate();

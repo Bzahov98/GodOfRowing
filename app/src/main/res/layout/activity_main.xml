@@ -92,8 +92,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="@string/param_def_speed_msec"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:textAlignment="center" />
 
             <TextView android:id="@+id/main_table_Ave_Speed"
                 android:layout_width="0dp"

@@ -2,6 +2,7 @@ package com.bzahov.elsys.godofrowing.ResultTabContentActivities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,13 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
+import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 /**
  * Created by bobo-pc on 2/8/2017.
@@ -43,6 +50,8 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     private FirebaseAuth mAuth;
     private FirebaseUser useraaa;
     private DatabaseReference myUserRef;
+    private List<MyLocation> allLocations;
+    private GoogleMap myMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +131,11 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.146168, 24.711175), 13.8f));
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.146168, 24.711175), 13.8f));
+        myMap = googleMap;
+        myMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        myMap.getUiSettings().setZoomControlsEnabled(true);
+        myMap.getUiSettings().setCompassEnabled(true);
         mapView.onResume();
     }
 
@@ -132,6 +145,20 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     @Override
     public void onDataChange(DataSnapshot dataSnapshot){
         ResourcesFromActivity receivedData = dataSnapshot.getValue(ResourcesFromActivity.class);
+
+        allLocations = receivedData.getMyLocationsList();
+        for (MyLocation loc: allLocations) {
+            Toast.makeText(getBaseContext(),"aaa",Toast.LENGTH_SHORT);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
+            markerOptions.position(new LatLng(loc.getLat(),loc.getLng()));
+            markerOptions.title("Speed - " + Float.toString(round(loc.getSpeed(),2)) + " m/s \n" +
+                                "");
+            myMap.addMarker(markerOptions);
+        }
+        MyLocation firstLocation = allLocations.get(0);
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom( new LatLng(firstLocation.getLat(),firstLocation.getLng()),14f));
+
 
         setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
         setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
@@ -187,6 +214,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     @Override
     public void onStop() {
         super.onStop();
+        myMap.clear();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }

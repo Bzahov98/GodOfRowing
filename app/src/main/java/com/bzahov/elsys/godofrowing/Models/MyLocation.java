@@ -1,7 +1,9 @@
 package com.bzahov.elsys.godofrowing.Models;
 
+import android.location.Location;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
@@ -9,28 +11,100 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class MyLocation {
+    //location information
+    private long time;
+    private double lat;
+    private double lng;
+    //training information at current moment
+    private String elapsedTimeStr;
+    private float averageSpeed;
+    private float currentSpeed;
+    private float maxSpeed;
+    private float strokeRate;
+    private float AverageStrokeRate;
+    private long totalMeters;
 
-    private long lat;
-    private long lng;
-    private long speed;
+
+
     public MyLocation() {
         // Default constructor required for calls to DataSnapshot.getValue(MyLocation.class)
     }
-    public MyLocation(long lat, long lng, @Nullable long speed){
+    public MyLocation(double lat, double lng, @Nullable float speed,long time){
         this.lat = lat;
         this.lng = lng;
-        this.speed = speed;
+        this.currentSpeed = speed;
+        this.time = time;
+
     }
-    public long getLat() {
+    public MyLocation(Location inputLoc){
+        this.lat = inputLoc.getLatitude();
+        this.lng = inputLoc.getLongitude();
+        this.currentSpeed = inputLoc.getSpeed();
+        this.time = inputLoc.getTime();
+    }
+
+    public MyLocation(Location inputLoc, String elapsedTimeStr){//, float maxSpeed, float averageSpeed){//, float strokeRate,float averageStrokeRate,long totalMeters){
+        this.lat = inputLoc.getLatitude();
+        this.lng = inputLoc.getLongitude();
+        this.time = inputLoc.getTime();
+        this.currentSpeed = inputLoc.getSpeed();
+        this.elapsedTimeStr = elapsedTimeStr;
+        this.maxSpeed = maxSpeed;
+        this.averageSpeed = averageSpeed;/*
+        this.strokeRate = strokeRate;
+        this.AverageStrokeRate = averageStrokeRate;
+        this.totalMeters = totalMeters;*/
+    }
+
+    @Exclude
+    public float distanceTo(MyLocation inputLocation){
+        float[] result = new float[3];
+        Location.distanceBetween(lat,lng,inputLocation.getLat(),inputLocation.getLng(), result );
+        return result[0];
+    }
+
+    public double getLat() {
         return lat;
     }
 
-    public long getLng() {
+    public double getLng() {
         return lng;
     }
 
-    public long getSpeed() {
-        return speed;
+    public float getSpeed() {
+        return currentSpeed;
+    }
+
+    public float getTime() {
+        return time;
+    }
+
+    public String getElapsedTimeStr() {
+        return elapsedTimeStr;
+    }
+
+    public float getAverageSpeed() {
+        return averageSpeed;
+    }
+
+    public float getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public float getStrokeRate() {
+        return strokeRate;
+    }
+
+    public float getAverageStrokeRate() {
+        return AverageStrokeRate;
+    }
+
+    public long getTotalMeters() {
+        return totalMeters;
     }
 
 }

@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +51,6 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mUser;
-    private DatabaseReference myUserRef;
 
 
     private Query mQuery;
@@ -108,7 +110,7 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerview() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         //mMyAdapter = new HistoryAdapter(mQuery, ResourcesFromActivity.class, mAdapterItems, mAdapterKeys);
 
         mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, FirebaseResViewHolder.class, mListItemRef) {
@@ -119,6 +121,13 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
                 Log.e("holder",position+ " " + resourcesFromActivity.getCurrentTime() + "\n" + resourcesFromActivity.toString());
                 resourcesViewHolder.setKey(getRef(position).getKey());
                 resourcesViewHolder.bindSportActivity(resourcesFromActivity);
+  //              ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new
+//                        CallBack(0, ItemTouchHelper.RIGHT, mMyAdapter); // Making the SimpleCallback
+
+//                ItemTouchHelper touchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+                //touchHelper.attachToRecyclerView(recyclerView);
+
             }
 
             @Override
@@ -190,7 +199,7 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             mView = itemView;
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
-            childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_child);
+            childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_child_layout);
         }
 
         public void bindSportActivity(ResourcesFromActivity model) {
@@ -198,9 +207,15 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             TextView nameTextView = (TextView) childLayout.findViewById(R.id.list_item_child_meters_total);
             TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
             //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
+            TextView childMetersView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+            RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
             nameTextView.setText(Long.toString(model.getTotalMeters()));
+            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
+            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
+
+
   //          categoryTextView.setText(restaurant.getCategories().get(0));
     //        ratingTextView.setText("Rating: " + restaurant.getRating() + "/5");
         }
@@ -240,9 +255,54 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             });*/
         }
 
+        private void setParameters( int viewID, int imageID, @Nullable String name, String value){
+            RelativeLayout viewById = ((RelativeLayout) mView.findViewById(viewID));
+            if (imageID != 0) {
+                ImageView imageView = ((ImageView) viewById.findViewById(R.id.list_item_head_header));
+                imageView.setImageResource(imageID);
+            }
+            if (name != null) {
+                TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
+                nameView.setText(name);
+            }if (value != null){
+                TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
+                valueView.setText(value);
+            }
+        }
+
         public void setKey(String key) {
             this.key = key;
         }
     }
 
+    public class CallBack extends ItemTouchHelper.SimpleCallback {
+
+
+        private FirebaseRecyclerAdapter adapter; // this will be your recycler adapter
+
+        private DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+
+        public CallBack(int dragDirs, int swipeDirs, FirebaseRecyclerAdapter adapter) {
+            super(dragDirs, swipeDirs);
+            this.adapter = adapter;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition(); // this is how you can get the position
+           // ResourcesFromActivity object = adapter.getItem(position); // You will have your own class ofcourse.
+
+            Toast.makeText(getBaseContext(),"jj",Toast.LENGTH_SHORT).show();
+            Log.e("gh",""+position);
+            // then you can delete the object
+           // root.child("Object").child(object.getId()).setValue(null);// setting the value to null will just delete it from the database.
+
+        }
+
+}
 }
