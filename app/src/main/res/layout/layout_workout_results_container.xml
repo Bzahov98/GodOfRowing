@@ -24,13 +24,6 @@
         />
 
     <include
-        android:id="@+id/res_analysis_empty"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/res_analysis_elapsed_time"
-        layout="@layout/layout_result_paramers" />
-
-    <include
         android:id="@+id/res_analysis_speed_average"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -38,12 +31,25 @@
         layout="@layout/layout_result_paramers" />
 
     <include
+        android:id="@+id/res_analysis_speed_max"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/res_analysis_speed_average"
+        layout="@layout/layout_result_paramers" />
+
+    <include
+        android:id="@+id/res_analysis_elapsed_time"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_result_paramers"
+        android:layout_below="@+id/res_analysis_map" />
+    <!--<include
         android:id="@+id/res_analysis_empty2"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@+id/res_analysis_speed_max"
         layout="@layout/layout_result_paramers"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <include
         android:id="@+id/res_analysis_empty3"
@@ -61,20 +67,74 @@
         android:layout_below="@+id/res_analysis_empty3"
         layout="@layout/layout_result_paramers" />
 
-    <include
-        android:id="@+id/res_analysis_elapsed_time"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        layout="@layout/layout_result_paramers"
-        android:layout_below="@+id/res_analysis_map"
-        android:layout_toEndOf="@+id/res_analysis_empty2" />
+
+
+    -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:layout_below="@id/res_analysis_speed_max"
+        android:orientation="vertical"
+        android:id="@+id/res_param_layout">
+
+        <ImageView
+            android:id="@+id/list_item_head_header"
+            android:tint="#f9f6f6"
+            android:foregroundTint="#f9f6f6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/icon_analysis"
+            />
+
+        <TextView
+            android:id="@+id/res_layout_parameter_name"
+            android:text="Max StrokeRate"
+            android:layout_toRightOf="@id/list_item_head_header"
+            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:paddingTop="10dp"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/list_item_head_text_workout"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="24dp"
+            android:layout_height="wrap_content"
+            android:text="26"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <ImageView
+            android:id="@+id/res_layout_parameter_image_end"
+            android:tint="#f9f6f6"
+            android:foregroundTint="#f9f6f6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="10dp"
+            />
+
+    </RelativeLayout>
 
     <include
-        android:id="@+id/res_analysis_speed_max"
+        android:id="@+id/res_analysis_empty"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         layout="@layout/layout_result_paramers"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/res_analysis_elapsed_time"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

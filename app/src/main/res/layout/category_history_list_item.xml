@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#848075"
+        android:background="#69665e"
         android:orientation="vertical"
         android:id="@+id/list_item_head">
 

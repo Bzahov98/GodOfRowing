@@ -122,7 +122,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:padding="16dp"
-                android:text=""
+                android:text="0.0\nm per sec"
                 android:textColor="#fff" />
 
             <TextView

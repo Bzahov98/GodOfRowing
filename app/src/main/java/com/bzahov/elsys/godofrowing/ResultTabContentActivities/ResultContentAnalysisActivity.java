@@ -153,12 +153,18 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
             markerOptions.position(new LatLng(loc.getLat(),loc.getLng()));
             markerOptions.title("Speed - " + Float.toString(round(loc.getSpeed(),2)) + " m/s \n" +
-                                "");
-            myMap.addMarker(markerOptions);
+                                "Stroke Rate - 22.2 stroke per minute\n"+
+                                "Stroke Rate Ave  - 23.2 stroke per minute\n" +
+                                "Total Meters - 251\n"
+                                );
+           Marker as =  myMap.addMarker(markerOptions);
         }
-        MyLocation firstLocation = allLocations.get(0);
-        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom( new LatLng(firstLocation.getLat(),firstLocation.getLng()),14f));
-
+        if (allLocations != null) {
+            if (allLocations.size() > 1){
+            MyLocation firstLocation = allLocations.get(0);
+            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 14f));
+            }
+        }
 
         setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
         setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));

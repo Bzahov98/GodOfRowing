@@ -140,12 +140,15 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         View v = li.inflate(R.layout.context_main_paramether, null, false);
         scrollView.addView(v);
 
+        chronometer.setBase(SystemClock.elapsedRealtime());
         //----------- fragment set--------------------------
 
         graphFragment = new MainGraphFragment();
         gForceGraphFragment = new MainGforceGraphFragment();
         lAccelGraphFragment = new MainLinAccGraphFragment();
         mapFragment = new MainMapFragment();
+
+        showFragment(mapFragment);
 
         lastStroke = 0;
         newStroke = 0;
@@ -395,7 +398,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             if(newLocation.hasSpeed()) {
                 currentSpeed = newLocation.getSpeed();
                 allSpeeds.add(currentSpeed);
-                MyLocation a = new MyLocation(newLocation,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
+               // MyLocation a = new MyLocation(newLocation);//,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
                 MyLocation a = new MyLocation(newLocation);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);
                 */
                 saveLocCounter++;
