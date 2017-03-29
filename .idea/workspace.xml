@@ -100,21 +100,23 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_24_0_0.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_24_0_0.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_24_0_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.2.1/taskArtifacts/taskArtifacts.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/3.2.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/category_history_list_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/category_history_list_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_workout_results_container.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_workout_results_container.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
     </list>
     <ignored path="GodOfRowing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -150,11 +152,9 @@
       <file leaf-file-name="ResultContentAnalysisActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="163" column="57" selection-start-line="163" selection-start-column="57" selection-end-line="163" selection-end-column="57" />
-              <folding>
-                <element signature="method#onMapReady#0;class#ResultContentAnalysisActivity#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -165,8 +165,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="271" column="11" selection-start-line="271" selection-start-column="11" selection-end-line="271" selection-end-column="11" />
+            <state relative-caret-position="17">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -175,18 +175,27 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+            <state relative-caret-position="140">
+              <caret line="656" column="9" selection-start-line="656" selection-start-column="9" selection-end-line="656" selection-end-column="9" />
               <folding>
-                <element signature="e#6925#6945#0" expanded="false" />
+                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#setFragments#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#5958#5979#0" expanded="false" />
+                <element signature="method#setViews#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#ScrollItem#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#setGraphCommunication#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#resetActivityValueAndViews#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#startPauseActivity#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#9293#9346#0" expanded="false" />
+                <element signature="method#StopActivity#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#setDefautValues#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#SendDataToDatabase#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#12291#12360#0" expanded="false" />
                 <element signature="method#showAnalisys#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#setMapCommunication#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#sendNewLocation#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#calculateAverageSpeed#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#calcSecondsPer500meters#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#calcSecondsPerGivenMeters#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#splitToComponentTimes#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#calcAverageStrokeRate#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#roundFloat#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#showFragment#0;class#MainActivity#0" expanded="false" />
@@ -196,34 +205,70 @@
                 <element signature="method#onBackPressed#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onStart#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onStop#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#countStrokeRate#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#25233#25285#0" expanded="false" />
+                <element signature="method#updateMapFragmentMark#0;class#MainActivity#0" expanded="false" />
+                <marker date="1490799833406" expanded="true" signature="2173:4180" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout_workout_results_container.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_workout_results_container.xml">
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="2074">
-              <caret line="122" column="34" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
+      <file leaf-file-name="LogInActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AuthenticationActivities/LogInActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout_result_paramers.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_result_paramers.xml">
+      <file leaf-file-name="ResultContentHistoryActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentHistoryActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="16" column="9" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_login.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
           <provider editor-type-id="android-designer2">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+            <state relative-caret-position="153">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <folding>
+                <element signature="e#1941#1964#0" expanded="true" />
+                <element signature="e#2411#2438#0" expanded="true" />
+                <element signature="e#2746#2771#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-4">
+              <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="94" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -242,14 +287,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="context_main_paramether.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/context_main_paramether.xml">
-          <provider editor-type-id="android-designer2">
+      <file leaf-file-name="layout_workout_results_container.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_workout_results_container.xml">
+          <provider selected="true" editor-type-id="android-designer2">
             <state />
           </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="2074">
+              <caret line="122" column="34" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -671,11 +716,6 @@
                 <option name="name" value="testDebugUnitTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:multidex:1.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportMultidex101Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="jarDebugClasses" />
               </ExternalTaskPojo>
@@ -969,11 +1009,6 @@
                 <option name="name" value="prepareComAndroidSupportTestRules05Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare io.reactivex:rxandroid:1.2.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareIoReactivexRxandroid121Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Prepare com.google.android.gms:play-services-cast-framework:10.0.1" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="prepareComGoogleAndroidGmsPlayServicesCastFramework1001Library" />
@@ -1025,11 +1060,6 @@
                 <option name="name" value="prepareReleaseDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.github.kibotu:KalmanRx:-SNAPSHOT" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComGithubKibotuKalmanRxSNAPSHOTLibrary" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays the insight into a specific dependency in root project 'GodOfRowing'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencyInsight" />
@@ -1049,6 +1079,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="incrementalReleaseJavaCompilationSafeguard" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.android.support:multidex:1.0.0" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareComAndroidSupportMultidex100Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.android.support:recyclerview-v7:24.0.0" />
@@ -1663,11 +1698,6 @@
                 <option name="name" value="testDebugUnitTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:multidex:1.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComAndroidSupportMultidex101Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="jarDebugClasses" />
               </ExternalTaskPojo>
@@ -1956,11 +1986,6 @@
                 <option name="name" value="prepareComAndroidSupportTestRules05Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare io.reactivex:rxandroid:1.2.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareIoReactivexRxandroid121Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Prepare com.google.android.gms:play-services-cast-framework:10.0.1" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="prepareComGoogleAndroidGmsPlayServicesCastFramework1001Library" />
@@ -2012,11 +2037,6 @@
                 <option name="name" value="prepareReleaseDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.github.kibotu:KalmanRx:-SNAPSHOT" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareComGithubKibotuKalmanRxSNAPSHOTLibrary" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays the insight into a specific dependency in project ':app'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="dependencyInsight" />
@@ -2036,6 +2056,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="incrementalReleaseJavaCompilationSafeguard" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.android.support:multidex:1.0.0" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareComAndroidSupportMultidex100Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.android.support:recyclerview-v7:24.0.0" />
@@ -2276,7 +2301,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="D:\AndroidProjects\New folder\GodOfRowing" value="4462152776541" />
+        <entry key="D:\AndroidProjects\New folder\GodOfRowing" value="4464023849068" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -2613,15 +2638,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/category_list_item_1.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_get_list_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_res_content_history.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ListItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_list_items.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_result_settings.xml" />
         <option value="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/activity_result_settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultContentSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Model/Clubs.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AddMovieFragment.java" />
@@ -2640,9 +2661,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Model/MyLocation.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Models/Clubs.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultContentHistoryActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AuthenticationActivities/LogInActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultContentAnalysisActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentSplitterActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/RecyclerView/FirebaseRecyclerAdapter.java" />
@@ -2651,7 +2670,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Fragments/AbstractChartFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Fragments/BaseChartFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Fragments/MainMapFragment.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/RecyclerView/FirebaseActivityViewHolder.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_result_paramers.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_result_history.xml" />
@@ -2661,8 +2679,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Models/MyLocation.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/category_history_list_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_workout_results_container.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java" />
+        <option value="$PROJECT_DIR$/gradle.properties" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AuthenticationActivities/LogInActivity.java" />
+        <option value="$PROJECT_DIR$/app/build/intermediates/manifests/instant-run/debug/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java" />
       </list>
     </option>
@@ -2699,9 +2724,6 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2759,24 +2781,6 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="godofrowing" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GodOfRowing" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2804,10 +2808,61 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="godofrowing" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ResultTabContentActivities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GodOfRowing" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="godofrowing" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AuthenticationActivities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GodOfRowing" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2815,22 +2870,22 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../MyCar-master" />
-    <property name="device.picker.selection" value="YT91182E46" />
+    <property name="device.picker.selection" value="Nexus_5X_API_24_x86" />
     <property name="UI_DESIGNER_EDITOR_MODE.NlPaletteManager-NlPreviewForm.SHOW" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.NlPaletteManager-NlEditorPanel.WIDTH" value="278" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="UI_DESIGNER_EDITOR_MODE.NlPropertiesWindowManager-NlEditorPanel.WIDTH" value="386" />
+    <property name="UI_DESIGNER_EDITOR_MODE.NlPropertiesWindowManager-NlEditorPanel.WIDTH" value="237" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing" />
     <property name="UI_DESIGNER_EDITOR_MODE.NlPropertiesWindowManager-NlEditorPanel.SHOW" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\AndroidProjects\New folder\GodOfRowing\app\src\main\res\layout" />
-    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.bzahov.elsys.godofrowing.RecyclerView" />
       <recent name="com.bzahov.elsys.godofrowing" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\AndroidProjects\New folder\GodOfRowing\app\src\main\res\layout" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -3151,43 +3206,43 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.50598294" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17435898" sideWeight="0.2215014" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0017094017" sideWeight="0.7784986" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0017094017" sideWeight="0.25638506" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0017094017" sideWeight="0.54778326" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.382906" sideWeight="0.17827868" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.82564104" sideWeight="0.30051813" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39965397" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32478634" sideWeight="0.4123524" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32478634" sideWeight="0.59412783" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.382906" sideWeight="0.8261803" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.295764" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.69948184" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.49261084" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.4940171" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22995462" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2322239" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.50598294" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="Assistant" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.46614873" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.46614873" order="8" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -3248,44 +3303,17 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java</url>
-          <line>539</line>
-          <properties />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Fragments/MainMapFragment.java</url>
           <line>177</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="13" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="37" column="54" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentSplitterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/RecyclerView/FirebaseRecyclerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="38" column="33" selection-start-line="38" selection-start-column="33" selection-end-line="38" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/Fragments/AlertUserLoggedFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -3304,16 +3332,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
           <caret line="41" column="86" selection-start-line="41" selection-start-column="86" selection-end-line="41" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="37" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -3395,14 +3413,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="46" column="4" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3501,42 +3511,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="52" selection-start-line="29" selection-start-column="52" selection-end-line="29" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AuthenticationActivities/LogInActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="106" column="4" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/AndroidSDk/platforms/android-24/android.jar!/android/location/Location.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="48" column="11" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="31" column="80" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentHistoryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="258" column="57" selection-start-line="258" selection-start-column="57" selection-end-line="258" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -3581,8 +3559,8 @@
         <state relative-caret-position="272">
           <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="29" />
           <folding>
-            <element signature="e#3564#3565#0" expanded="true" />
-            <element signature="e#3602#3603#0" expanded="true" />
+            <element signature="e#3564#3565#0" expanded="false" />
+            <element signature="e#3602#3603#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3592,20 +3570,20 @@
         <state relative-caret-position="153">
           <caret line="45" column="64" selection-start-line="45" selection-start-column="64" selection-end-line="45" selection-end-column="64" />
           <folding>
-            <element signature="e#2357#2358#0" expanded="true" />
-            <element signature="e#2394#2395#0" expanded="true" />
-            <element signature="e#2432#2433#0" expanded="true" />
-            <element signature="e#2467#2468#0" expanded="true" />
-            <element signature="e#2505#2506#0" expanded="true" />
-            <element signature="e#2540#2541#0" expanded="true" />
-            <element signature="e#2574#2575#0" expanded="true" />
-            <element signature="e#2605#2606#0" expanded="true" />
-            <element signature="e#2641#2642#0" expanded="true" />
-            <element signature="e#2674#2675#0" expanded="true" />
-            <element signature="e#2717#2718#0" expanded="true" />
-            <element signature="e#2757#2758#0" expanded="true" />
-            <element signature="e#2793#2794#0" expanded="true" />
-            <element signature="e#2827#2828#0" expanded="true" />
+            <element signature="e#2357#2358#0" expanded="false" />
+            <element signature="e#2394#2395#0" expanded="false" />
+            <element signature="e#2432#2433#0" expanded="false" />
+            <element signature="e#2467#2468#0" expanded="false" />
+            <element signature="e#2505#2506#0" expanded="false" />
+            <element signature="e#2540#2541#0" expanded="false" />
+            <element signature="e#2574#2575#0" expanded="false" />
+            <element signature="e#2605#2606#0" expanded="false" />
+            <element signature="e#2641#2642#0" expanded="false" />
+            <element signature="e#2674#2675#0" expanded="false" />
+            <element signature="e#2717#2718#0" expanded="false" />
+            <element signature="e#2757#2758#0" expanded="false" />
+            <element signature="e#2793#2794#0" expanded="false" />
+            <element signature="e#2827#2828#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3673,17 +3651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_result.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_result_paramers.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -3706,13 +3673,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java">
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="163" column="57" selection-start-line="163" selection-start-column="57" selection-end-line="163" selection-end-column="57" />
+        <state relative-caret-position="289">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="46" column="55" selection-start-line="46" selection-start-column="55" selection-end-line="46" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/TestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <element signature="method#onMapReady#0;class#ResultContentAnalysisActivity#0" expanded="false" />
+            <element signature="e#1941#1964#0" expanded="true" />
+            <element signature="e#2411#2438#0" expanded="true" />
+            <element signature="e#2746#2771#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentHistoryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/AuthenticationActivities/LogInActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3721,26 +3733,81 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="271" column="11" selection-start-line="271" selection-start-column="11" selection-end-line="271" selection-end-column="11" />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/manifests/instant-run/debug/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_result.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultTabContentActivities/ResultContentAnalysisActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/ResultActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4">
+          <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="94" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bzahov/elsys/godofrowing/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+        <state relative-caret-position="140">
+          <caret line="656" column="9" selection-start-line="656" selection-start-column="9" selection-end-line="656" selection-end-column="9" />
           <folding>
-            <element signature="e#6925#6945#0" expanded="false" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#setFragments#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#5958#5979#0" expanded="false" />
+            <element signature="method#setViews#0;class#MainActivity#0" expanded="false" />
             <element signature="method#ScrollItem#0;class#MainActivity#0" expanded="false" />
             <element signature="method#setGraphCommunication#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#resetActivityValueAndViews#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#startPauseActivity#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#9293#9346#0" expanded="false" />
+            <element signature="method#StopActivity#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#setDefautValues#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#SendDataToDatabase#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#12291#12360#0" expanded="false" />
             <element signature="method#showAnalisys#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#setMapCommunication#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#sendNewLocation#0;class#MainActivity#0" expanded="false" />
             <element signature="method#calculateAverageSpeed#0;class#MainActivity#0" expanded="false" />
             <element signature="method#calcSecondsPer500meters#0;class#MainActivity#0" expanded="false" />
             <element signature="method#calcSecondsPerGivenMeters#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#splitToComponentTimes#0;class#MainActivity#0" expanded="false" />
             <element signature="method#calcAverageStrokeRate#0;class#MainActivity#0" expanded="false" />
             <element signature="method#roundFloat#0;class#MainActivity#0" expanded="false" />
             <element signature="method#showFragment#0;class#MainActivity#0" expanded="false" />
@@ -3750,8 +3817,10 @@
             <element signature="method#onBackPressed#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onStart#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onStop#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#MainActivity#0" expanded="false" />
             <element signature="method#countStrokeRate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#25233#25285#0" expanded="false" />
+            <element signature="method#updateMapFragmentMark#0;class#MainActivity#0" expanded="false" />
+            <marker date="1490799833406" expanded="true" signature="2173:4180" ph="..." />
           </folding>
         </state>
       </provider>

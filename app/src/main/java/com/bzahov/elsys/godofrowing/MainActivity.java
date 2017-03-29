@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -14,6 +15,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
@@ -102,7 +105,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         private FirebaseAuth.AuthStateListener mAuthListener;
         private FirebaseAuth mAuth;
         private FirebaseUser mUser;
-    private boolean result;
     private int currentStrokeRateInt;
     private int strokeRateCount;
     private float currentStrokeRateSum;
@@ -112,16 +114,57 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private TextView aveSPMView;
     private ArrayList<MyLocation> allMyLocations = new ArrayList<>();
     private int saveLocCounter = 0;
+    protected boolean showSettingsAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        showSettingsAlert = true;
+        setViews();
+        setDefautValues();
+        setFragments();
+        checkUserAuth();
+    }
 
+    private void setFragments() {
+        graphFragment = new MainGraphFragment();
+        gForceGraphFragment = new MainGforceGraphFragment();
+        lAccelGraphFragment = new MainLinAccGraphFragment();
+        mapFragment = new MainMapFragment();
+
+        showFragment(mapFragment);
+    }
+
+    private void checkUserAuth() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    mUser = firebaseAuth.getCurrentUser();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
+                    Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
+                    showSettingsAlert();
+                } else {
+                    // User is signed out
+
+                   // showSettingsAlert = false;
+                    Intent logInActInt = new Intent(MainActivity.this, LogInActivity.class);
+                    startActivityForResult(logInActInt,REQUEST_LOGIN_INTENT);
+
+                    Log.d(TAG, "onAuthStateChanged:signed_out: ");
+                }
+            }
+        };
+    }
+
+    private void setViews() {
         speedView = (TextView) findViewById(R.id.main_table_Param_speed);
         aveSpeedView = (TextView) findViewById(R.id.main_table_Ave_Speed);
         RelativeLayout meterLayout = (RelativeLayout) findViewById(R.id.main_table_layout_meters);
-
         meterView = (TextView) meterLayout.findViewById(R.id.main_table_param_meters);
         //paramMeter = (TextView) findViewById(R.id.main_table_param_meters);
         chronometer = (Chronometer) findViewById(R.id.main_table_chronometer);
@@ -130,70 +173,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         startFrg = (TextView) findViewById(R.id.mapControllerStart);
         stopFrg = (TextView) findViewById(R.id.mapControllerStop);
         aveSPMView = ((TextView)findViewById(R.id.main_table_ave_SPM));
+        chronometer.setBase(SystemClock.elapsedRealtime());
 
         HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View);
         LayoutInflater li = LayoutInflater.from(getBaseContext());
-
-        //meterView.setText("0000\nmeters");
-        meterView.setTextSize(17);
-
         View v = li.inflate(R.layout.context_main_paramether, null, false);
         scrollView.addView(v);
-
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        //----------- fragment set--------------------------
-
-        graphFragment = new MainGraphFragment();
-        gForceGraphFragment = new MainGforceGraphFragment();
-        lAccelGraphFragment = new MainLinAccGraphFragment();
-        mapFragment = new MainMapFragment();
-
-        showFragment(mapFragment);
-
-        lastStroke = 0;
-        newStroke = 0;
-        isStarted = false;
-        isFirst = true;
-        elapsedTime = 0;
-        currentStrokeRateSum = 0;
-        maxSpeed = 0;
-        elapsedTime = 0;
-        resetActivityValueAndViews();
-
-        database = FirebaseDatabase.getInstance();
-        result = true;
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    //mAuth.getCurrentUser().reload();
-                    mUser = firebaseAuth.getCurrentUser();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
-                    TextView aa = ((TextView) findViewById(R.id.main_table_Ave_Speed)); //test
-                 //   aa.setText(user.getEmail());
-                    Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
-                    //showSettingsAlert();
-                } else {
-                    // User is signed out
-                    Intent i = new Intent(MainActivity.this, LogInActivity.class);
-
-                    startActivityForResult(i,REQUEST_LOGIN_INTENT);
-                    Log.d(TAG, "onAuthStateChanged:signed_out: ");
-                }
-                // ...
-            }
-        };
-        //showSettingsAlert();
-
-         /*paramMeter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //FirebaseAuth.getInstance().signOut();
-            }
-        });*/
     }
 
     // ScrollView child on Click
@@ -287,26 +272,31 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //if (isStarted) {
             isStarted = false;
             stopTime = System.nanoTime();
-
             stopFrg.setVisibility(View.GONE);
 
             elapsedTimeStr = chronometer.getText().toString();
 
             SendDataToDatabase();
 
-            resetActivityValueAndViews();
+            setDefautValues();
 
             // TODO: showAnalisys()
             showAnalisys();
        // }
     }
 
-    private void resetActivityValueAndViews() {
+    private void setDefautValues() {
 
         allLocations = new ArrayList<>();
         allSpeeds = new ArrayList<>();
         allStrokes = new ArrayList<>();
         lastPausedLocations = new ArrayList<>();
+
+        isStarted = false;
+        isFirst = true;
+        currentStrokeRateSum = 0;
+
+        database = FirebaseDatabase.getInstance();
 
         averageSpeed = 0;
         currentSpeed = 0;
@@ -326,7 +316,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         chronometer.stop();
         chronometer.setBase(System.currentTimeMillis());
         pauseMeters = 0;
-
         meterView.setText(Long.toString(totalMeters));
         aveSpeedView.setText(Long.toString(totalMeters) + "\nave meters");
         speedView.setText(Long.toString(totalMeters) + "\n m/s");
@@ -370,10 +359,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
     private void showAnalisys() {
         Intent resultIntent = new Intent(this.getBaseContext(), ResultActivity.class);
-        result = false;
+        showSettingsAlert = false;
+        //showSettingsAlert=false;
+        setDefautValues();
         startActivity(resultIntent);
     }
-
 
     @Override
     public void setMapCommunication(String speed) {
@@ -628,10 +618,27 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        /*if (showSettingsAlert){
+            showSettingsAlert();
+        }
+        showSettingsAlert = false;*/
+    }
+
     private void showSettingsAlert() {
-        if (result) {
-            DialogFragment alertUserLoggedFragment = AlertUserLoggedFragment.newInstance(mUser.getEmail());
-            alertUserLoggedFragment.show(getSupportFragmentManager(), "alertUserLoggedFragment");
+        if (showSettingsAlert) {
+            if (mUser != null){
+                DialogFragment alertUserLoggedFragment = AlertUserLoggedFragment.newInstance(mUser.getEmail());
+              //  alertUserLoggedFragment();
+                  alertUserLoggedFragment.show(getSupportFragmentManager(), "alertUserLoggedFragment");
+
+            } else{
+                Intent i = new Intent(MainActivity.this, LogInActivity.class);
+
+                startActivityForResult(i,REQUEST_LOGIN_INTENT);
+            }
         }
     }
 
@@ -640,10 +647,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         if (requestCode == REQUEST_LOGIN_INTENT) {
             if(resultCode == Activity.RESULT_OK){
-                 result = data.getBooleanExtra("returnFromLogIn",false);
+                showSettingsAlert = data.getBooleanExtra("returnFromLogIn",false);
+                Toast.makeText(this,Boolean.toString(showSettingsAlert),Toast.LENGTH_LONG).show();
+                Log.e("dialog",Boolean.toString(showSettingsAlert));
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                //showSettingsAlert = false;
             }
         }
     }
@@ -688,7 +697,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
     public void updateMapFragmentMark(ResourcesFromActivity rfa) {
        /* if(mapFragment!=null){
-            mapFragment.receiveDataFromMain("jell");
+            mapFragment.receiveDataFromMain("");
         }*/
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

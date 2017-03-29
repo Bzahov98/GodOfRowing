@@ -69,7 +69,8 @@ public class ResultActivity extends TabActivity {
                   host.addTab(hostTabSpec);
 
                   //Tab for settings
-                  hostTabSpec = host.newTabSpec("Tab for settings");
+                  h
+                  ostTabSpec = host.newTabSpec("Tab for settings");
                   hostTabSpec.setContent(R.id.res_tab_content_settings);
                   hostTabSpec.setIndicator("", getResources().getDrawable(R.drawable.icon_settings,null));
                   host.addTab(hostTabSpec);
@@ -77,19 +78,14 @@ public class ResultActivity extends TabActivity {
          */
          @Override
          public boolean onCreateOptionsMenu(Menu menu) {
-             //Inflate the  menu; this adds items to the action bar if it is present.
              getMenuInflater().inflate(R.menu.menu_res, menu);
              return true;
          }
 
          @Override
          public boolean onOptionsItemSelected(MenuItem item) {
-             // Handle action bar item clicks here. The action bar will
-             // automatically handle clicks on the Home/Up button, so long
-             // as you specify a parent activity in AndroidManifest.xml.
              int id = item.getItemId();
 
-             //noinspection SimplifiableIfStatement
              if (id == R.id.action_settings) {
                  return true;
              }

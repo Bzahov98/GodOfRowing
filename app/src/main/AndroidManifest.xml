@@ -11,8 +11,10 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:name="android.support.multidex.MultiDexApplication">
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name="com.bzahov.elsys.godofrowing.MainActivity"
             android:theme="@style/Theme.AppCompat">
@@ -24,11 +26,11 @@
         </activity>
         <activity android:name=".TestActivity" />
         <activity android:name=".ResultActivity"/>
-        <activity android:name=".AuthenticationActivities.LogInActivity"/>
-        <activity android:name=".AuthenticationActivities.SignInActivity"/>
+        <activity android:name=".AuthenticationActivities.LogInActivity" android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".AuthenticationActivities.SignInActivity" android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".ResultTabContentActivities.ResultContentSplitterActivity"/>
         <activity android:name=".ResultTabContentActivities.ResultContentAnalysisActivity"/>
-        <activity android:name=".ResultTabContentActivities.ResultContentHistoryActivity"/>
+        <activity android:name=".ResultTabContentActivities.ResultContentHistoryActivity" android:theme="@style/Theme.AppCompat"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

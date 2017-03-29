@@ -147,18 +147,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
         ResourcesFromActivity receivedData = dataSnapshot.getValue(ResourcesFromActivity.class);
 
         allLocations = receivedData.getMyLocationsList();
-        for (MyLocation loc: allLocations) {
-            Toast.makeText(getBaseContext(),"aaa",Toast.LENGTH_SHORT);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
-            markerOptions.position(new LatLng(loc.getLat(),loc.getLng()));
-            markerOptions.title("Speed - " + Float.toString(round(loc.getSpeed(),2)) + " m/s \n" +
-                                "Stroke Rate - 22.2 stroke per minute\n"+
-                                "Stroke Rate Ave  - 23.2 stroke per minute\n" +
-                                "Total Meters - 251\n"
-                                );
-           Marker as =  myMap.addMarker(markerOptions);
-        }
+        AddMarkersToMap();
         if (allLocations != null) {
             if (allLocations.size() > 1){
             MyLocation firstLocation = allLocations.get(0);
@@ -174,6 +163,22 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
 
     }
 
+    private void AddMarkersToMap() {
+        if (allLocations != null) {
+            for (MyLocation loc : allLocations) {
+                Toast.makeText(getBaseContext(), "aaa", Toast.LENGTH_SHORT);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
+                markerOptions.position(new LatLng(loc.getLat(), loc.getLng()));
+                markerOptions.title("Speed - " + Float.toString(round(loc.getSpeed(), 2)) + " m/s \n" +
+                        "Stroke Rate: " + Float.toString(round(loc.getAverageStrokeRate(), 2)) + " per minute\n" +
+                        "Stroke Rate Ave  - 23.2 stroke per minute\n" +
+                        "Total Meters - " + (loc.getTotalMeters()) + "\n"
+                );
+                Marker as = myMap.addMarker(markerOptions);
+            }
+        }
+    }
     public static float round(float source, int positions) {
         long multiplier = (long) Math.pow(10, positions);
         return  ((float)((int) (source * multiplier)) / multiplier);
@@ -211,7 +216,9 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
+        AddMarkersToMap();
         mAuth.addAuthStateListener(mAuthListener);
+
         if (mAuth.getCurrentUser() != null){
             mUser = mAuth.getCurrentUser();
         }else Toast.makeText(getBaseContext(),"WTF >>>>>>",Toast.LENGTH_SHORT);
