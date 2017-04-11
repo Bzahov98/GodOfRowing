@@ -224,7 +224,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     public void setGraphCommunication(String speed) {
         TextView textView = (TextView) findViewById(R.id.main_table_Param_speed_mpersec);
         textView.setText(speed);
-        Log.d(TAG,"set speed from graph Fragment");
+        Log.d(TAG,"set speed from graph Fragment" + speed);
     }
 
     public void startPauseActivity(View view) { // OnClick of Controller at MapFragment
