@@ -51,7 +51,6 @@ public class ResourcesFromActivity {
 
     }
 
-    //TODO: implement own Location method, because Location haven't empty constructor for DataShapshot.getValue
     public ResourcesFromActivity(@Nullable ArrayList<MyLocation> allLocations,
                                  /*@Nullable List<Float> allSpeeds,
                                  @Nullable List<Location> allLocations,*/

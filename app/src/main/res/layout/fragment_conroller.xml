@@ -13,7 +13,7 @@
 
         android:id="@+id/mapControllerStart"
         android:text="Start Activity"
-        android:onClick="startPauseActivity"
+        android:onClick="controllerOfTrainingActivityOnClick"
         android:background="#494"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         android:id="@+id/mapControllerStop"
         android:text="Stop"
         android:visibility="gone"
-        android:onClick="StopActivity"
+        android:onClick="StopActivityOnClick"
         android:background="#912"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

@@ -166,6 +166,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     private void AddMarkersToMap() {
         if (allLocations != null) {
             for (MyLocation loc : allLocations) {
+                //TODO: Find a way to add title and subtitle of mark!!
                 Toast.makeText(getBaseContext(), "aaa", Toast.LENGTH_SHORT);
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));

@@ -250,7 +250,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (context instanceof MapFrgCommunicationChannel) {
             mCommChListner = (MapFrgCommunicationChannel) context;
         } else {
-            throw new ClassCastException();
+            //throw new ClassCastException();
         }
     }
 

@@ -85,7 +85,14 @@
         android:background="@color/colorPrimaryDark"
         android:layout_marginTop="20dp"
         android:textColor="@android:color/white"/>
-    <Button android:id="@+id/btn_link_signin"
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <Button android:id="@+id/btn_link_signin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_link_to_signin"

@@ -1,13 +1,13 @@
 package com.bzahov.elsys.godofrowing.Events;
 
-import org.greenrobot.eventbus.EventBus;
+//import org.greenrobot.eventbus.EventBus;
 
 public class GlobalBus {
-    private static EventBus sBus;
+    /*private static EventBus sBus;
 
     public static EventBus getBus() {
         if (sBus == null)
             sBus = EventBus.getDefault();
         return sBus;
-    }
+    }*/
 }
