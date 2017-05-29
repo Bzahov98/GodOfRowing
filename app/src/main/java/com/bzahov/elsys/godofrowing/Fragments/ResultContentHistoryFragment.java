@@ -142,7 +142,6 @@ public class ResultContentHistoryFragment extends Fragment {
 
             @Override
             public boolean onFailedToRecycleView(ResultContentHistoryActivity.FirebaseResViewHolder holder) {
-                Log.e("ohh","aaa");
                 return super.onFailedToRecycleView(holder);
             }
         };
@@ -157,16 +156,9 @@ public class ResultContentHistoryFragment extends Fragment {
     }*/
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
-
-    // Saving the list of items and keys of the items on rotation
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
-        mMyAdapter.cleanup();
+        if(mMyAdapter != null) mMyAdapter.cleanup();
     }
 
     public static class ResourcesHolder extends RecyclerView.ViewHolder {
@@ -215,9 +207,9 @@ public class ResultContentHistoryFragment extends Fragment {
             RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
-            nameTextView.setText(Long.toString(model.getTotalMeters()));
+            nameTextView.setText(Double.toString(model.getTotalMeters()));
             setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
-            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
+            //setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
 
 
             //          categoryTextView.setText(restaurant.getCategories().get(0));
@@ -234,29 +226,6 @@ public class ResultContentHistoryFragment extends Fragment {
                 childVisible = true;
                 childLayout.setVisibility(View.VISIBLE);
             }
-            /*final ArrayList<Restaurant> restaurants = new ArrayList<>();
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        restaurants.add(snapshot.getValue(Restaurant.class));
-                    }
-
-                    int itemPosition = getLayoutPosition();
-
-                    Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
-                    intent.putExtra("position", itemPosition + "");
-                    intent.putExtra("restaurants", Parcels.wrap(restaurants));
-
-                    mContext.startActivity(intent);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });*/
         }
 
         private void setParameters(int viewID, int imageID, @Nullable String name, String value){

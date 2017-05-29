@@ -11,25 +11,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by bobo-pc on 2/10/2017.
- */
 @IgnoreExtraProperties
 public class ResourcesFromActivity {
 
-    private String currentTime;
-    private long elapsedTime;
-    private String elapsedTimeStr;
-    private float averageSpeed;
-    private float maxSpeed;
-    private float averageStrokeRate;
-    private long totalMeters;
-    private List<MyLocation> myLocationsList = new ArrayList<>();
-    private List<Location> allLocations = new ArrayList<>();
-    private List<Float> allStrokes = new ArrayList<>();
+    public String currentTime;
+    public long elapsedTime;
+    public String elapsedTimeStr;
+    public float averageSpeed;
+    public float maxSpeed;
+    public float averageStrokeRate;
+    public long totalMeters;
+    public List<MyLocation> myLocationsList = new ArrayList<>();
+    public List<Location> allLocations = new ArrayList<>();
+    public List<Float> allStrokes = new ArrayList<>();
 
     public ResourcesFromActivity(){
         // Default constructor required for calls to DataSnapshot.getValue(ResourcesFromActivity.class)
+    }
+
+    public ResourcesFromActivity(String currentTime, long elapsedTime, String elapsedTimeStr, float averageSpeed, float maxSpeed, float averageStrokeRate, long totalMeters, List<MyLocation> myLocationsList, List<Location> allLocations, List<Float> allStrokes) {
+        this.currentTime = currentTime;
+        this.elapsedTime = elapsedTime;
+        this.elapsedTimeStr = elapsedTimeStr;
+        this.averageSpeed = averageSpeed;
+        this.maxSpeed = maxSpeed;
+        this.averageStrokeRate = averageStrokeRate;
+        this.totalMeters = totalMeters;
+        this.myLocationsList = myLocationsList;
+        this.allLocations = allLocations;
+        this.allStrokes = allStrokes;
     }
 
     public ResourcesFromActivity(/*@Nullable List<Float> allStrokes,
@@ -80,35 +90,6 @@ public class ResourcesFromActivity {
         this.currentTime = currentTime;
     }
 
-    public long getElapsedTimeLong() {
-        return elapsedTime;
-    }
-
-    public String getElapsedTimeString() {
-        return elapsedTimeStr;
-    }
-
-
-    public long getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public String getElapsedTimeStr() {
-        return elapsedTimeStr;
-    }
-
-    public List<MyLocation> getMyLocationsList() {
-        return myLocationsList;
-    }
-
-    public List<Location> getAllLocations() {
-        return allLocations;
-    }
-
-    public List<Float> getAllStrokes() {
-        return allStrokes;
-    }
-
     @Exclude
     public static String splitToComponentTimes(long input) {
         int hours = (int) input / 3600;
@@ -119,6 +100,87 @@ public class ResourcesFromActivity {
 
         String result = hours + ":" + mins +":" + secs;
         return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("averageSpeed", averageSpeed);
+        result.put("maxSpeed", maxSpeed);
+        result.put("averageStrokeRate", averageStrokeRate);
+        result.put("totalMeters", getTotalMeters());
+        result.put("elapsedTime", elapsedTime);
+        result.put("currentTime",currentTime);
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourcesFromActivity{" +
+                "currentTime='" + currentTime + '\'' +
+                ", elapsedTime=" + elapsedTime +
+                ", elapsedTimeStr='" + elapsedTimeStr + '\'' +
+                ", averageSpeed=" + averageSpeed +
+                ", maxSpeed=" + maxSpeed +
+                ", averageStrokeRate=" + averageStrokeRate +
+                ", totalMeters=" + totalMeters +
+                ", myLocationsList=" + myLocationsList.toString() +
+                ", allLocations=" + allLocations.toString() +
+                ", allStrokes=" + allStrokes.toString() +
+                '}';
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public void setElapsedTimeStr(String elapsedTimeStr) {
+        this.elapsedTimeStr = elapsedTimeStr;
+    }
+
+    public void setAverageSpeed(float averageSpeed) {
+        this.averageSpeed = averageSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void setAverageStrokeRate(float averageStrokeRate) {
+        this.averageStrokeRate = averageStrokeRate;
+    }
+
+    public void setTotalMeters(long totalMeters) {
+        this.totalMeters = totalMeters;
+    }
+
+    public void setMyLocationsList(List<MyLocation> myLocationsList) {
+        this.myLocationsList = myLocationsList;
+    }
+
+    public void setAllLocations(List<Location> allLocations) {
+        this.allLocations = allLocations;
+    }
+
+    public void setAllStrokes(List<Float> allStrokes) {
+        this.allStrokes = allStrokes;
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public String getElapsedTimeStr() {
+        return elapsedTimeStr;
     }
 
     public float getAverageSpeed() {
@@ -135,48 +197,17 @@ public class ResourcesFromActivity {
 
     public long getTotalMeters() {
         return totalMeters;
-    }/*
+    }
+
+    public List<MyLocation> getMyLocationsList() {
+        return myLocationsList;
+    }
 
     public List<Location> getAllLocations() {
         return allLocations;
     }
 
-    public List<Float> getAllSpeeds() {
-        return allSpeeds;
-    }
-
     public List<Float> getAllStrokes() {
         return allStrokes;
     }
-*/
-    @Override
-    public String toString() {
-        return "ResourcesFromActivity{" +
-                "averageSpeed=" + Float.toString(averageSpeed) +
-                ", maxSpeed=" + Float.toString(maxSpeed) +
-                ", averageStrokeRate=" + Float.toString(averageStrokeRate) +
-                ", totalMeters=" + Long.toString(totalMeters) +'}';/*
-                ", allLocations=" + allLocations.toString() +
-                ", allSpeeds=" + allSpeeds.toString() +
-                ", allStrokes=" + allStrokes.toString() +
-                '}';*/
-    }
-
-    public String getCurrentTime() {
-        return currentTime;
-    }
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("averageSpeed", averageSpeed);
-        result.put("maxSpeed", maxSpeed);
-        result.put("averageStrokeRate", averageStrokeRate);
-        result.put("totalMeters", getTotalMeters());
-        result.put("elapsedTime", elapsedTime);
-        result.put("currentTime",currentTime);
-
-        return result;
-    }
-
 }

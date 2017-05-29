@@ -159,7 +159,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
         setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
         setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getMaxSpeed(),2)));
         setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(receivedData.getAverageStrokeRate()));
-        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeString());
+        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeStr());
 
     }
 

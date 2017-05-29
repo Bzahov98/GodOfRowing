@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -266,8 +267,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         ResourcesFromActivity rfa = new ResourcesFromActivity(allMyLocations,totalMeters,
                 averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, postTime);
         DatabaseReference debugDataRef = database.getReference("message");//+ currentDateTimeString);
-        debugDataRef.setValue(rfa);
+        //debugDataRef.setValue(rfa);
+
         DatabaseReference dataRef = database.getReference().child("users/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
+
         dataRef.setValue(rfa);
     }
 
@@ -347,7 +350,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         setDefautValues();
 
         showAnalisys();
-        // }
     }
 
     private void showAnalisys() {
@@ -710,4 +712,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }
     }
 
+
+
 }
+

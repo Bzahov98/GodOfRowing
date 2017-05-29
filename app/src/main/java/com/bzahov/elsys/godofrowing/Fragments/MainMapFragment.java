@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bzahov.elsys.godofrowing.Interfaces.DataFromActivityToMapFragment;
+import com.bzahov.elsys.godofrowing.MainActivity;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -51,7 +53,7 @@ import static android.content.Context.LOCATION_SERVICE;
 /**
  * Created by bobo-pc on 12/28/2016.
  */
-public class MainMapFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, OnConnectionFailedListener {
+public class MainMapFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, OnConnectionFailedListener , DataFromActivityToMapFragment {
 
     private static final String TAG = MainMapFragment.class.getSimpleName();
     private static final long MIN_TIME_BW_UPDATES = 1000 * 5; //1 second
@@ -235,6 +237,11 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 break;
             }
         }
+
+    }
+
+    @Override
+    public void sendDataFromMainToFragment(String data) {
 
     }
 

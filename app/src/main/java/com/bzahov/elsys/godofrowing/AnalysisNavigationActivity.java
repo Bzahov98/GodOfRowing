@@ -158,7 +158,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
                 fab.setVisibility(View.GONE);
                 //return ChatFragment.newInstance(GROUP_REFERENCE,"Chat1");
             }else*/
-            return new ResultContentAnalysisFragment();
+            return new Fragment();
         }
 
         @Override

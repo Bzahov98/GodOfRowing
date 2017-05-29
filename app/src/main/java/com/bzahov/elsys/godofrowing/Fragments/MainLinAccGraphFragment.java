@@ -25,6 +25,10 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
 
     private static final float CONST_FOR_POSSIBLE_WRONG = 0.1f;
     private static final int CONST_POSITIONS_FOR_INCREASE = 10;
+
+    private static final float STATE_FOR_LOW_ACCEL_DATA = -4f;
+    private static final float STATE_FOR_HIGH_ACCEL_DATA = 1f;
+
     private int accelerometerAccuracy;
     private int linearAccelAccuracy;
     private Sensor mLinAcceleration;
@@ -55,6 +59,8 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private List<float[]> allAccelData = new ArrayList<>();
     private HashMap<Float, Float> allLinAccelData = new HashMap<>();
     private LinAccelFrgCommunicationChannel mCommChListner;
+    private int currentState;  // 0 - neutral , 1 -
+    private boolean sendNotify;
 
 
     @Override
@@ -62,6 +68,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         View view = super.onCreateView(inflater, parent, savedInstanceState);
         // lineGraphChart.getLineData().getDataSetByIndex(3).setVisible(true);
         lastUpdate = null;
+        sendNotify = true;
         return view;
     }
 
@@ -94,7 +101,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
 
             //addEntry(lineGraphChart, x_linear_acceleration, 0);
             //addEntry(lineGraphChart, y_linear_acceleration, 1);
-            addEntry(lineGraphChart, currentAcceleration, 2);
+            //addEntry(lineGraphChart, currentAcceleration, 2);
             }
         }
 
@@ -141,11 +148,10 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         allLinAccelData.put(timestamp,currentAcceleration);
 
         //Toast.makeText(getContext(),Float.toString(currentAcceleration),Toast.LENGTH_SHORT).show();
-        Log.d("LinearAccel","Alpha:"+ alpha + " "+"NormalAccel" + listToString(allAccelData) + "\nLinearAcc: " + allLinAccelData.get(allAccelData.size()-1)+ "\nCurrent Lin Accel "+Float.toString(currentAcceleration));
+        Log.e("LinearAccel","Alpha:"+ alpha + " "+"NormalAccel" + listToString(allAccelData) + "\nLinearAcc: " + allLinAccelData.get(allAccelData.size()-1)+ "\nCurrent Lin Accel "+Float.toString(currentAcceleration));
 
+        addEntry(lineGraphChart, currentAcceleration,0);
         findEachStroke();
-
-        addEntry(lineGraphChart, x_linear_acceleration, 0);
         //addEntry(lineGraphChart, x_linear_acceleration, 0);
         //addEntry(lineGraphChart, y_linear_acceleration, 1);
         //addEntry(lineGraphChart, zurrentAcceleration, 2);
@@ -156,10 +162,17 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     }
 
     private void findEachStroke() {
-        if (currentAcceleration <= (0 - CONST_FOR_POSSIBLE_WRONG)){
-           // if (last10Increasing()){                    setnotifyForNewStroke();}
-            someAlgorithm();
-        }
+        if (currentAcceleration >= STATE_FOR_HIGH_ACCEL_DATA){
+            currentState = 1;
+            sendNotify = true;
+        }else if (currentAcceleration <= (STATE_FOR_LOW_ACCEL_DATA)) {
+            currentState = -1;
+            sendNotify= false;
+            setnotifyForNewStroke();
+        }else currentState = 0;
+            // if (last10Increasing()){                    setnotifyForNewStroke();}
+            //someAlgorithm();
+  //      }
     }
 
     private void someAlgorithm() {

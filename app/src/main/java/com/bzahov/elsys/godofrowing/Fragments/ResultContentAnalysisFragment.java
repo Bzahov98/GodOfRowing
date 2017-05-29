@@ -19,7 +19,6 @@ import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
-import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentAnalysisActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -34,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -51,9 +51,9 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
     private FirebaseUser useraaa;
-    private DatabaseReference myUserRef;
+    private DatabaseReference usersActivitiesRef;
     private List<MyLocation> allLocations;
-    private GoogleMap myMap;
+    private GoogleMap googleMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,98 +92,97 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             }
         };
 
-
-        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    mAuth.getCurrentUser().reload();
-                    mUser = firebaseAuth.getCurrentUser();
-
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    startActivity(new Intent(ResultContentAnalysisActivity.this, LogInActivity.class));
-                    Toast.makeText(getBaseContext(),"Welcome ",Toast.LENGTH_LONG).show();
-                    Log.d("SED", "signed_out: ");
-                }
-            }
-        };*/
-
         if (mAuth.getCurrentUser() == null) {
             mAuth.getCurrentUser().reload();
         }
         else{
             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            myUserRef = database.getReference("users").child(mUser.getUid()).child("activities").endAt(true).limitToLast(1);
+            usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");//.endAt(true).limitToLast(1);
 
-            myUserRef = database.getReference("message");
-
-            Toast.makeText(getContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
-
-            myUserRef.addValueEventListener(this);
+           // usersActivitiesRef = database.getReference("message");
+            //Toast.makeText(getContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
+            Query query = usersActivitiesRef.orderByChild("currentTime").limitToLast(1);
+            Log.e("Query getRef()",query.getRef().toString());
+            //usersActivitiesRef.addValueEventListener(this);
+            query.addValueEventListener(this);
         }
 
-        DatabaseReference myRef = database.getReference("lastActivity");
+        //DatabaseReference myRef = database.getReference("lastActivity");
         // Read from the database
     return v;
     }
 
     @Override
+    public void onDataChange(DataSnapshot dataSnapshot){
+        ResourcesFromActivity receivedData = null;// = dataSnapshot.getValue(ResourcesFromActivity.class);
+        for(DataSnapshot activitySnapShot: dataSnapshot.getChildren()){
+            receivedData = activitySnapShot.getValue(ResourcesFromActivity.class);
+        }
+        if (receivedData == null) {
+            return;
+        }
+
+        Log.e("Query Ref",dataSnapshot.getRef().toString());
+        Log.e("Query DataS","\n "+dataSnapshot.toString() );
+        Log.e("Query getVal()","\n "+ receivedData.toString() );
+        Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
+
+        Toast.makeText(getContext(),"onData" ,Toast.LENGTH_SHORT).show();
+        allLocations = receivedData.getMyLocationsList();
+        addMarkersToMap();
+        setAllValuesOfViews(receivedData);
+
+    }
+
+    private void addMarkersToMap() {
+
+        if (allLocations != null) {
+            Log.e("Map",allLocations.toString());
+            if (allLocations.size() > 1){
+                MyLocation firstLocation = allLocations.get(0);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 14f));
+
+            }
+            for (MyLocation location : allLocations) {
+                //TODO: Find a way to add title and subtitle of mark at v2 Google maps!!
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
+                markerOptions.position(new LatLng(location.getLat(), location.getLng()));
+                markerOptions.title(
+                        "Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s \n" +
+                        "Stroke Rate Ave: " + Float.toString(round(location.getAverageStrokeRate(), 2)) + " per minute\n" +
+                        "Stroke Rate Min  - \n" +
+                        "Stroke Rate Max  - \n" +
+                        "Total Meters - " + (location.getTotalMeters()) + "\n"
+                );
+                Marker as = googleMap.addMarker(markerOptions);
+            }
+        }else {
+           // mapView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setAllValuesOfViews(ResourcesFromActivity receivedData) {
+        setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
+        setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
+        setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getMaxSpeed(),2)));
+        setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(receivedData.getAverageStrokeRate()));
+        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeStr());
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.146168, 24.711175), 13.8f));
-        myMap = googleMap;
-        myMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        myMap.getUiSettings().setZoomControlsEnabled(true);
-        myMap.getUiSettings().setCompassEnabled(true);
+        this.googleMap = googleMap;
+        this.googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
+        this.googleMap.getUiSettings().setCompassEnabled(true);
         mapView.onResume();
     }
 
     public void onMapClickAnalysis(View view) {
     }
 
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot){
-        ResourcesFromActivity receivedData = dataSnapshot.getValue(ResourcesFromActivity.class);
-
-        allLocations = receivedData.getMyLocationsList();
-        AddMarkersToMap();
-        if (allLocations != null) {
-            if (allLocations.size() > 1){
-                MyLocation firstLocation = allLocations.get(0);
-                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 14f));
-            }
-        }
-
-        setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
-        setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
-        setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getMaxSpeed(),2)));
-        setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(receivedData.getAverageStrokeRate()));
-        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeString());
-
-    }
-
-    private void AddMarkersToMap() {
-        if (allLocations != null) {
-            for (MyLocation location : allLocations) {
-                //TODO: Find a way to add title and subtitle of mark!!
-                Toast.makeText(getContext(), "aaa", Toast.LENGTH_SHORT);
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
-                markerOptions.position(new LatLng(location.getLat(), location.getLng()));
-                markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s \n" +
-                        "Stroke Rate: " + Float.toString(round(location.getAverageStrokeRate(), 2)) + " per minute\n" +
-                        "Stroke Rate Ave  - 23.2 stroke per minute\n" +
-                        "Total Meters - " + (location.getTotalMeters()) + "\n"
-                );
-                Marker as = myMap.addMarker(markerOptions);
-            }
-        }else {
-            mapView.setVisibility(View.GONE);
-        }
-    }
     public static float round(float source, int positions) {
         long multiplier = (long) Math.pow(10, positions);
         return  ((float)((int) (source * multiplier)) / multiplier);
@@ -221,7 +220,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     @Override
     public void onResume() {
         super.onResume();
-        AddMarkersToMap();
+        addMarkersToMap();
         mAuth.addAuthStateListener(mAuthListener);
 
         if (mAuth.getCurrentUser() != null){
@@ -232,10 +231,34 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     @Override
     public void onStop() {
         super.onStop();
-        myMap.clear();
+        googleMap.clear();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
 }
+
+
+
+
+
+
+        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    mAuth.getCurrentUser().reload();
+                    mUser = firebaseAuth.getCurrentUser();
+
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    startActivity(new Intent(ResultContentAnalysisActivity.this, LogInActivity.class));
+                    Toast.makeText(getBaseContext(),"Welcome ",Toast.LENGTH_LONG).show();
+                    Log.d("SED", "signed_out: ");
+                }
+            }
+        };*/
