@@ -63,6 +63,8 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 	Date lastUpdate;
 	private double calibration;
 	private GraphFrgCommunicationChannel mCommChListner;
+	private float[] gravity;
+	private float[] linear_acceleration;
 
 	@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -176,7 +178,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 			}
 			updateVelocity();
 			currentAcceleration = (float) newAcceler;
-			if (show_gForce) {
+			/*if (show_gForce) {
 				addEntry(lineGraphChart, x_gForce, 0);
 				addEntry(lineGraphChart, y_gForce, 1);
 				addEntry(lineGraphChart, z_gForce, 2);
@@ -184,7 +186,21 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 				addEntry(lineGraphChart, newAcceler, 0);
 				//addEntry(lineGraphChart, y_accelerometer, 1);
 				//addEntry(lineGraphChart, z_accelerometer, 2);
-			}
+			}*/
+
+
+			final float alpha = 0.8f;
+
+			gravity[0] = alpha * gravity[0] + (1 - alpha) * x_accelerometer;
+			gravity[1] = alpha * gravity[1] + (1 - alpha) * y_accelerometer;
+			gravity[2] = alpha * gravity[2] + (1 - alpha) * z_accelerometer;
+
+			linear_acceleration[0] = x_accelerometer - gravity[0];
+			linear_acceleration[1] = y_accelerometer - gravity[1];
+			linear_acceleration[2] = z_accelerometer - gravity[2];
+
+			currentAcceleration = (float) (Math.pow(linear_acceleration[0], 2) + Math.pow(linear_acceleration[1], 2)+ Math.pow(linear_acceleration[2], 2));
+
 			lineGraphChart.notifyDataSetChanged();
 			lineGraphChart.invalidate();
 				// i++;

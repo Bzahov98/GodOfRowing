@@ -6,8 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ResultTabContentActivities.ResultContentSplitterActivity">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/notFinished"/>
+        android:id="@+id/splitter_scrollview">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/longtxtTest"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
 </LinearLayout>

@@ -86,13 +86,12 @@ public class ResultContentHistoryFragment extends Fragment {
 
         if (mAuth.getCurrentUser() == null) {
             mAuth.getCurrentUser().reload();
-            Toast.makeText(getContext(), "WTF", Toast.LENGTH_SHORT).show();
         } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             mListItemRef = database.getReference("users").child(mUser.getUid()).child("activities") ;
             //myUserRef = database.getReference("message");
 
-            Toast.makeText(getContext(), mUser.getEmail(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), mUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
         handleInstanceState(savedInstanceState);
         setupFirebase();
@@ -270,7 +269,6 @@ public class ResultContentHistoryFragment extends Fragment {
             int position = viewHolder.getAdapterPosition(); // this is how you can get the position
             // ResourcesFromActivity object = adapter.getItem(position); // You will have your own class ofcourse.
 
-            Toast.makeText(getContext(),"jj",Toast.LENGTH_SHORT).show();
             Log.e("gh",""+position);
             // then you can delete the object
             // root.child("Object").child(object.getId()).setValue(null);// setting the value to null will just delete it from the database.

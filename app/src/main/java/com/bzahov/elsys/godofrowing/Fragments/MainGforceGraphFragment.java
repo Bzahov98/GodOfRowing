@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 /**
  * Created by bobo-pc on 1/14/2017.
@@ -15,12 +16,16 @@ public class MainGforceGraphFragment extends BaseChartFragment implements Sensor
     private float x_gForce;
     private float y_gForce;
     private float z_gForce;
+    private boolean withTestData;
+    private int i;
+    private int j;
 
     @Override
     protected void setSensor() {
         mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
+        withTestData = true;
     }
 
     @Override
@@ -40,7 +45,35 @@ public class MainGforceGraphFragment extends BaseChartFragment implements Sensor
 
             //the pythagorean theorem to the different components of the acceleration:
             float gForce_total = (float)(Math.sqrt(x_gForce * x_gForce + y_gForce * y_gForce + z_gForce * z_gForce));
-            addEntry(lineGraphChart, gForce_total, 0);
+
+            if (withTestData) {
+                //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
+                if (i > 150) {
+                    i = 0;
+                    //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
+                }
+
+                x_accelerometer = xFloatTestVector[i];
+                y_accelerometer = yFloatTestVector[i];
+                z_accelerometer = zFloatTestVector[i];
+                i++;
+            }
+
+            if (j > 5000) {
+                //removeDataSet(chartGraphData, 0);
+                clearDataSet(chartGraphData, 0);
+                clearDataSet(chartGraphData, 1);
+                clearDataSet(chartGraphData, 2);
+                //Log.d("Graph", "Cleared" );
+                j = 0;
+                //removeDataSet(chartGraphData, 2);
+                //removeDataSet(chartGraphData, 3);
+            }
+            j++;
+
+            addEntry(lineGraphChart, x_accelerometer, 0);
+            addEntry(lineGraphChart, y_accelerometer, 1);
+            addEntry(lineGraphChart, z_accelerometer, 2);
             //addEntr y(lineGraphChart, y_gForce, 1);
             //addEntry(lineGraphChart, z_gForce, 2);
             lineGraphChart.notifyDataSetChanged();

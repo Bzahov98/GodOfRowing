@@ -40,6 +40,7 @@ import java.util.List;
  * Created by bobo-pc on 2/8/2017.
  */
 public class ResultContentAnalysisActivity extends Activity implements OnMapReadyCallback, ValueEventListener {
+//UNUSED
 
     private static final String TAG = "ResConttAnalysisAct-y";
     private MapView mapView;

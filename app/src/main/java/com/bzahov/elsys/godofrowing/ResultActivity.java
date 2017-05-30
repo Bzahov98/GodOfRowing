@@ -16,7 +16,7 @@ import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentSpli
 /**
  * Created by bobo-pc on 2/6/2017.
  */
-public class ResultActivity extends TabActivity {
+public class ResultActivity extends TabActivity { // UNUSED
 
          TabHost host;
          @Override

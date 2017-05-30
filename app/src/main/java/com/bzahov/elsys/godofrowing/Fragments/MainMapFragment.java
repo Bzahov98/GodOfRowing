@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Icon;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -14,8 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.Interfaces.DataFromActivityToMapFragment;
 import com.bzahov.elsys.godofrowing.MainActivity;
-import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,9 +36,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -68,35 +61,9 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private LocationRequest mLocationRequest;
     private Marker mCurrLocationMarker;
     private MapFrgCommunicationChannel mCommChListner;
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-
-        /*FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        SupportMapFragment fragment = new SupportMapFragment();
-        transaction.add(R.id.details, fragment);
-        transaction.commit();
-        view.getRootView().setVisibility(View.INVISIBLE);
-        Log.d(TAG,"onCreate View");
-        fragment.getMapAsync(this);*/
-
-        mMapView = (MapView) view.findViewById(R.id.mapFragment);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume(); // needed to get the map to display immediately
-
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mMapView.getMapAsync(this);
-
-        return view;
-    }
+    private MainActivity mainActivity;
+    private boolean isSportActivityStarted;
+    private int locationCounter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +80,37 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
         }
         Log.d(TAG, "onCreate");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        mainActivity = (MainActivity) getActivity();
+        locationCounter =0;
+        checkSportActivityStatus();
+
+        mapSetUp(savedInstanceState, view);
+
+        return view;
+    }
+
+    private void mapSetUp(Bundle savedInstanceState, View view) {
+
+        mMapView = (MapView) view.findViewById(R.id.mapFragment);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(this);
+    }
+
+    private boolean checkSportActivityStatus() { // check does sport activity at Main is at training mode (isStarted)
+      return isSportActivityStarted = mainActivity.getIsStarted();
     }
 
     private synchronized void buildGoogleApiClient() {
@@ -279,7 +277,11 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private void gotoLocation(LatLng latLng, float zoom) {
         Log.d("value", "gotoLocation called");
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
-        mMap.moveCamera(update);
+        if (locationCounter == 0 || checkSportActivityStatus()) {
+            locationCounter++;
+            mMap.moveCamera(update);
+
+        }
     }
 
     public double getLatitude() {
@@ -319,9 +321,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(this.getContext(), "asd", Toast.LENGTH_SHORT);
         Log.d("as", "onLocationChanged" + location.toString());
-        if (location != null) {
+        if (checkSportActivityStatus()) {
             mLastLocation = location;
             Log.d(TAG, "marker Removed");
             //mCurrLocationMarker.remove();
@@ -330,7 +331,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
             markerOptions.position(newLatLng);
-            markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(),2)) + " m/s");
+            markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s");
             mCurrLocationMarker = mMap.addMarker(markerOptions);
             sendLocation(location);
             if (mGoogleApiClient != null) {
@@ -344,7 +345,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Location has't Speed");
             }
-        }//else Toast.makeText(getContext(),"Location is null",Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -374,7 +375,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onPause");
         if (mGoogleApiClient != null) {
             //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
@@ -418,6 +419,6 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         mMapView.onLowMemory();
     }
     public void receiveDataFromMain(String rfa){
-        Toast.makeText(getContext(),rfa + "aaa",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),rfa + "aaa",Toast.LENGTH_SHORT).show();
     }
 }

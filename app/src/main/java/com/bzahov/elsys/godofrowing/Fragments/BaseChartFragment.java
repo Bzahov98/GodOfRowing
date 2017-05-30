@@ -1,31 +1,27 @@
 package com.bzahov.elsys.godofrowing.Fragments;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bzahov.elsys.godofrowing.TestData.AccelerometerTestData;
 import com.bzahov.elsys.godofrowing.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bobo-pc on 1/14/2017.
@@ -51,6 +47,22 @@ public abstract class BaseChartFragment extends Fragment {
 	protected SensorManager mSensorManager;
 	protected Sensor mAccelerometer;
 	private int[] firstAtListIndex;
+	protected float[] xFloatTestVector;
+	protected float[] yFloatTestVector;
+	protected float[] zFloatTestVector;
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		AccelerometerTestData accelerometerTestData = new AccelerometerTestData();
+
+		//Log.e("Float","\n\n\n\n\n-------------X------------------------");
+		xFloatTestVector = accelerometerTestData.getXtestVector();
+		//Log.e("Float","\n\n\n\n\n-------------Y------------------------");
+		yFloatTestVector = accelerometerTestData.getYtestVector();
+		//Log.e("Float","\n\n\n\n\n-------------Z-------------------------");
+		zFloatTestVector = accelerometerTestData.getZtestVector();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -74,12 +86,11 @@ public abstract class BaseChartFragment extends Fragment {
 	protected void setGraph(View v) {
 		lineGraphChart = (LineChart) v.findViewById(R.id.LineChartFrag);
 		lineGraphChart.getDescription().setEnabled(false);
-		lineGraphChart.getDescription().setEnabled(false);
 		lineGraphChart.setNoDataText("No Data at the moment");
-		lineGraphChart.setTouchEnabled(true);
-		lineGraphChart.setDragEnabled(true);
+		lineGraphChart.setTouchEnabled(false);
+		lineGraphChart.setDragEnabled(false);
 		lineGraphChart.setHardwareAccelerationEnabled(true);
-		lineGraphChart.setPinchZoom(true);
+		lineGraphChart.setPinchZoom(false);
 
 		chartGraphData = new LineData();
 		lineGraphChart.setData(chartGraphData);
@@ -100,6 +111,11 @@ public abstract class BaseChartFragment extends Fragment {
 		chartGraphData.addDataSet(setX);
 		chartGraphData.addDataSet(setY);
 		chartGraphData.addDataSet(setZ);
+
+		//lineGraphChart.getAxisLeft().setAxisMinimum(-9);
+		//lineGraphChart.getAxisLeft().setAxisMaximum(18);
+		lineGraphChart.invalidate();
+
 		//chartGraphData.addDataSet(setj);
 	}
 
@@ -145,18 +161,23 @@ public abstract class BaseChartFragment extends Fragment {
 
 		int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
 		//data.removeEntry(0,dataSetIndex);
-		set.addEntry(new Entry(entryCount+1, Float.parseFloat(df.format(AccelerometerValue))));
+		set.addEntry(new Entry(entryCount + 1, Float.parseFloat(df.format(AccelerometerValue))));
+		/*if (firstAtListIndex[dataSetIndex]>40) {
+		//	set.removeFirst();
+			Toast.makeText(getContext(),"aaa",Toast.LENGTH_SHORT).show();;
+		//	firstAtListIndex[dataSetIndex]--;
+		}*/
 		data.notifyDataChanged();
 		lineChart.invalidate();
-
-		// let the chart know it's data has changed
 		lineChart.notifyDataSetChanged();
+		// let the chart know it's data has changed
 
-		lineChart.setVisibleXRangeMaximum(50);
+
+		lineChart.setVisibleXRangeMaximum(70);
 		lineChart.setVisibleXRangeMinimum(40);
 		//lineChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 		// this automa1tically refreshes the chart (calls invalidate())
-		lineChart.moveViewTo(data.getEntryCount() - 2, 20f, YAxis.AxisDependency.LEFT);
+		lineChart.moveViewTo(data.getEntryCount() - 2, 10f, YAxis.AxisDependency.LEFT);
 
 		firstAtListIndex[dataSetIndex]++;
 
@@ -168,8 +189,8 @@ public abstract class BaseChartFragment extends Fragment {
 		data.add(new Entry(0, 0.0f));
 
 		LineDataSet set = new LineDataSet(data, "");
-		set.setLineWidth(2.5f);
-		set.setCircleRadius(4.5f);
+		set.setLineWidth(1.5f);
+		set.setCircleRadius(1.5f);
 		set.setColor(Color.rgb(240, 99, 99));
 		set.setCircleColor(Color.rgb(240, 99, 99));
 		set.setHighLightColor(Color.rgb(190, 190, 190));
@@ -187,9 +208,9 @@ public abstract class BaseChartFragment extends Fragment {
 		newSet.setColor(mainColor);
 		newSet.setHighLightColor(Color.MAGENTA);
 		newSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-		newSet.setValueTextSize(10f);
-		newSet.setLineWidth(2.5f);
-		newSet.setCircleRadius(4.5f);
+		newSet.setValueTextSize(0f);
+		newSet.setLineWidth(3.5f);
+		newSet.setCircleRadius(1.5f);
 		return newSet;
 	}
 
@@ -234,6 +255,34 @@ public abstract class BaseChartFragment extends Fragment {
 		}
 	}
 
+	protected  void clearDataSet(LineData data, int index){
+		if (data != null) {
+
+
+			firstAtListIndex[0] = 0;
+			firstAtListIndex[1] = 0;
+			firstAtListIndex[2] = 0;
+			firstAtListIndex[3] = 0;
+
+			data.clearValues();
+
+			ILineDataSet setX = chartGraphData.getDataSetByIndex(0);
+			ILineDataSet setY = chartGraphData.getDataSetByIndex(1);
+			ILineDataSet setZ = chartGraphData.getDataSetByIndex(2);
+			ILineDataSet setj = chartGraphData.getDataSetByIndex(3);
+
+			setX = createSet("X", Color.BLACK);
+			setY = createSet("Y",Color.YELLOW);
+			setZ = createSet("Z",Color.GREEN);
+			chartGraphData.addDataSet(setX);
+			chartGraphData.addDataSet(setY);
+			chartGraphData.addDataSet(setZ);
+
+			lineGraphChart.notifyDataSetChanged();
+			lineGraphChart.invalidate();
+		}
+	}
+
    /* @Override
 	public void onPause() {
 		if(mSensorManager != null) {
@@ -250,4 +299,5 @@ public abstract class BaseChartFragment extends Fragment {
 	public abstract void onSensorChanged(SensorEvent sensorEvent);
 
 */
+
 }

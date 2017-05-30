@@ -71,8 +71,9 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private ArrayList<Location> lastPausedLocations;
     private ArrayList<ArrayList<Location>> allPausedLocations = new ArrayList<>();
     private ArrayList<MyLocation> allMyLocations = new ArrayList<>();
+
     /////////////////////////
-    private boolean isStarted;
+    public boolean isStarted;
     private boolean isFirst;
     private TextView paramMeter;
     private TextView speedView;
@@ -360,90 +361,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         startActivity(resultIntent);
     }
 
-    @Override
-    public void setGraphCommunication(String speed) {
-        TextView textView = (TextView) findViewById(R.id.main_table_Param_speed_mpersec);
-        textView.setText(speed);
-        Log.d(TAG,"set speed from graph Fragment" + speed);
-    }
-
-    @Override
-    public void setMapCommunication(String speed) {
-        if  (isStarted){
-            TextView textView = (TextView) findViewById(R.id.main_table_Param_speed);
-            textView.setText(speed);
-            Log.d(TAG,"set speed from map Fragment");
-        }
-    }
-
-    @Override
-    public void sendNewLocation(Location newLocation) {
-        //TextView meterView = (TextView) findViewById(R.id.main_table_param_meters);
-        Location locationBefore;
-
-        if (isStarted) {
-            //int size = allLocations.size() - 1;
-            allLocations.add(newLocation);
-            if(newLocation.hasSpeed()) {
-                currentSpeed = newLocation.getSpeed();
-                allSpeeds.add(currentSpeed);
-               // MyLocation a = new MyLocation(newLocation);//,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
-                MyLocation a = new MyLocation(newLocation);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);*/
-                saveLocCounter++;
-                if ( saveLocCounter <= 2 ){
-                    allMyLocations.add(a);
-                }else {
-                    int mylocSize = allMyLocations.size()-1;
-                    allMyLocations.get(mylocSize);
-                    if ( (saveLocCounter % 5 == 0 ) || (allMyLocations.get(mylocSize-1).distanceTo(allMyLocations.get(mylocSize)) >= 5)){
-                        allMyLocations.add(a);
-                    }
-                }
-                // allMySpeeds.add()
-                calculateAverageSpeed();
-                int speedCurrentToSec = calcSecondsPer500meters(currentSpeed);
-                int speedAverageToSec = calcSecondsPer500meters(averageSpeed);
-                int[] speedCurentSplitted = splitToComponentTimes(speedCurrentToSec);
-                int[] speedAverageSplitted = splitToComponentTimes(speedAverageToSec);
-
-                speedView.setText(speedCurentSplitted[1] + ":" + speedCurentSplitted[2] + "\nper 500m");
-                aveSpeedView.setText(speedAverageSplitted[1] + ":" + speedAverageSplitted[2] + "\nave per 500m");
-                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ "\n m per sec");
-            }
-            int size = allLocations.size()-1;
-            if (size > 1) {
-                locationBefore = allLocations.get(size-1);
-                float newDistance = locationBefore.distanceTo(newLocation);
-                if (newDistance < 100f){
-                    totalMeters += newDistance;
-                    meterView.setText(Long.toString(totalMeters));
-                }
-            }
-            /***}else { // pause
-            lastPausedLocations.add(newLocation);
-            int size = lastPausedLocations.size()-1;
-            if (size == 0){
-                pauseMeters = 0;
-                return;
-            }
-            if (size > 1) {
-                locationBefore = lastPausedLocations.get(size-1);
-                float newDistance = locationBefore.distanceTo(newLocation);
-                if (newDistance < 100f){
-                    pauseMeters += newDistance;
-                }
-              }
-             ****/
-        }
-    }
-    /**
-     * FOR DEBUG PURPOSES
-     * On Click on StrokeRate Text View, for simulate new stroke
-     */
-    public void strokeCounterRateOnClick(View view) {
-        countStrokeRate();
-    }
-
     private void calculateAverageSpeed() {
         float newAverSpeed = 0f;
 
@@ -498,7 +415,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
     private float calcAverageStrokeRate() {
         currentStrokeRateSum += currentStrokeRate;
-        averageStrokeRate =  currentStrokeRateSum /  numStrokes;
+        averageStrokeRate =  currentStrokeRateSum /  numStrokes - 1;
         Log.e("STROKE",currentStrokeRate + " " + currentStrokeRateSum + " " + numStrokes);
         return averageStrokeRate ;
     }
@@ -611,6 +528,14 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         }
     }
 
+    /**
+     * FOR DEBUG PURPOSES
+     * On Click on StrokeRate Text View, for simulate new stroke
+     */
+    public void strokeCounterRateOnClick(View view) {
+        countStrokeRate();
+    }
+
     @Override
     public void notifyForNewStroke() {
         countStrokeRate();
@@ -654,6 +579,87 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
        /* if(mapFragment!=null){
             mapFragment.receiveDataFromMain("");
         }*/
+    }
+
+    public boolean getIsStarted() {
+        return isStarted;
+    }
+
+    @Override
+    public void setGraphCommunication(String speed) {
+        TextView textView = (TextView) findViewById(R.id.main_table_Param_speed_mpersec);
+        textView.setText(speed);
+        Log.d(TAG,"set speed from graph Fragment" + speed);
+    }
+
+    @Override
+    public void setMapCommunication(String speed) {
+        if  (isStarted){
+            TextView textView = (TextView) findViewById(R.id.main_table_Param_speed);
+            textView.setText(speed);
+            Log.d(TAG,"set speed from map Fragment");
+        }
+    }
+
+    @Override
+    public void sendNewLocation(Location newLocation) {
+        //TextView meterView = (TextView) findViewById(R.id.main_table_param_meters);
+        Location locationBefore;
+
+        if (isStarted) {
+            //int size = allLocations.size() - 1;
+            allLocations.add(newLocation);
+            if(newLocation.hasSpeed()) {
+                currentSpeed = newLocation.getSpeed();
+                allSpeeds.add(currentSpeed);
+                // MyLocation a = new MyLocation(newLocation);//,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
+                MyLocation a = new MyLocation(newLocation);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);*/
+                saveLocCounter++;
+                if ( saveLocCounter <= 2 ){
+                    allMyLocations.add(a);
+                }else {
+                    int mylocSize = allMyLocations.size()-1;
+                    allMyLocations.get(mylocSize);
+                    if ( (saveLocCounter % 5 == 0 ) || (allMyLocations.get(mylocSize-1).distanceTo(allMyLocations.get(mylocSize)) >= 5)){
+                        allMyLocations.add(a);
+                    }
+                }
+                // allMySpeeds.add()
+                calculateAverageSpeed();
+                int speedCurrentToSec = calcSecondsPer500meters(currentSpeed);
+                int speedAverageToSec = calcSecondsPer500meters(averageSpeed);
+                int[] speedCurentSplitted = splitToComponentTimes(speedCurrentToSec);
+                int[] speedAverageSplitted = splitToComponentTimes(speedAverageToSec);
+
+                speedView.setText(speedCurentSplitted[1] + ":" + speedCurentSplitted[2] + "\nper 500m");
+                aveSpeedView.setText(speedAverageSplitted[1] + ":" + speedAverageSplitted[2] + "\nave per 500m");
+                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ "\n m per sec");
+            }
+            int size = allLocations.size()-1;
+            if (size > 1) {
+                locationBefore = allLocations.get(size-1);
+                float newDistance = locationBefore.distanceTo(newLocation);
+                if (newDistance < 10f){ // for not
+                    totalMeters += newDistance;
+                    meterView.setText(Long.toString(totalMeters));
+                }
+            }
+            /***}else { // pause
+             lastPausedLocations.add(newLocation);
+             int size = lastPausedLocations.size()-1;
+             if (size == 0){
+             pauseMeters = 0;
+             return;
+             }
+             if (size > 1) {
+             locationBefore = lastPausedLocations.get(size-1);
+             float newDistance = locationBefore.distanceTo(newLocation);
+             if (newDistance < 100f){
+             pauseMeters += newDistance;
+             }
+             }
+             ****/
+        }
     }
 
     @Override
@@ -703,7 +709,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         if (requestCode == REQUEST_LOGIN_INTENT) {
             if(resultCode == Activity.RESULT_OK){
                 showSettingsAlert = data.getBooleanExtra("returnFromLogIn",false);
-               // Toast.makeText(this,Boolean.toString(showSettingsAlert),Toast.LENGTH_LONG).show();
+                // Toast.makeText(this,Boolean.toString(showSettingsAlert),Toast.LENGTH_LONG).show();
                 Log.e("dialog",Boolean.toString(showSettingsAlert));
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -711,8 +717,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             }
         }
     }
-
-
 
 }
 

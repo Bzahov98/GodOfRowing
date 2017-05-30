@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,8 +25,8 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private static final float CONST_FOR_POSSIBLE_WRONG = 0.1f;
     private static final int CONST_POSITIONS_FOR_INCREASE = 10;
 
-    private static final float STATE_FOR_LOW_ACCEL_DATA = -4f;
-    private static final float STATE_FOR_HIGH_ACCEL_DATA = 1f;
+    private static final float STATE_FOR_LOW_ACCEL_DATA = 0.1f;
+    private static final float STATE_FOR_HIGH_ACCEL_DATA = 8f;
 
     private int accelerometerAccuracy;
     private int linearAccelAccuracy;
@@ -45,7 +44,6 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private float y_linear_acceleration;
     private float z_linear_acceleration;
     private Date lastUpdate;
-
     // LPFilter
     private float timeConstant = 0.18f;
     private float alpha = 0.7f;
@@ -55,12 +53,17 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private float timestamp = System.nanoTime();
     private float timestampOld = System.nanoTime();
     private int count;
-    private float currentAcceleration;
+    private float currentLinAcceleration;
     private List<float[]> allAccelData = new ArrayList<>();
-    private HashMap<Float, Float> allLinAccelData = new HashMap<>();
+    private List<Float> allLinAccelData = new ArrayList<>();
     private LinAccelFrgCommunicationChannel mCommChListner;
     private int currentState;  // 0 - neutral , 1 -
     private boolean sendNotify;
+
+    private int i;
+    private boolean withTestData;
+    private float currentNormAcceleration;
+    private int j;
 
 
     @Override
@@ -68,6 +71,8 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         View view = super.onCreateView(inflater, parent, savedInstanceState);
         // lineGraphChart.getLineData().getDataSetByIndex(3).setVisible(true);
         lastUpdate = null;
+        i = j = 0;
+        withTestData = true; // true for test data false for real accelerometer data
         sendNotify = true;
         return view;
     }
@@ -80,15 +85,15 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         //    mSensorManager.registerListener(this, mLinAcceleration , SensorManager.SENSOR_DELAY_NORMAL);
 
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor accSensor = sensorEvent.sensor;
 
-    //    deltaT = mAccelerometer.getD;
-        if (accSensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+        //    deltaT = mAccelerometer.getD;
+        /*if (accSensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) { // I haven't linear accel sensor not tested!!!!!
             Log.d("LinAccel","has ");
             x_linear_acceleration  = sensorEvent.values[0];
             x_linear_acceleration  = sensorEvent.values[1];
@@ -97,21 +102,44 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             if (!(x_linear_acceleration == 0 && y_linear_acceleration == 0 && z_linear_acceleration == 0)){
                 // does not have Sensor.TYPE_LINEAR_ACCELERATION
 
-            currentAcceleration = (((float) Math.pow(x_linear_acceleration, 2)) + (float)Math.pow(y_linear_acceleration, 2)+ (float)Math.pow(z_linear_acceleration, 2));
+                //currentLinAcceleration = (((float) Math.pow(x_linear_acceleration, 2)) + (float)Math.pow(y_linear_acceleration, 2)+ (float)Math.pow(z_linear_acceleration, 2));
 
-            //addEntry(lineGraphChart, x_linear_acceleration, 0);
-            //addEntry(lineGraphChart, y_linear_acceleration, 1);
-            //addEntry(lineGraphChart, currentAcceleration, 2);
+                //addEntry(lineGraphChart, x_linear_acceleration, 0);
+                //addEntry(lineGraphChart, y_linear_acceleration, 1);
+                //addEntry(lineGraphChart, currentLinAcceleration, 2);
             }
-        }
+        }*/
 
         if (accSensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             System.arraycopy(sensorEvent.values, 0, this.accelerationOnAxis, 0, sensorEvent.values.length);
 
-            x_accelerometer = sensorEvent.values[0];
-            y_accelerometer = sensorEvent.values[1];
-            z_accelerometer = sensorEvent.values[2];
-            //timestampOld = timestamp;
+            if (withTestData) {
+                    //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
+                if (i > 150){
+                    i = 0;
+                     //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
+                }
+
+                x_accelerometer = xFloatTestVector[i];
+                y_accelerometer = yFloatTestVector[i];
+                z_accelerometer = zFloatTestVector[i];
+                i++;
+            } else {
+                x_accelerometer = sensorEvent.values[0];
+                y_accelerometer = sensorEvent.values[1];
+                z_accelerometer = sensorEvent.values[2];
+            }
+
+            if (j > 5000) {
+                //removeDataSet(chartGraphData, 0);
+                clearDataSet(chartGraphData, 1);
+                Log.d("Graph", "Cleared" );
+                j = 0;
+                //removeDataSet(chartGraphData, 2);
+                //removeDataSet(chartGraphData, 3);
+            }
+            j++;
+            timestampOld = timestamp;
             timestamp = System.nanoTime();
 
             float deltaTime = timestamp - timestampOld;
@@ -121,6 +149,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             count++;
 
             alpha = timeConstant / (timeConstant + dt);
+            alpha = 0.8f;
             // long tDelta = currentUpdate.getTime() - lastUpdate.getTime();
             // long t = 1 / (2 * Math.PI * fc);
             //alpha = t / (t + tDelta);
@@ -133,56 +162,50 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             y_linear_acceleration = y_accelerometer - y_gravity;
             z_linear_acceleration = z_accelerometer - z_gravity;
 
-            gravityOnAxis = new float[]{x_gravity, y_gravity, z_gravity};
-            linearAcceleration = new float[]{x_linear_acceleration, y_linear_acceleration, z_linear_acceleration};
+            //gravityOnAxis = new float[]{x_gravity, y_gravity, z_gravity};
+            //linearAcceleration = new float[]{x_linear_acceleration, y_linear_acceleration, z_linear_acceleration};
 
-            int length = linearAcceleration.length - 1;
-            Log.d("LinearAccelOnAxes", "on x-" + x_linear_acceleration +
-                    "on y-" + y_linear_acceleration +
-                    "on z-" + z_linear_acceleration);
+            //int length = linearAcceleration.length - 1;
+            //Log.e("LinearAccel", "on x-" + x_linear_acceleration +"on y-" + y_linear_acceleration + "on z-" + z_linear_acceleration);
 
-            allAccelData.add(linearAcceleration);
-///     }
-        }
-        currentAcceleration = (float) (Math.pow(x_linear_acceleration, 2) + Math.pow(y_linear_acceleration, 2)+ Math.pow(z_linear_acceleration, 2));
-        allLinAccelData.put(timestamp,currentAcceleration);
+            //allAccelData.add(linearAcceleration);
+///     }   -- -- if linear sensor is avaiable
 
-        //Toast.makeText(getContext(),Float.toString(currentAcceleration),Toast.LENGTH_SHORT).show();
-        Log.e("LinearAccel","Alpha:"+ alpha + " "+"NormalAccel" + listToString(allAccelData) + "\nLinearAcc: " + allLinAccelData.get(allAccelData.size()-1)+ "\nCurrent Lin Accel "+Float.toString(currentAcceleration));
+            currentLinAcceleration = (float) (Math.pow(x_linear_acceleration, 2) + Math.pow(y_linear_acceleration, 2) + Math.pow(z_linear_acceleration, 2));
 
-        addEntry(lineGraphChart, currentAcceleration,0);
-        findEachStroke();
-        //addEntry(lineGraphChart, x_linear_acceleration, 0);
-        //addEntry(lineGraphChart, y_linear_acceleration, 1);
-        //addEntry(lineGraphChart, zurrentAcceleration, 2);
+            //Log.e("AccelLin", Float.toString(currentLinAcceleration));
+            //Log.e("AccelTotal", "\n" +Float.toString(z_linear_acceleration));
+            //allLinAccelData.add(currentLinAcceleration);
+            //Log.e("LinearAccel", "Alpha:" + alpha + " " + "\nNormalAccel " + listToString() + "\nCurrent Lin Accel " + Float.toString(currentLinAcceleration));
 
-        lineGraphChart.notifyDataSetChanged();
-        lineGraphChart.invalidate();
+            if (currentLinAcceleration <20f && currentLinAcceleration> -16) {
+                addEntry(lineGraphChart, z_linear_acceleration, 1);
+                lineGraphChart.notifyDataSetChanged();
+                lineGraphChart.invalidate();
+                findEachStroke();
+            }
+            //addEntry(lineGraphChart, z_linear_acceleration, 4);
+            //addEntry(lineGraphChart, x_accelerometer, 0);
+            //addEntry(lineGraphChart, y_accelerometer, 1);
+            //addEntry(lineGraphChart, z_accelerometer, 2);
 
+        } // -- -- remove for lin acceleration from sensor
     }
-
     private void findEachStroke() {
-        if (currentAcceleration >= STATE_FOR_HIGH_ACCEL_DATA){
+        if (currentLinAcceleration >= STATE_FOR_HIGH_ACCEL_DATA){
             currentState = 1;
-            sendNotify = true;
-        }else if (currentAcceleration <= (STATE_FOR_LOW_ACCEL_DATA)) {
+            if (sendNotify) {
+                setNotifyForNewStroke();
+                Toast.makeText(getContext(),"NewStroke",Toast.LENGTH_SHORT).show();
+            }
+            sendNotify = false;
+        }else if (currentLinAcceleration <= (STATE_FOR_LOW_ACCEL_DATA)) {
             currentState = -1;
-            sendNotify= false;
-            setnotifyForNewStroke();
+            sendNotify = true;
+
         }else currentState = 0;
-            // if (last10Increasing()){                    setnotifyForNewStroke();}
-            //someAlgorithm();
-  //      }
     }
 
-    private void someAlgorithm() {
-        int size = allLinAccelData.size() - 1;
-
-        for (Float time: allLinAccelData.keySet()) {
-            allLinAccelData.get(0);
-
-        }
-    }
     private boolean last10Increasing() {
         int size = allLinAccelData.size()-1;
         int startPos = size - CONST_POSITIONS_FOR_INCREASE;
@@ -206,23 +229,26 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         return true;
     }
 
-    private void setnotifyForNewStroke() {
+    private void setNotifyForNewStroke() {
         //communication with activity
         mCommChListner.notifyForNewStroke();
-        Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
     }
 
-    private String listToString(List<float[]> input){
-        int size = input.size()-1;
-        String result = "X: " + Float.toString(x_accelerometer) +  "-" + Float.toString(x_gravity)+ " Y: "
-                +Float.toString(input.get(size)[1]) + " Z:\n"
-                + Float.toString(input.get(size)[2]);
+    private String listToString(){
+        String result = "X accel : " + Float.toString(x_accelerometer) +  " X: gravity" + Float.toString(x_gravity)+ "\nY: "
+                +Float.toString(y_accelerometer) +  " Y gravity" + Float.toString(y_gravity)+ "\nZ acc:"
+                + Float.toString(z_accelerometer) + " Z gravity: " + Float.toString(z_gravity)+ "\n"
+                + "\n Linear Accel: \n"
+                + " X linear" + Float.toString(x_linear_acceleration)
+                + "\nY Lin acc: " + Float.toString(y_linear_acceleration)
+                + "\nZ Lin acc: " + Float.toString(z_linear_acceleration) + "\n";
         return result;
     }
     public void sendNewLinAccel() {
         //communication with activity
-        mCommChListner.sendNewLimAccel(currentAcceleration);
-        Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
+        mCommChListner.sendNewLimAccel(currentLinAcceleration);
+      //  Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -242,9 +268,9 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER){
             accelerometerAccuracy = i;
         }
-        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION){
+       /* if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION){
             linearAccelAccuracy = i;
-        }
+        }*/
     }
 
     @Override
@@ -274,8 +300,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         if (context instanceof LinAccelFrgCommunicationChannel) {
             mCommChListner = (MainLinAccGraphFragment.LinAccelFrgCommunicationChannel) context;
         } else {
-//            throw new ClassCastException();
+            throw new ClassCastException();
         }
     }
-
 }

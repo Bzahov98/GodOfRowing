@@ -1,6 +1,7 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -238,5 +239,4 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
         startActivity(new Intent(this, LogInActivity.class));
         finish();
     }
-
 }

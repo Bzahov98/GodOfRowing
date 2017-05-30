@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context=".ResultTabContentActivities.ResultContentAnalysisActivity">
-
-    <ScrollView
-        android:layout_alignParentTop="true"
-        android:id="@+id/res_analysis_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        >
+    android:layout_height="10dp"
+    android:id="@+id/res_analysis_scroll_view"
+    android:fillViewport="true"
+    >
 
         <include layout="@layout/layout_workout_results_container" />
-
-    </ScrollView>
-</RelativeLayout>
+</ScrollView>

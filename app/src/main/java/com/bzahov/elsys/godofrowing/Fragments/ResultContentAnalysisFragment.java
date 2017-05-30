@@ -62,12 +62,18 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
         ScrollView a = (ScrollView) v.findViewById(R.id.res_analysis_scroll_view);
         mapView = (MapView) v.findViewById(R.id.res_analysis_map);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
-
+        if (mapView!=null){
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(this);
+        }
+a.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+    }
+});
         analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
 
-        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Distance(m): " , "0000");
+        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Daistance(m): " , "0000");
         setParameters(R.id.res_analysis_elapsed_time ,R.drawable.icon_timer   , "Duration: "    , "0:00:00");
         setParameters(R.id.res_analysis_empty        ,R.drawable.icon_analysis, "StrokePerMin"  ,"0");
         setParameters(R.id.res_analysis_speed_average,R.drawable.icon_speed   , "Ave sec/500m"  , " 0:00");
@@ -127,18 +133,16 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         Log.e("Query getVal()","\n "+ receivedData.toString() );
         Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
 
-        Toast.makeText(getContext(),"onData" ,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(),"onData" ,Toast.LENGTH_SHORT).show();
         allLocations = receivedData.getMyLocationsList();
         addMarkersToMap();
         setAllValuesOfViews(receivedData);
-
     }
 
     private void addMarkersToMap() {
-
         if (allLocations != null) {
             Log.e("Map",allLocations.toString());
-            if (allLocations.size() > 1){
+            if (allLocations.size() > 1) {
                 MyLocation firstLocation = allLocations.get(0);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 14f));
 
@@ -158,7 +162,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
                 Marker as = googleMap.addMarker(markerOptions);
             }
         }else {
-           // mapView.setVisibility(View.GONE);
+           //mapView.setVisibility(View.GONE);
         }
     }
 
@@ -214,7 +218,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         mAuth.addAuthStateListener(mAuthListener);
         if (mAuth.getCurrentUser() != null){
             mUser = mAuth.getCurrentUser();
-        }else Toast.makeText(getContext(),"WTF >>>>>>",Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
@@ -225,7 +229,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
         if (mAuth.getCurrentUser() != null){
             mUser = mAuth.getCurrentUser();
-        }else Toast.makeText(getContext(),"WTF >>>>>>",Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
