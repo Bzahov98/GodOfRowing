@@ -129,7 +129,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         gForceGraphFragment = new MainGforceGraphFragment();
         lAccelGraphFragment = new MainLinAccGraphFragment();
         mapFragment = new MainMapFragment();
-
         showFragment(mapFragment);
     }
 
@@ -184,11 +183,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         switch (view.getId()) {
 
-            case R.id.param_1:
+            /*case R.id.action_delete_all:
                 choosedDetailOption = 1;
                 /*if(mapFragment != null) {mapFragment.getView().setVisibility(View.INVISIBLE);}*/
-                /*if(graphFragment != null)*/ {displayFragment(GRAPH_FRAGMENT);}
-                break;
+                /*if(graphFragment != null) {displayFragment(GRAPH_FRAGMENT);}
+                break;*/
             case R.id.param_2:
                 choosedDetailOption = 2;
                 displayFragment(MAP_FRAGMENT);
@@ -202,7 +201,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 displayFragment(LINACC_FRAGMENT);
 
                 break;
-            case R.id.param_5:
+            /*case R.id.param_5:
                 displayFragment(WITHOUT_FRAGMENT);
                 removeFragment(mapFragment);
                 choosedDetailOption = 5;
@@ -215,7 +214,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 choosedDetailOption = 6;
 
                 break;
-        }
+        */}
     }
 
     private void setDefautValues() {
@@ -306,7 +305,9 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         //chronometer.setBase(SystemClock.currentThreadTimeMillis());
         chronometer.start();
         startTime = SystemClock.currentThreadTimeMillis();
+        displayFragment(4); //Start Lin accel fragment for stroke detection
         displayFragment(1);//Start Map and remove all graph's Fragment
+
         stopFrg.setVisibility(View.VISIBLE);
         startTime = System.currentTimeMillis();
         isFirst = false;
@@ -481,24 +482,24 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 removeFragment(mapFragment);
                 removeFragment(graphFragment);
                 removeFragment(gForceGraphFragment);
-                removeFragment(lAccelGraphFragment);
+                hideFragment(lAccelGraphFragment);
                 break;
             case 1: // MapFragment
                 removeFragment(graphFragment);
                 removeFragment(gForceGraphFragment);
-                removeFragment(lAccelGraphFragment);
+                hideFragment(lAccelGraphFragment);
                 showFragment(mapFragment);
                 break;
             case 2: // GraphFragment
                 hideFragment(mapFragment);
                 removeFragment(gForceGraphFragment);
-                removeFragment(lAccelGraphFragment);
+                hideFragment(lAccelGraphFragment);
                 showFragment(graphFragment);
                 break;
             case 3: // GforceFragment
                 removeFragment(graphFragment);
                 hideFragment(mapFragment);
-                removeFragment(lAccelGraphFragment);
+                hideFragment(lAccelGraphFragment);
                 showFragment(gForceGraphFragment);
                 break;
             case 4:

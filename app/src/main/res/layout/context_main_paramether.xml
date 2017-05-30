@@ -12,59 +12,48 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/param_1"
-            android:layout_width="100dp"
+            android:id="@+id/param_3"
+            android:text="@string/def_parameter_name3"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="21sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:textSize="31sp"
-            android:text="@string/def_parameter_name"
-            android:onClick="ScrollItem"
-         />
+            android:onClick="ScrollItem"/>
 
         <TextView
             android:id="@+id/param_2"
             android:text="@string/def_parameter_name2"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="#000"
-            android:textSize="31sp"
-            android:layout_alignBottom="@+id/param_1"
-            android:layout_toEndOf="@+id/param_1"
-            android:onClick="ScrollItem"/>
-        <TextView
-            android:id="@+id/param_3"
-            android:text="@string/def_parameter_name3"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="#000"
-            android:textSize="31sp"
-            android:layout_alignBottom="@+id/param_2"
-            android:layout_toEndOf="@+id/param_2"
-            android:onClick="ScrollItem"/>
-
-        <TextView
-            android:id="@+id/param_4"
-            android:text="@string/def_parameter_name4"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
             android:background="#000"
             android:textSize="31sp"
             android:layout_alignBottom="@+id/param_3"
             android:layout_toEndOf="@+id/param_3"
+            android:onClick="ScrollItem"/>
+
+        <TextView
+            android:id="@+id/param_4"
+            android:text="@string/def_parameter_name4"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:textSize="31sp"
+            android:layout_alignBottom="@+id/param_2"
+            android:layout_toEndOf="@+id/param_2"
             android:onClick="ScrollItem"
             />
-        <TextView
+       <TextView
             android:id="@+id/param_5"
-            android:text="@string/def_parameter_name5"
+            android:text=""
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="#000"
             android:textSize="31sp"
-            android:onClick="ScrollItem"
             android:layout_alignBottom="@+id/param_4"
             android:layout_toEndOf="@+id/param_4" />
-        <TextView
+        <!--<TextView
             android:id="@+id/param_6"
             android:text="@string/def_parameter_name6"
             android:layout_width="100dp"
@@ -73,7 +62,7 @@
             android:textSize="31sp"
             android:onClick="ScrollItem"
             android:layout_alignBottom="@+id/param_5"
-            android:layout_toEndOf="@+id/param_5" />
+            android:layout_toEndOf="@+id/param_5" />-->
     </RelativeLayout>
 
 </RelativeLayout>
