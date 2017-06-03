@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by bobo-pc on 2/8/2017.
  */
-public class ResultContentAnalysisActivity extends Activity implements OnMapReadyCallback, ValueEventListener {
+public class ResultContentAnalysisActivity extends Activity implements ValueEventListener {
 //UNUSED
 
     private static final String TAG = "ResConttAnalysisAct-y";
@@ -60,18 +60,18 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
         setContentView(R.layout.activity_result_analysis);
 
         ScrollView a = (ScrollView) findViewById(R.id.res_analysis_scroll_view);
-        mapView = (MapView) findViewById(R.id.res_analysis_map);
+       /* mapView = (MapView) findViewById(R.id.res_analysis_map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
+*/
         analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
-
+/*
         setParameters(R.id.res_analysis_meters_total, R.drawable.icon_meters, "Distance(m): ", "0000");
         setParameters(R.id.res_analysis_elapsed_time, R.drawable.icon_timer, "Duration: ", "0:00:00");
         setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"StrokePerMin","0");
         setParameters(R.id.res_analysis_speed_average, R.drawable.icon_speed, "Ave sec/500m", " 0:00");
         setParameters(R.id.res_analysis_speed_max, R.drawable.icon_speed, "Max Speed/500m", " 0:00");
-
+*/
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -130,7 +130,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
         // Read from the database
     }
 
-    @Override
+   /* @Override
     public void onMapReady(GoogleMap googleMap) {
         //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.146168, 24.711175), 13.8f));
         myMap = googleMap;
@@ -142,13 +142,13 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
 
     public void onMapClickAnalysis(View view) {
     }
-
+*/
     @Override
     public void onDataChange(DataSnapshot dataSnapshot){
         ResourcesFromActivity receivedData = dataSnapshot.getValue(ResourcesFromActivity.class);
 
         allLocations = receivedData.getMyLocationsList();
-        AddMarkersToMap();
+       // AddMarkersToMap();
         if (allLocations != null) {
             if (allLocations.size() > 1){
             MyLocation firstLocation = allLocations.get(0);
@@ -164,7 +164,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
 
     }
 
-    private void AddMarkersToMap() {
+   /* private void AddMarkersToMap() {
         if (allLocations != null) {
             for (MyLocation loc : allLocations) {
                 //TODO: Find a way to add title and subtitle of mark!!
@@ -180,7 +180,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
                 Marker as = myMap.addMarker(markerOptions);
             }
         }
-    }
+    }*/
     public static float round(float source, int positions) {
         long multiplier = (long) Math.pow(10, positions);
         return  ((float)((int) (source * multiplier)) / multiplier);
@@ -218,7 +218,7 @@ public class ResultContentAnalysisActivity extends Activity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
-        AddMarkersToMap();
+       // AddMarkersToMap();
         mAuth.addAuthStateListener(mAuthListener);
 
         if (mAuth.getCurrentUser() != null){

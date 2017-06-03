@@ -164,20 +164,18 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "LastTraining";
+                    return "Last Training";
                 case 1:
                     return "Last Month";
                 case 2:
-                    return "TrainingHistory";
-                case 3:
-                    return "SECTION 4";
+                    return "Training History";
             }
             return null;
         }

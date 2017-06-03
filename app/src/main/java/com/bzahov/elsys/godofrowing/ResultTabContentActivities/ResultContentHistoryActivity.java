@@ -22,6 +22,7 @@ import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.maps.MapView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -76,21 +77,15 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
                     startActivity(new Intent(ResultContentHistoryActivity.this, LogInActivity.class));
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
-
-        if (mAuth.getCurrentUser() == null) {
-            mAuth.getCurrentUser().reload();
-            Toast.makeText(getBaseContext(), "WTF", Toast.LENGTH_SHORT).show();
-        } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             mListItemRef = database.getReference("users").child(mUser.getUid()).child("activities") ;
             //myUserRef = database.getReference("message");
 
             Toast.makeText(getBaseContext(), mUser.getEmail(), Toast.LENGTH_SHORT).show();
-        }
+
         handleInstanceState(savedInstanceState);
         setupFirebase();
         setupRecyclerview();
@@ -204,14 +199,20 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
 
         public void bindSportActivity(ResourcesFromActivity model) {
             //ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
-            TextView nameTextView = (TextView) childLayout.findViewById(R.id.list_item_child_meters_total);
+            TextView totalMeters = (TextView) childLayout.findViewById(R.id.list_item_child_meters_total);
+            MapView map = (MapView) childLayout.findViewById(R.id.res_analysis_map);
+            TextView aaa = (TextView) childLayout.findViewById(R.id.res_analysis_empty);
+
+
             TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
             //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
             TextView childMetersView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
             RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
-            nameTextView.setText(Long.toString(model.getTotalMeters()));
+            totalMeters.setText(Long.toString(model.getTotalMeters()));
+            map.setVisibility(View.GONE);
+
             setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
             setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
 

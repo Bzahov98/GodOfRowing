@@ -30,7 +30,7 @@ public class AlertUserLoggedFragment extends DialogFragment {
         final String userEmail = getArguments().getString("userEmail");
 
         return new AlertDialog.Builder(getActivity())
-                .setIcon(R.drawable.logo)
+                .setIcon(R.drawable.icon_logo)
                 .setTitle("Hello "+ userEmail)
                 // Set Dialog Message
                 .setMessage("You are already logged in . \n" +

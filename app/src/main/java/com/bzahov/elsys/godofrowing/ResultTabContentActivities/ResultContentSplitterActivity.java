@@ -1,8 +1,12 @@
 package com.bzahov.elsys.godofrowing.ResultTabContentActivities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
+import android.view.View;
 
 import com.bzahov.elsys.godofrowing.R;
 
@@ -11,4 +15,10 @@ import com.bzahov.elsys.godofrowing.R;
  */
 public class ResultContentSplitterActivity extends Activity { //UNUSED
 
+
+    @Nullable
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
+    }
 }

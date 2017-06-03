@@ -19,6 +19,7 @@
         android:layout_height="176dp"
         android:id="@+id/res_analysis_map"
         android:onClick="onMapClickAnalysis"
+        android:visibility="gone"
         android:layout_below="@+id/res_analysis_meters_total"
 
         />
@@ -42,7 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         layout="@layout/layout_result_paramers"
-        android:layout_below="@+id/res_analysis_map" />
+        android:layout_below="@+id/res_analysis_meters_total"
+        android:layout_alignParentStart="true" />
     <!--<include
         android:id="@+id/res_analysis_empty2"
         android:layout_height="wrap_content"

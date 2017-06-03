@@ -38,10 +38,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-/**
- * Created by bobo-pc on 5/28/2017.
- */
-
 public class ResultContentAnalysisFragment extends Fragment implements OnMapReadyCallback, ValueEventListener {
     private static final String TAG = "ResConttAnalysisFrg";
     private MapView mapView;
@@ -61,21 +57,17 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         final View v = inflater.inflate(R.layout.activity_result_analysis, container, false);
 
         ScrollView a = (ScrollView) v.findViewById(R.id.res_analysis_scroll_view);
+
         mapView = (MapView) v.findViewById(R.id.res_analysis_map);
         if (mapView!=null){
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(this);
-        }
-a.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-    }
-});
+        };
         analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
 
-        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Daistance(m): " , "0000");
+        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Distance(m): " , "0000");
         setParameters(R.id.res_analysis_elapsed_time ,R.drawable.icon_timer   , "Duration: "    , "0:00:00");
-        setParameters(R.id.res_analysis_empty        ,R.drawable.icon_analysis, "StrokePerMin"  ,"0");
+        setParameters(R.id.res_analysis_empty        ,R.drawable.icon_analysis, "StrokePerMin"  , "0");
         setParameters(R.id.res_analysis_speed_average,R.drawable.icon_speed   , "Ave sec/500m"  , " 0:00");
         setParameters(R.id.res_analysis_speed_max,    R.drawable.icon_speed   , "Max Speed/500m", " 0:00");
 
@@ -94,7 +86,6 @@ a.setOnClickListener(new View.OnClickListener() {
                     startActivity(new Intent(getActivity(), LogInActivity.class));
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -103,19 +94,13 @@ a.setOnClickListener(new View.OnClickListener() {
         }
         else{
             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");//.endAt(true).limitToLast(1);
-
-           // usersActivitiesRef = database.getReference("message");
-            //Toast.makeText(getContext(), mUser.getEmail(),Toast.LENGTH_SHORT).show();
+            usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");
             Query query = usersActivitiesRef.orderByChild("currentTime").limitToLast(1);
             Log.e("Query getRef()",query.getRef().toString());
-            //usersActivitiesRef.addValueEventListener(this);
             query.addValueEventListener(this);
         }
 
-        //DatabaseReference myRef = database.getReference("lastActivity");
-        // Read from the database
-    return v;
+        return v;
     }
 
     @Override
@@ -133,7 +118,6 @@ a.setOnClickListener(new View.OnClickListener() {
         Log.e("Query getVal()","\n "+ receivedData.toString() );
         Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
 
-//        Toast.makeText(getContext(),"onData" ,Toast.LENGTH_SHORT).show();
         allLocations = receivedData.getMyLocationsList();
         addMarkersToMap();
         setAllValuesOfViews(receivedData);
@@ -141,6 +125,7 @@ a.setOnClickListener(new View.OnClickListener() {
 
     private void addMarkersToMap() {
         if (allLocations != null) {
+            mapView.setVisibility(View.VISIBLE);
             Log.e("Map",allLocations.toString());
             if (allLocations.size() > 1) {
                 MyLocation firstLocation = allLocations.get(0);
@@ -156,6 +141,7 @@ a.setOnClickListener(new View.OnClickListener() {
                         "Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s \n" +
                         "Stroke Rate Ave: " + Float.toString(round(location.getAverageStrokeRate(), 2)) + " per minute\n" +
                         "Stroke Rate Min  - \n" +
+                        "\nSpeed average    - " + Float.toString(round(location.getAverageSpeed(),2)) +
                         "Stroke Rate Max  - \n" +
                         "Total Meters - " + (location.getTotalMeters()) + "\n"
                 );
@@ -240,29 +226,4 @@ a.setOnClickListener(new View.OnClickListener() {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
 }
-
-
-
-
-
-
-        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    mAuth.getCurrentUser().reload();
-                    mUser = firebaseAuth.getCurrentUser();
-
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    startActivity(new Intent(ResultContentAnalysisActivity.this, LogInActivity.class));
-                    Toast.makeText(getBaseContext(),"Welcome ",Toast.LENGTH_LONG).show();
-                    Log.d("SED", "signed_out: ");
-                }
-            }
-        };*/

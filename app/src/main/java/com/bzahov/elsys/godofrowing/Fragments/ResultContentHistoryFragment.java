@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
-import com.bzahov.elsys.godofrowing.ResultTabContentActivities.ResultContentHistoryActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,7 +58,7 @@ public class ResultContentHistoryFragment extends Fragment {
     private Query mQuery;
     private ArrayList<ResourcesFromActivity> mAdapterItems;
     private ArrayList<String> mAdapterKeys;
-    private FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryActivity.FirebaseResViewHolder> mMyAdapter;
+    private FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder> mMyAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,10 +115,10 @@ public class ResultContentHistoryFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
         //mMyAdapter = new HistoryAdapter(mQuery, ResourcesFromActivity.class, mAdapterItems, mAdapterKeys);
 
-        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryActivity.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryActivity.FirebaseResViewHolder.class, mListItemRef) {
+        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryFragment.FirebaseResViewHolder.class, mListItemRef) {
 
             @Override
-            public void populateViewHolder(ResultContentHistoryActivity.FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
+            public void populateViewHolder(ResultContentHistoryFragment.FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
                 // resourcesViewHolder.setName(resourcesFromActivity.getCurrentTime());
                 Log.e("holder",position+ " " + resourcesFromActivity.getCurrentTime() + "\n" + resourcesFromActivity.toString());
                 resourcesViewHolder.setKey(getRef(position).getKey());
@@ -134,13 +133,13 @@ public class ResultContentHistoryFragment extends Fragment {
             }
 
             @Override
-            public void onBindViewHolder(ResultContentHistoryActivity.FirebaseResViewHolder viewHolder, int position) {
+            public void onBindViewHolder(ResultContentHistoryFragment.FirebaseResViewHolder viewHolder, int position) {
                 super.onBindViewHolder(viewHolder, position);
                 //viewHolder.setText("aaa");
             }
 
             @Override
-            public boolean onFailedToRecycleView(ResultContentHistoryActivity.FirebaseResViewHolder holder) {
+            public boolean onFailedToRecycleView(ResultContentHistoryFragment.FirebaseResViewHolder holder) {
                 return super.onFailedToRecycleView(holder);
             }
         };
@@ -194,25 +193,23 @@ public class ResultContentHistoryFragment extends Fragment {
             mView = itemView;
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
-            childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_child_layout);
+            childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
         }
 
         public void bindSportActivity(ResourcesFromActivity model) {
-            //ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
-            TextView nameTextView = (TextView) childLayout.findViewById(R.id.list_item_child_meters_total);
             TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
-            //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
-            TextView childMetersView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
-            RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
-            nameTextView.setText(Double.toString(model.getTotalMeters()));
-            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
-            //setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
 
+            setAllParameters(model);
+        }
 
-            //          categoryTextView.setText(restaurant.getCategories().get(0));
-            //        ratingTextView.setText("Rating: " + restaurant.getRating() + "/5");
+        private void setAllParameters(ResourcesFromActivity model) {
+            setParameters(R.id.res_analysis_meters_total, 0, "Distance(m):", Long.toString(model.getTotalMeters()));
+            setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(model.getAverageSpeed(),2)));
+            setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(model.getMaxSpeed(),2)));
+            setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(model.getAverageStrokeRate()));
+            setParameters(R.id.res_analysis_elapsed_time, 0, "Duration: ", model.getElapsedTimeStr());
         }
 
         @Override
@@ -228,7 +225,9 @@ public class ResultContentHistoryFragment extends Fragment {
         }
 
         private void setParameters(int viewID, int imageID, @Nullable String name, String value){
-            RelativeLayout viewById = ((RelativeLayout) mView.findViewById(viewID));
+            //RelativeLayout viewById = ((RelativeLayout) mView.findViewById(viewID));
+            RelativeLayout viewById = (RelativeLayout)childLayout.findViewById(viewID);
+
             if (imageID != 0) {
                 ImageView imageView = ((ImageView) viewById.findViewById(R.id.list_item_head_header));
                 imageView.setImageResource(imageID);
@@ -266,14 +265,16 @@ public class ResultContentHistoryFragment extends Fragment {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition(); // this is how you can get the position
-            // ResourcesFromActivity object = adapter.getItem(position); // You will have your own class ofcourse.
+            int position = viewHolder.getAdapterPosition();
+            // ResourcesFromActivity object = adapter.getItem(position);
 
             Log.e("gh",""+position);
-            // then you can delete the object
-            // root.child("Object").child(object.getId()).setValue(null);// setting the value to null will just delete it from the database.
-
         }
 
+    }
+
+    public static float round(float source, int positions) {
+        long multiplier = (long) Math.pow(10, positions);
+        return  ((float)((int) (source * multiplier)) / multiplier);
     }
 }

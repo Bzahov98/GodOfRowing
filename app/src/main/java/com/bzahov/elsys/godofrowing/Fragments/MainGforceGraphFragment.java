@@ -47,10 +47,8 @@ public class MainGforceGraphFragment extends BaseChartFragment implements Sensor
             float gForce_total = (float)(Math.sqrt(x_gForce * x_gForce + y_gForce * y_gForce + z_gForce * z_gForce));
 
             if (withTestData) {
-                //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
-                if (i > 150) {
+                if (i > 1500) {
                     i = 0;
-                    //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
                 }
 
                 x_accelerometer = xFloatTestVector[i];
@@ -59,15 +57,12 @@ public class MainGforceGraphFragment extends BaseChartFragment implements Sensor
                 i++;
             }
 
-            if (j > 5000) {
+            if (j > 1000) {
                 //removeDataSet(chartGraphData, 0);
                 clearDataSet(chartGraphData, 0);
                 clearDataSet(chartGraphData, 1);
                 clearDataSet(chartGraphData, 2);
-                //Log.d("Graph", "Cleared" );
                 j = 0;
-                //removeDataSet(chartGraphData, 2);
-                //removeDataSet(chartGraphData, 3);
             }
             j++;
 

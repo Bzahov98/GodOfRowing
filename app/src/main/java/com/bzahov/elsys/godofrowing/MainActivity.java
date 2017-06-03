@@ -1,11 +1,13 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -111,7 +113,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private int strokeRateCount;
+
+    protected PowerManager.WakeLock mWakeLock;
     ////////////////////////////////////////////////////
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +127,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         setDefautValues();
         setFragments();
         checkUserAuth();
+        powerOn();
+
     }
 
     private void setFragments() {
@@ -255,6 +262,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         startFrg.setText("Start Activity");
     }
 
+    private void powerOn() {
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "");
+        this.mWakeLock.acquire();
+    }
+
     private void SendDataToDatabase() {
 
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
@@ -306,7 +319,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         chronometer.start();
         startTime = SystemClock.currentThreadTimeMillis();
         displayFragment(4); //Start Lin accel fragment for stroke detection
-        displayFragment(1);//Start Map and remove all graph's Fragment
+        displayFragment(1); //Start Map and remove all graph's Fragment
 
         stopFrg.setVisibility(View.VISIBLE);
         startTime = System.currentTimeMillis();
@@ -416,7 +429,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
     private float calcAverageStrokeRate() {
         currentStrokeRateSum += currentStrokeRate;
-        averageStrokeRate =  currentStrokeRateSum /  numStrokes - 1;
+        averageStrokeRate =  currentStrokeRateSum /  numStrokes ;
         Log.e("STROKE",currentStrokeRate + " " + currentStrokeRateSum + " " + numStrokes);
         return averageStrokeRate ;
     }
@@ -509,7 +522,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 showFragment(lAccelGraphFragment);
             default:
                 Log.d(TAG, fragmentNumber + " Doesn't exist");
-                return;
+                 return;
         }
         ft.commit();
     }
@@ -560,6 +573,9 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             currentStrokeRate = 60.0f/timeBetweenStrokes;
             //currentStrokeRateInt = 60/(int)timeBetweenStrokes;
             //Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
+            if (currentStrokeRate > 80){
+                return;
+            }
             strokeView.setText((int)currentStrokeRate + "\nSPM");
             //allStrokes.add(roundFloat(currentStrokeRate,2));
             if (isStarted) {
@@ -717,6 +733,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 showSettingsAlert = false;
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        this.mWakeLock.release();
+        super.onDestroy();
     }
 
 }

@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,8 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private static final float CONST_FOR_POSSIBLE_WRONG = 0.1f;
     private static final int CONST_POSITIONS_FOR_INCREASE = 10;
 
-    private static final float STATE_FOR_LOW_ACCEL_DATA = 0.1f;
-    private static final float STATE_FOR_HIGH_ACCEL_DATA = 8f;
+    private static final float STATE_FOR_LOW_ACCEL_DATA = -0.1f;
+    private static final float STATE_FOR_HIGH_ACCEL_DATA = 1.5f; //HERE
 
     private int accelerometerAccuracy;
     private int linearAccelAccuracy;
@@ -65,6 +66,11 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private float currentNormAcceleration;
     private int j;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        withTestData = true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -85,7 +91,11 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
         //    mSensorManager.registerListener(this, mLinAcceleration , SensorManager.SENSOR_DELAY_NORMAL);
 
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_GAME);
+        if (withTestData) {
+            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL); //HERE
+        }else {
+            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        }
     }
 
     @Override
@@ -115,7 +125,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
 
             if (withTestData) {
                     //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
-                if (i > 150){
+                if (i > 1425){
                     i = 0;
                      //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
                 }
@@ -130,7 +140,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
                 z_accelerometer = sensorEvent.values[2];
             }
 
-            if (j > 5000) {
+            if (j > 1200) {
                 //removeDataSet(chartGraphData, 0);
                 clearDataSet(chartGraphData, 1);
                 Log.d("Graph", "Cleared" );
@@ -144,12 +154,12 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
 
             float deltaTime = timestamp - timestampOld;
 
-            dt = 1 / (count / ((deltaTime) / 1000000000.0f));
+            dt = 1 / (count / ((deltaTime) / 100000000.0f));
 
             count++;
 
-            alpha = timeConstant / (timeConstant + dt);
-            alpha = 0.8f;
+            alpha = timeConstant / (timeConstant + dt);  //HERE
+            //alpha = 0.8f;
             // long tDelta = currentUpdate.getTime() - lastUpdate.getTime();
             // long t = 1 / (2 * Math.PI * fc);
             //alpha = t / (t + tDelta);
@@ -178,28 +188,29 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             //allLinAccelData.add(currentLinAcceleration);
             //Log.e("LinearAccel", "Alpha:" + alpha + " " + "\nNormalAccel " + listToString() + "\nCurrent Lin Accel " + Float.toString(currentLinAcceleration));
 
-            if (currentLinAcceleration <20f && currentLinAcceleration> -16) {
-                addEntry(lineGraphChart, z_linear_acceleration, 1);
-                lineGraphChart.notifyDataSetChanged();
-                lineGraphChart.invalidate();
-                findEachStroke();
-            }
+            findEachStroke();
+            addEntry(lineGraphChart, z_linear_acceleration, 1);
+            lineGraphChart.notifyDataSetChanged();
+            lineGraphChart.invalidate();
+
             //addEntry(lineGraphChart, z_linear_acceleration, 4);
             //addEntry(lineGraphChart, x_accelerometer, 0);
             //addEntry(lineGraphChart, y_accelerometer, 1);
             //addEntry(lineGraphChart, z_accelerometer, 2);
 
-        } // -- -- remove for lin acceleration from sensor
+        } // -- -- remove for lin accel eration from sensor
     }
-    private void findEachStroke() {
-        if (currentLinAcceleration >= STATE_FOR_HIGH_ACCEL_DATA){
+    private void findEachStroke() { //HERE
+        if (z_linear_acceleration >= STATE_FOR_HIGH_ACCEL_DATA){
             currentState = 1;
             if (sendNotify) {
                 setNotifyForNewStroke();
-                Toast.makeText(getContext(),"NewStroke",Toast.LENGTH_SHORT).show();
+                if(j< 600) {
+                    Toast.makeText(getContext(),"NewStroke",Toast.LENGTH_SHORT).show(); // For Debug
+                }
             }
             sendNotify = false;
-        }else if (currentLinAcceleration <= (STATE_FOR_LOW_ACCEL_DATA)) {
+        }else if (z_linear_acceleration <= (STATE_FOR_LOW_ACCEL_DATA)) {
             currentState = -1;
             sendNotify = true;
 

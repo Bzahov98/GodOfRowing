@@ -74,10 +74,6 @@ public abstract class BaseChartFragment extends Fragment {
 		for (int i = 0; i < 3 ; i++){
 			firstAtListIndex[i] = 0;
 		}
-		/*mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
-		*/
 		return v;
 	}
 
@@ -112,8 +108,8 @@ public abstract class BaseChartFragment extends Fragment {
 		chartGraphData.addDataSet(setY);
 		chartGraphData.addDataSet(setZ);
 
-		//lineGraphChart.getAxisLeft().setAxisMinimum(-9);
-		//lineGraphChart.getAxisLeft().setAxisMaximum(18);
+		lineGraphChart.getAxisLeft().setAxisMinimum(-8);
+		lineGraphChart.getAxisLeft().setAxisMaximum(9);
 		lineGraphChart.invalidate();
 
 		//chartGraphData.addDataSet(setj);
@@ -131,52 +127,21 @@ public abstract class BaseChartFragment extends Fragment {
 			firstAtListIndex[dataSetIndex] = 0;
 		}
 
-		/*if (set.getEntryCount() > GRAPH_WIDTH) {
-			set.(0);
-			set.removeEntry(0);
-
-			lineData.getXVals().add(entry_date_time);
-			lineData.addEntry(new Entry((float) (Math.random() * 40) + 30f, GRAPH_WIDTH), 0);
-
-			// lineData.getXVals().add(entry_date_time);
-			// Move all entries 1 to the left..
-			for (int i=0; i < set.getEntryCount(); i++) {
-				Entry e = set.getEntryForXIndex(i);
-				if (e==null) continue;
-
-				e.setXIndex(e.getXIndex() - 1);
-			}
-		}
-		else{
-			lineData.getXVals().add(entry_date_time);
-			lineData.addEntry(new Entry((float) (Math.random() * 40) + 30f, lineData.getXValCount()-1), 0);
-		}
-
-		// let the chart know it's data has changed
-		mChart.notifyDataSetChanged();
-		mChart.invalidate();
-
-*/
 		DecimalFormat df = new DecimalFormat("0.00");
 
 		int entryCount = (data.getDataSetByIndex(dataSetIndex).getEntryCount());
 		//data.removeEntry(0,dataSetIndex);
-		set.addEntry(new Entry(entryCount + 1, Float.parseFloat(df.format(AccelerometerValue))));
-		/*if (firstAtListIndex[dataSetIndex]>40) {
-		//	set.removeFirst();
-			Toast.makeText(getContext(),"aaa",Toast.LENGTH_SHORT).show();;
-		//	firstAtListIndex[dataSetIndex]--;
-		}*/
+		set.addEntry(new Entry(entryCount + 1, AccelerometerValue));
+
 		data.notifyDataChanged();
 		lineChart.invalidate();
 		lineChart.notifyDataSetChanged();
 		// let the chart know it's data has changed
 
 
-		lineChart.setVisibleXRangeMaximum(70);
+		lineChart.setVisibleXRangeMaximum(60);
 		lineChart.setVisibleXRangeMinimum(40);
-		//lineChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
-		// this automa1tically refreshes the chart (calls invalidate())
+
 		lineChart.moveViewTo(data.getEntryCount() - 2, 10f, YAxis.AxisDependency.LEFT);
 
 		firstAtListIndex[dataSetIndex]++;
@@ -282,22 +247,4 @@ public abstract class BaseChartFragment extends Fragment {
 			lineGraphChart.invalidate();
 		}
 	}
-
-   /* @Override
-	public void onPause() {
-		if(mSensorManager != null) {
-			mSensorManager.unregisterListener(this);
-		}
-		super.onPause();
-	}
-
-
-	@Override
-	public abstract void onAccuracyChanged(Sensor sensor, int i);
-
-	@Override
-	public abstract void onSensorChanged(SensorEvent sensorEvent);
-
-*/
-
 }

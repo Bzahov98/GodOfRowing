@@ -135,7 +135,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		Date timeNow = new Date(System.currentTimeMillis());
 		long timeDelta = timeNow.getTime()-lastUpdate.getTime();
 		//Log.e("Acceler", timeNow.toString() + " D: "+ Long.toString(timeDelta));
-		Toast.makeText(getContext(),timeNow.toString() + " D: "+ Long.toString(timeDelta),Toast.LENGTH_SHORT);
+
 		lastUpdate.setTime(timeNow.getTime());
 
 		// Calculate the change in velocity at the
@@ -143,15 +143,7 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		float deltaVelocity = appliedAcceleration * (timeDelta/1000);
 		appliedAcceleration = currentAcceleration;
 
-		//Log.e("Acceler", "Delta: "+Float.toString(deltaVelocity) + " D: "+ Long.toString(timeDelta));
-
-		// Add the velocity change to the current velocity.
-		velocity += deltaVelocity;
-		String velosity = Float.toString(100 * velocity);// + " \n m\\sec";
-//		Log.e("Acceler", velosity);
-		//Toast.makeText(getContext(),Float.toString(deltaVelocity),Toast.LENGTH_SHORT).show();
-		//sendMessage(velosity);
-	}
+		}
 
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {

@@ -42,48 +42,56 @@ public class LogInActivity extends Activity {
             setContentView(R.layout.activity_login);
             mAuth = FirebaseAuth.getInstance();
 
-            loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
-            loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
-            progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
-            anonymousSwitch = (Switch) findViewById(R.id.login_switch_anonymous);
+        setViews();
 
-            loginInputEmail = (EditText) findViewById(R.id.login_input_email);
-            loginInputPassword = (EditText) findViewById(R.id.login_input_password);
+        setUpAuthListener();
+    }
 
-            btnLogin = (Button) findViewById(R.id.btn_login);
-            btnLinkToSignUp = (Button) findViewById(R.id.btn_link_signin);
+    private void setViews() {
+        loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
+        loginInputLayoutPassword = (TextInputLayout) findViewById(R.id.login_input_layout_password);
+        progressBar = (ProgressBar) findViewById(R.id.login_progressBar);
+        anonymousSwitch = (Switch) findViewById(R.id.login_switch_anonymous);
 
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    submitForm();
+        loginInputEmail = (EditText) findViewById(R.id.login_input_email);
+        loginInputPassword = (EditText) findViewById(R.id.login_input_password);
+
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnLinkToSignUp = (Button) findViewById(R.id.btn_link_signin);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitForm();
+            }
+        });
+        btnLinkToSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setUpAuthListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-            });
-            btnLinkToSignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
-                    startActivity(intent);
-                }
-            });
+                // ...
+            }
+        };
+    }
 
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user != null) {
-                        // User is signed in
-                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    } else {
-                        // User is signed out
-                        Log.d(TAG, "onAuthStateChanged:signed_out");
-                    }
-                    // ...
-                }
-            };
-        }
-
-        /**
+    /**
          * Validating form
          */
 
@@ -118,32 +126,34 @@ public class LogInActivity extends Activity {
                 loginInputLayoutPassword.setErrorEnabled(false);
 
                 progressBar.setVisibility(View.VISIBLE);
-                //authenticate user}
             }
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            // If sign in fails, Log a message to the LogCat. If sign in succeeds
-                            // the mAuth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            progressBar.setVisibility(View.GONE);
-                            if (!task.isSuccessful()) {
-                                // there was an error
-                                Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "signInWithEmail", task.getException());
-                            } else {
-                                Intent returnIntent = new Intent(); //+
-                                //startActivity(intent);
-                                returnIntent.putExtra("returnFormLogIn",false);
-                                setResult(Activity.RESULT_OK,returnIntent);
-                                finish();
-                            }
-                        }
-                    });
+
+            signIn(email, password);
+
         }
 
-        private boolean checkEmail() {
+    private void signIn(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "signInWithEmail", task.getException());
+                        } else {
+                            Intent returnIntent = new Intent(); //+
+                            //startActivity(intent);
+                            returnIntent.putExtra("returnFormLogIn",false);
+                            setResult(Activity.RESULT_OK,returnIntent);
+                            finish();
+                        }
+                    }
+                });
+    }
+
+    private boolean checkEmail() {
             String email = loginInputEmail.getText().toString().trim();
             if (email.isEmpty() || !isEmailValid(email)) {
 

@@ -321,7 +321,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("as", "onLocationChanged" + location.toString());
+        Log.d ("as", "onLocationChanged" + location.toString());
         if (checkSportActivityStatus()) {
             mLastLocation = location;
             Log.d(TAG, "marker Removed");
@@ -334,9 +334,6 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s");
             mCurrLocationMarker = mMap.addMarker(markerOptions);
             sendLocation(location);
-            if (mGoogleApiClient != null) {
-                //   LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            }
             if (location.hasSpeed()) {
                 float currentSpeed = location.getSpeed();
                 //Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
@@ -353,9 +350,9 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "onConnected");
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
+        mLocationRequest.setInterval(2000);
 
-        mLocationRequest.setFastestInterval(777);
+        mLocationRequest.setFastestInterval(2000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
@@ -370,6 +367,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+        checkLocationPermission();
     }
 
     @Override
@@ -389,6 +387,8 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
            if (mGoogleApiClient != null) {
                mGoogleApiClient.connect();
+           }else {
+               checkLocationPermission();
            }
 
             //  LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
@@ -408,6 +408,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onStart() {
         super.onStart();
+
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
@@ -417,8 +418,5 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
-    }
-    public void receiveDataFromMain(String rfa){
-        //Toast.makeText(getContext(),rfa + "aaa",Toast.LENGTH_SHORT).show();
     }
 }

@@ -166,7 +166,7 @@ public class ResourcesFromActivity {
     public void setAllLocations(List<Location> allLocations) {
         this.allLocations = allLocations;
     }
-
+ 
     public void setAllStrokes(List<Float> allStrokes) {
         this.allStrokes = allStrokes;
     }
