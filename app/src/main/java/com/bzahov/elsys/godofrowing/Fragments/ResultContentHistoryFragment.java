@@ -206,8 +206,8 @@ public class ResultContentHistoryFragment extends Fragment {
 
         private void setAllParameters(ResourcesFromActivity model) {
             setParameters(R.id.res_analysis_meters_total, 0, "Distance(m):", Long.toString(model.getTotalMeters()));
-            setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(model.getAverageSpeed(),2)));
-            setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(model.getMaxSpeed(),2)));
+            setParameters(R.id.res_analysis_speed_average, 0, "Average Speed", Float.toString(round(model.getAverageSpeed(),2)));
+            setParameters(R.id.res_analysis_speed_max, 0, "Max Speed", Float.toString(round(model.getMaxSpeed(),2)));
             setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(model.getAverageStrokeRate()));
             setParameters(R.id.res_analysis_elapsed_time, 0, "Duration: ", model.getElapsedTimeStr());
         }

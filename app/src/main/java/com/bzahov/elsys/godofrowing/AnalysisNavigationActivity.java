@@ -233,7 +233,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
 
 
     private void signOut() {
-        mAuth.signOut();
+        if (mAuth!= null)mAuth.signOut();
         startActivity(new Intent(this, LogInActivity.class));
         finish();
     }

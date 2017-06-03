@@ -58,11 +58,27 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
         ScrollView a = (ScrollView) v.findViewById(R.id.res_analysis_scroll_view);
 
+
+
+        analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
+
+
         mapView = (MapView) v.findViewById(R.id.res_analysis_map);
+
         if (mapView!=null){
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(this);
-        };
+        }else {
+            analysisContainer.addView(mapView);
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(this);
+        }
+            ;
+
+
+        mapView = (MapView) v.findViewById(R.id.res_analysis_map);
+        //mapView.setVisibility(View.VISIBLE);
+
         analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
 
         setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Distance(m): " , "0000");
@@ -89,16 +105,11 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             }
         };
 
-        if (mAuth.getCurrentUser() == null) {
-            mAuth.getCurrentUser().reload();
-        }
-        else{
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");
             Query query = usersActivitiesRef.orderByChild("currentTime").limitToLast(1);
             Log.e("Query getRef()",query.getRef().toString());
             query.addValueEventListener(this);
-        }
 
         return v;
     }
@@ -125,12 +136,10 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
     private void addMarkersToMap() {
         if (allLocations != null) {
-            mapView.setVisibility(View.VISIBLE);
             Log.e("Map",allLocations.toString());
             if (allLocations.size() > 1) {
                 MyLocation firstLocation = allLocations.get(0);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 14f));
-
             }
             for (MyLocation location : allLocations) {
                 //TODO: Find a way to add title and subtitle of mark at v2 Google maps!!
@@ -226,4 +235,16 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        final Bundle mapViewSaveState = new Bundle(savedInstanceState);
+        mapView.onSaveInstanceState(mapViewSaveState);
+        savedInstanceState.putBundle("mapViewSaveState", mapViewSaveState);
+
+        Bundle customBundle = new Bundle();
+        // put custom objects if needed to customBundle
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
 }

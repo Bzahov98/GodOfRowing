@@ -350,9 +350,9 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "onConnected");
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(2000);
+        mLocationRequest.setInterval(5000);
 
-        mLocationRequest.setFastestInterval(2000);
+        mLocationRequest.setFastestInterval(777);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);

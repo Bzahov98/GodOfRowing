@@ -18,10 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="176dp"
         android:id="@+id/res_analysis_map"
-        android:onClick="onMapClickAnalysis"
-        android:visibility="gone"
+        android:onClick=""
         android:layout_below="@+id/res_analysis_meters_total"
-
         />
 
     <include
