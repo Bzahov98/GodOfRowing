@@ -79,7 +79,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        checkUserAuth();
        /* fab = (FloatingActionButton) findViewById(R.id.MainActivity_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,6 +204,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
     }
 
     private void settings() {
+        Toast.makeText(getApplicationContext(),"Comming soon",Toast.LENGTH_SHORT);
     }
 
     private void checkUserAuth() {
@@ -233,7 +234,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
 
 
     private void signOut() {
-        if (mAuth!= null)mAuth.signOut();
+        mAuth.signOut();
         startActivity(new Intent(this, LogInActivity.class));
         finish();
     }

@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
  */
 
 public class ParameterAdapter extends BaseAdapter {
+    //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
     private final Context mContext;
     private final Array[] parameters;
 

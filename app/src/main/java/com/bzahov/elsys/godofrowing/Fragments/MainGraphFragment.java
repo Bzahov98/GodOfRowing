@@ -13,8 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.bzahov.elsys.godofrowing.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -67,23 +65,23 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 	private float[] linear_acceleration;
 
 	@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-			View v =  inflater.inflate(R.layout.fragment_graph, parent, false);
-			lineGraphChart = (LineChart) v.findViewById(R.id.LineChartFrag);
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+		View v =  inflater.inflate(R.layout.fragment_graph, parent, false);
+		lineGraphChart = (LineChart) v.findViewById(R.id.LineChartFrag);
 
-			setGraph(v);
-			//super.onCreateView(inflater,parent,savedInstanceState);
+		setGraph(v);
+		//super.onCreateView(inflater,parent,savedInstanceState);
 		//=========================
 
-			mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-			mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-			mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
-			calibration = Double.NaN;
-			lastUpdate = new Date(System.currentTimeMillis());
+		calibration = Double.NaN;
+		lastUpdate = new Date(System.currentTimeMillis());
 
-			return v;
-		}
+		return v;
+	}
 
 	private void setGraph(View v) {
 		lineGraphChart = (LineChart) v.findViewById(R.id.LineChartFrag);
@@ -118,9 +116,9 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
 
 	@Override
-		public void onViewCreated(View view, Bundle savedInstanceState) {
-			super.onViewCreated(view,savedInstanceState);
-		}
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view,savedInstanceState);
+	}
 
 	@Override
 	public void onDestroy() {
@@ -143,12 +141,12 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 		float deltaVelocity = appliedAcceleration * (timeDelta/1000);
 		appliedAcceleration = currentAcceleration;
 
-		}
+	}
 
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {
 
-		Log.e("Acceler", "Sensor");
+		//Log.e("Acceler", "Sensor");
 
 		Sensor accSensor = sensorEvent.sensor;
 
@@ -195,8 +193,8 @@ public class MainGraphFragment extends Fragment implements SensorEventListener {
 
 			lineGraphChart.notifyDataSetChanged();
 			lineGraphChart.invalidate();
-				// i++;
-				//DetailsGraph();
+			// i++;
+			//DetailsGraph();
 		}
 	}
 

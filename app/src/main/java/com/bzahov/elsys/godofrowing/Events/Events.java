@@ -4,7 +4,7 @@ package com.bzahov.elsys.godofrowing.Events;
  * Created by bobo-pc on 1/29/2017.
  */
 public class Events {
-
+    //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
     public static class FragmentActivityMessage {
         private String message;
         public FragmentActivityMessage(String message) {

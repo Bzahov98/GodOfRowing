@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class TestActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
     GoogleMap mMap;
     SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;

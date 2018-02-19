@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_alignParentTop="true"
     android:layout_height="wrap_content"
+    android:background="@color/black"
     tools:showIn="@layout/activity_result_analysis">
 
     <include
@@ -18,15 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="176dp"
         android:id="@+id/res_analysis_map"
-        android:onClick=""
+        android:onClick="onMapClickAnalysis"
+        android:visibility="invisible"
         android:layout_below="@+id/res_analysis_meters_total"
+
         />
 
     <include
         android:id="@+id/res_analysis_speed_average"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@+id/res_analysis_empty"
+        android:layout_below="@+id/res_analysis_map"
         layout="@layout/layout_result_paramers" />
 
     <include
@@ -41,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         layout="@layout/layout_result_paramers"
-        android:layout_below="@+id/res_analysis_meters_total"
+        android:layout_below="@+id/res_analysis_speed_max"
         android:layout_alignParentStart="true" />
     <!--<include
         android:id="@+id/res_analysis_empty2"
@@ -74,8 +77,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="#000"
-        android:layout_below="@id/res_analysis_speed_max"
+        android:layout_below="@id/res_analysis_elapsed_time"
         android:orientation="vertical"
+        android:visibility="gone"
         android:id="@+id/res_param_layout">
 
         <ImageView

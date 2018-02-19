@@ -26,7 +26,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     private static final float CONST_FOR_POSSIBLE_WRONG = 0.1f;
     private static final int CONST_POSITIONS_FOR_INCREASE = 10;
 
-    private static final float STATE_FOR_LOW_ACCEL_DATA = -0.1f;
+    private static final float STATE_FOR_LOW_ACCEL_DATA = -1.1f;
     private static final float STATE_FOR_HIGH_ACCEL_DATA = 1.5f; //HERE
 
     private int accelerometerAccuracy;
@@ -69,7 +69,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        withTestData = true;
+        withTestData = true; // TRUE for Test data FALSE for data from sensors
     }
 
     @Override
@@ -124,10 +124,10 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             System.arraycopy(sensorEvent.values, 0, this.accelerationOnAxis, 0, sensorEvent.values.length);
 
             if (withTestData) {
-                    //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Cleared",Toast.LENGTH_SHORT).show();
                 if (i > 1425){
                     i = 0;
-                     //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"Repeat",Toast.LENGTH_SHORT).show();
                 }
 
                 x_accelerometer = xFloatTestVector[i];
@@ -143,7 +143,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             if (j > 1200) {
                 //removeDataSet(chartGraphData, 0);
                 clearDataSet(chartGraphData, 1);
-                Log.d("Graph", "Cleared" );
+                //Log.d("Graph", "Cleared" );
                 j = 0;
                 //removeDataSet(chartGraphData, 2);
                 //removeDataSet(chartGraphData, 3);
@@ -206,7 +206,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
             if (sendNotify) {
                 setNotifyForNewStroke();
                 if(j< 600) {
-                    Toast.makeText(getContext(),"NewStroke",Toast.LENGTH_SHORT).show(); // For Debug
+                    Toast.makeText(getContext(),"NewStroke",Toast.LENGTH_SHORT).show(); // For Debug TODO:
                 }
             }
             sendNotify = false;
@@ -259,7 +259,7 @@ public class MainLinAccGraphFragment extends BaseChartFragment implements Sensor
     public void sendNewLinAccel() {
         //communication with activity
         mCommChListner.sendNewLimAccel(currentLinAcceleration);
-      //  Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getContext(),"New Stroke",Toast.LENGTH_SHORT).show();
     }
 
 

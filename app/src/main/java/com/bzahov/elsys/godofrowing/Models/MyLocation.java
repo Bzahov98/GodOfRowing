@@ -12,47 +12,58 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class MyLocation {
     //location information
-    private long time;
-    private double lat;
-    private double lng;
+    public long currentTime;
+    public double lat;
+    public double lng;
     //training information at current moment
-    private String elapsedTimeStr;
-    private float averageSpeed;
-    private float currentSpeed;
-    private float maxSpeed;
-    private float strokeRate;
-    private float AverageStrokeRate;
-    private long totalMeters;
+    public String elapsedTimeStr;
+    public float averageSpeed;
+    public float currentSpeed;
+    public float maxSpeed;
+    public float strokeRate;
+    public float averageStrokeRate;
+    public long totalMeters;
 
 
 
     public MyLocation() {
         // Default constructor required for calls to DataSnapshot.getValue(MyLocation.class)
     }
-    public MyLocation(double lat, double lng, @Nullable float speed,long time){
+    public MyLocation(double lat, double lng, @Nullable float speed,long currentTime){
         this.lat = lat;
         this.lng = lng;
         this.currentSpeed = speed;
-        this.time = time;
+        this.currentTime = currentTime;
 
     }
+
     public MyLocation(Location inputLoc){
         this.lat = inputLoc.getLatitude();
         this.lng = inputLoc.getLongitude();
         this.currentSpeed = inputLoc.getSpeed();
-        this.time = inputLoc.getTime();
+        this.currentTime = inputLoc.getTime();
+    }
+
+    public MyLocation(Location inputLoc, float strokeRate,float averageStrokeRate,long totalMeters){
+        this.lat = inputLoc.getLatitude();
+        this.lng = inputLoc.getLongitude();
+        this.currentSpeed = inputLoc.getSpeed();
+        this.currentTime = inputLoc.getTime();
+        this.strokeRate = strokeRate;
+        this.averageStrokeRate = averageStrokeRate;
+        this.totalMeters = totalMeters;
     }
 
     public MyLocation(Location inputLoc, String elapsedTimeStr){//, float maxSpeed, float averageSpeed){//, float strokeRate,float averageStrokeRate,long totalMeters){
         this.lat = inputLoc.getLatitude();
         this.lng = inputLoc.getLongitude();
-        this.time = inputLoc.getTime();
+        this.currentTime = inputLoc.getTime();
         this.currentSpeed = inputLoc.getSpeed();
         this.elapsedTimeStr = elapsedTimeStr;
         this.maxSpeed = maxSpeed;
         this.averageSpeed = averageSpeed;/*
         this.strokeRate = strokeRate;
-        this.AverageStrokeRate = averageStrokeRate;
+        this.averageStrokeRate = averageStrokeRate;
         this.totalMeters = totalMeters;*/
     }
 
@@ -76,7 +87,7 @@ public class MyLocation {
     }
 
     public float getTime() {
-        return time;
+        return currentTime;
     }
 
     public String getElapsedTimeStr() {
@@ -100,11 +111,24 @@ public class MyLocation {
     }
 
     public float getAverageStrokeRate() {
-        return AverageStrokeRate;
+        return averageStrokeRate;
     }
 
     public long getTotalMeters() {
         return totalMeters;
     }
 
+    @Override
+    public String toString() {
+        return "AllLocations{" +
+                " currentTime='" + getTime() + '\'' +
+                ", Lat=" + getLat() +
+                ", lng='" + getLng() + '\'' +
+                ", averageSpeed=" + averageSpeed +
+                ", maxSpeed=" + maxSpeed +
+                ", currentSpeed=" + currentSpeed +
+                ", AverageStrokeRate=" + averageStrokeRate +
+                ", totalMeters*=" + totalMeters +
+                '}';
+    }
 }

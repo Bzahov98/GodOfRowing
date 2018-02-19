@@ -148,7 +148,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 if (user != null) {
                     // User is signed in
                     mUser = firebaseAuth.getCurrentUser();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
+                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
                     Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
                    // showSettingsAlert = isFirst?false:true;
                     //showSettingsAlert();
@@ -159,7 +159,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     Intent logInActInt = new Intent(MainActivity.this, LogInActivity.class);
                     startActivityForResult(logInActInt,REQUEST_LOGIN_INTENT);
 
-                    Log.d(TAG, "onAuthStateChanged:signed_out: ");
+                    //Log.d(TAG, "onAuthStateChanged:signed_out: ");
                 }
             }
         };
@@ -269,26 +269,30 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void SendDataToDatabase() {
-
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
-        ;
+
         DateFormat dateFormat = new SimpleDateFormat("yyMMdd-HH:mm:ss");
         DateFormat dateFormatWrap = new SimpleDateFormat("yyMMddHHmmss");
+       // String currentDateTimeString = dateFormat.format(new Date());
+
         String postTime = dateFormatWrap.format(new Date());
         String postTimePresentation = dateFormatWrap.format(new Date());
 
+        if (allStrokes == null || allLocations == null) return;
+
         ResourcesFromActivity rfa = new ResourcesFromActivity(allMyLocations,totalMeters,
                 averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, postTime);
-        DatabaseReference debugDataRef = database.getReference("message");//+ currentDateTimeString);
-        //debugDataRef.setValue(rfa);
-
+        //DatabaseReference debugDataRef = database.getReference("message");//+ currentDateTimeString);
+        //debugDataRef.setValue(rfa)
         DatabaseReference dataRef = database.getReference().child("users/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
+        //Log.e(TAG,currentDateTimeString +" IIII\n "+ dataRef +"\n" + rfa.toString());
+        if (rfa == null) return;
 
         dataRef.setValue(rfa);
     }
 
     /***private void writeNew(String userId, String username, String title, String body) {
-        User key = database.getReference().child("users").child(mUser.getUid()).push().;
+        User key = databяяase.getReference().child("users").child(mUser.getUid()).push().;
         User user = new User(, username, title, body);
         Map<String, Object> postValues = user.toMap();
 
@@ -385,7 +389,12 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             }
         }
         int count = allSpeeds.size()-1;
+
+        if (count == 0 ) averageSpeed = 0;
+
         averageSpeed =  newAverSpeed /  count ;
+        if (averageSpeed == Double.POSITIVE_INFINITY || averageSpeed == Double.POSITIVE_INFINITY * -1)
+            averageSpeed = 0;
     }
 
     private static int calcSecondsPer500meters(float speed) {
@@ -430,7 +439,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private float calcAverageStrokeRate() {
         currentStrokeRateSum += currentStrokeRate;
         averageStrokeRate =  currentStrokeRateSum /  numStrokes ;
-        Log.e("STROKE",currentStrokeRate + " " + currentStrokeRateSum + " " + numStrokes);
+        //Log.e("STROKE",currentStrokeRate + " " + currentStrokeRateSum + " " + numStrokes);
         return averageStrokeRate ;
     }
 
@@ -474,7 +483,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     private void removeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        Log.d(TAG,"removeFragment: " + fragment.getClass().getSimpleName());
+        //Log.d(TAG,"removeFragment: " + fragment.getClass().getSimpleName());
         if (fragment.isAdded()) {
             //if (!fragment.isHidden()) {
             fragmentTransaction.remove(fragment);
@@ -521,7 +530,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 removeFragment(gForceGraphFragment);
                 showFragment(lAccelGraphFragment);
             default:
-                Log.d(TAG, fragmentNumber + " Doesn't exist");
+               // Log.d(TAG, fragmentNumber + " Doesn't exist");
                  return;
         }
         ft.commit();
@@ -606,7 +615,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     public void setGraphCommunication(String speed) {
         TextView textView = (TextView) findViewById(R.id.main_table_Param_speed_mpersec);
         textView.setText(speed);
-        Log.d(TAG,"set speed from graph Fragment" + speed);
+        //Log.d(TAG,"set speed from graph Fragment" + speed);
     }
 
     @Override
@@ -614,7 +623,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         if  (isStarted){
             TextView textView = (TextView) findViewById(R.id.main_table_Param_speed);
             textView.setText(speed);
-            Log.d(TAG,"set speed from map Fragment");
+            //Log.d(TAG,"set speed from map Fragment");
         }
     }
 
@@ -689,7 +698,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG,"onBackPressed");
+        //Log.d(TAG,"onBackPressed");
         if (choosedDetailOption == 2){
 
             //removeFragment(mapFragment);
@@ -727,7 +736,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
             if(resultCode == Activity.RESULT_OK){
                 showSettingsAlert = data.getBooleanExtra("returnFromLogIn",false);
                 // Toast.makeText(this,Boolean.toString(showSettingsAlert),Toast.LENGTH_LONG).show();
-                Log.e("dialog",Boolean.toString(showSettingsAlert));
+                //Log.e("dialog",Boolean.toString(showSettingsAlert));
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 showSettingsAlert = false;

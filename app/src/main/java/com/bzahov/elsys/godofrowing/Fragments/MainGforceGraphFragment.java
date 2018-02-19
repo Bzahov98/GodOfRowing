@@ -48,7 +48,7 @@ public class MainGforceGraphFragment extends BaseChartFragment implements Sensor
 
             if (withTestData) {
                 if (i > 1500) {
-                    i = 0;
+                    i = 0; //reset test data
                 }
 
                 x_accelerometer = xFloatTestVector[i];

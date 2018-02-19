@@ -14,7 +14,7 @@ import com.bzahov.elsys.godofrowing.R;
  * Created by bobo-pc on 2/8/2017.
  */
 public class ResultContentSplitterActivity extends Activity { //UNUSED
-
+//UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
 
     @Nullable
     @Override

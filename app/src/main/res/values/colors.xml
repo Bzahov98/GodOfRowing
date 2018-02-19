@@ -5,5 +5,6 @@
     <color name="colorPrimaryYellow">#fff240</color>
     <color name="colorAccentBlue">#7199d9</color>
     <color name="colorAccent">#7199d9</color>
+    <color name="black">#020202</color>
 
 </resources>

@@ -68,8 +68,6 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-
         locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -79,7 +77,6 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 showSettingsAlert();
             }
         }
-        Log.d(TAG, "onCreate");
     }
 
     @Override
@@ -114,7 +111,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     private synchronized void buildGoogleApiClient() {
-        Log.d(TAG, "buildGoogleApi");
+       // Log.d(TAG, "buildGoogleApi");
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -136,13 +133,13 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             public void onClick(DialogInterface dialog, int id) {
                 Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(callGPSSettingIntent);
-                Log.d(TAG, "PossitiveButton");
+              //  Log.d(TAG, "PossitiveButton");
             }
         });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
-                Log.d(TAG, "NegativeButton");
+           //     Log.d(TAG, "NegativeButton");
                 //Toast.makeText(getContext(),"Cancaled", Toast.LENGTH_SHORT).show();
             }
         });
@@ -155,7 +152,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
         String[] permStrArray = new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
         };
-        Log.d(TAG, "CheckLocationPermissions");
+        //Log.d(TAG, "CheckLocationPermissions");
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(getActivity(), permStrArray, MY_PERMISSION_REQUEST_LOCATION);
@@ -165,7 +162,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
             return false;
         } else {
-            Log.d(TAG, "HavePermission");
+        //    Log.d(TAG, "HavePermission");
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showSettingsAlert();
             }
@@ -175,7 +172,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady");
+       // Log.d(TAG, "onMapReady");
         mMap = googleMap;
         LatLng sofiaNDK = new LatLng(42.68, 23.31);
         gotoLocation(sofiaNDK, 16);
@@ -211,7 +208,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             case MY_PERMISSION_REQUEST_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG, "Location Permission Granted: " + MY_PERMISSION_REQUEST_LOCATION);
+                 //       Log.d(TAG, "Location Permission Granted: " + MY_PERMISSION_REQUEST_LOCATION);
                         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                             showSettingsAlert();
                         }
@@ -222,7 +219,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     }
                 } else {
                     // permission denied
-                    Log.d(TAG, "Location Permission denied: " + MY_PERMISSION_REQUEST_LOCATION);
+                //    Log.d(TAG, "Location Permission denied: " + MY_PERMISSION_REQUEST_LOCATION);
                     Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -231,7 +228,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 break;
             }
             default: {
-                Log.d(TAG, "Location Code Wrong: " + requestCode);
+               // Log.d(TAG, "Location Code Wrong: " + requestCode);
                 break;
             }
         }
@@ -268,14 +265,14 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     private void gotoLocation(double lat, double lng, float zoom) {
-        Log.d("value", "gotoLocation called");
+       // Log.d("value", "gotoLocation called");
         LatLng latLng = new LatLng(lat, lng);
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         mMap.moveCamera(update);
     }
 
     private void gotoLocation(LatLng latLng, float zoom) {
-        Log.d("value", "gotoLocation called");
+        //Log.d("value", "gotoLocation called");
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         if (locationCounter == 0 || checkSportActivityStatus()) {
             locationCounter++;
@@ -321,15 +318,15 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d ("as", "onLocationChanged" + location.toString());
+       // Log.d ("as", "onLocationChanged" + location.toString());
         if (checkSportActivityStatus()) {
             mLastLocation = location;
-            Log.d(TAG, "marker Removed");
+         //   Log.d(TAG, "marker Removed");
             //mCurrLocationMarker.remove();
             LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             gotoLocation(newLatLng, 16);
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_dialog_close_dark));
             markerOptions.position(newLatLng);
             markerOptions.title("Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s");
             mCurrLocationMarker = mMap.addMarker(markerOptions);
@@ -337,10 +334,10 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (location.hasSpeed()) {
                 float currentSpeed = location.getSpeed();
                 //Toast.makeText(getContext(),"Speed is " + currentSpeed + " km/h",Toast.LENGTH_SHORT ).show();
-                Log.d(TAG, "Speed: " + currentSpeed);
+                //Log.d(TAG, "Speed: " + currentSpeed);
             } else {
                 //Toast.makeText(getContext(),"Location Hasn't speed",Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Location has't Speed");
+                //Log.d(TAG, "Location has't Speed");
             }
         }
     }
@@ -348,11 +345,11 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnected");
+        //Log.d(TAG, "onConnected");
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
+        mLocationRequest.setInterval(2000);
 
-        mLocationRequest.setFastestInterval(777);
+        mLocationRequest.setFastestInterval(2000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
@@ -361,12 +358,12 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(getContext(), "Suspended", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Suspended", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Conenction Failed", Toast.LENGTH_SHORT).show();
         checkLocationPermission();
     }
 
@@ -374,7 +371,7 @@ public class MainMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onPause() {
         super.onPause();
         //Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onPause");
+        //Log.d(TAG, "onPause");
         if (mGoogleApiClient != null) {
             //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }

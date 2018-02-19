@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * Created by bobo-pc on 2/8/2017.
  */
 public class ResultContentHistoryActivity extends AppCompatActivity {
-    //UNUSED
+    //UNUSED //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
     private final String TAG = "HistoryActivity";
 
 
