@@ -1,7 +1,8 @@
 package com.bzahov.elsys.godofrowing.TestData;
 
 /**
- * Created by bobo-pc on 5/30/2017.
+ * God of Rowing
+ * Created by B. Zahov on 5/30/2017.
  */
 
 public class AccelerometerTestData {

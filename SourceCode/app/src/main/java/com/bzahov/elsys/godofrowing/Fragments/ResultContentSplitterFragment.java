@@ -15,6 +15,7 @@ import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
+import com.bzahov.elsys.godofrowing.RowApplication;
 import com.google.android.gms.maps.MapView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +42,7 @@ public class ResultContentSplitterFragment extends Fragment implements ValueEven
     private FirebaseDatabase database = FirebaseDatabase.getInstance();;
     private List<MyLocation> allLocations;
     private ResourcesFromActivity receivedData;
+    private RowApplication app = RowApplication.getInstance();
 
     @Nullable
     @Override
@@ -74,8 +76,8 @@ public class ResultContentSplitterFragment extends Fragment implements ValueEven
         }
         else{
             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");
-            Query query = usersActivitiesRef.orderByChild("currentTime").limitToLast(1);
+            usersActivitiesRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
+            Query query = usersActivitiesRef.orderByChild(app.getString(R.string.ref_database_sortby_currentTime)).limitToLast(1);
             Log.e("Query getRef()",query.getRef().toString());
             query.addValueEventListener(this);
         }

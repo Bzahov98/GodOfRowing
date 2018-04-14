@@ -12,6 +12,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class MyLocation {
     //location information
+
     public long currentTime;
     public double lat;
     public double lng;
@@ -29,6 +30,23 @@ public class MyLocation {
     public MyLocation() {
         // Default constructor required for calls to DataSnapshot.getValue(MyLocation.class)
     }
+
+    public MyLocation(Location location, String elapsedTimeStr,
+                      float averageSpeed, float strokeRate,
+                      float averageStrokeRate, long totalMeters)
+    {
+        this.elapsedTimeStr = elapsedTimeStr;
+        this.averageSpeed = averageSpeed;
+        this.strokeRate = strokeRate;
+        this.averageStrokeRate = averageStrokeRate;
+        this.totalMeters = totalMeters;
+
+        this.currentSpeed = location.getSpeed();
+        this.currentTime = location.getTime();
+        this.lat = location.getLatitude();
+        this.lng = location.getLongitude();
+    }
+
     public MyLocation(double lat, double lng, @Nullable float speed,long currentTime){
         this.lat = lat;
         this.lng = lng;

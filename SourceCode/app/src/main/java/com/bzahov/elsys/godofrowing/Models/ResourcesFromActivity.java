@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ import java.util.Map;
 public class ResourcesFromActivity {
 
     public String currentTime;
+    public long curTimeMillis;
     public long elapsedTime;
     public String elapsedTimeStr;
     public float averageSpeed;
@@ -68,12 +69,15 @@ public class ResourcesFromActivity {
                                  float averageStrokeRate,
                                  float maxSpeed,
                                  float averageSpeed,
-                                 String elapsedTimeStr, String currentTime) {
+                                 String elapsedTimeStr,
+                                 String currentTime,
+                                 long curTimeMillis) {
         /*this.allStrokes = allStrokes;
         this.allSpeeds = allSpeeds;
         this.allLocations = allLocations;*/
         this.myLocationsList = allLocations;
         this.totalMeters = totalMeters;
+        this.curTimeMillis= curTimeMillis;
         this.averageStrokeRate = averageStrokeRate;
         this.maxSpeed = maxSpeed;
         this.averageSpeed = averageSpeed;
@@ -111,6 +115,7 @@ public class ResourcesFromActivity {
         result.put("totalMeters", getTotalMeters());
         result.put("elapsedTime", elapsedTime);
         result.put("currentTime",currentTime);
+        result.put("curTimeMillis",curTimeMillis);
 
         return result;
     }
@@ -118,6 +123,7 @@ public class ResourcesFromActivity {
     @Override
     public String toString() {
         return "ResourcesFromActivity{" +
+                "curTimeMillis='" + curTimeMillis + '\'' +
                 "currentTime='" + currentTime + '\'' +
                 ", elapsedTime=" + elapsedTime +
                 ", elapsedTimeStr='" + elapsedTimeStr + '\'' +

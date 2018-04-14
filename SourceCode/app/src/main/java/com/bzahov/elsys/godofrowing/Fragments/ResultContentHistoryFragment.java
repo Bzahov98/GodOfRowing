@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
+import com.bzahov.elsys.godofrowing.RowApplication;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,6 +54,7 @@ public class ResultContentHistoryFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mUser;
+    private RowApplication app = RowApplication.getInstance();
 
 
     private Query mQuery;
@@ -66,31 +68,23 @@ public class ResultContentHistoryFragment extends Fragment {
         final View v = inflater.inflate(R.layout.activity_result_history, container, false);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
+                if (user != null) {// User is signed in
                     mUser = firebaseAuth.getCurrentUser();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
+                } else {// User is signed out
                     startActivity(new Intent(getActivity(), LogInActivity.class));
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
-            }
-        };
+            }};
 
 
         if (mAuth.getCurrentUser() == null) {
             mAuth.getCurrentUser().reload();
         } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
-            mListItemRef = database.getReference("users").child(mUser.getUid()).child("activities") ;
-            //myUserRef = database.getReference("message");
-
-            //Toast.makeText(getContext(), mUser.getEmail(), Toast.LENGTH_SHORT).show();
+            mListItemRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
         }
         handleInstanceState(savedInstanceState);
         setupFirebase();
@@ -159,29 +153,11 @@ public class ResultContentHistoryFragment extends Fragment {
         if(mMyAdapter != null) mMyAdapter.cleanup();
     }
 
-    public static class ResourcesHolder extends RecyclerView.ViewHolder {
-        private final TextView mNameField;
-        //private final TextView mTextField;
-
-        public ResourcesHolder(View itemView) {
-            super(itemView);
-            mNameField = (TextView) itemView.findViewById(R.id.list_item_child_meters_total);
-            //mTextField = (TextView) itemView.findViewById(android.R.id.);
-        }
-
-        public void setName(String name) {
-            mNameField.setText(name);
-        }
-
-        public void setText(String text) {
-            // mTextField.setText(text);
-        }
-    }
-
     public static class FirebaseResViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final int MAX_WIDTH = 200;
         private static final int MAX_HEIGHT = 200;
         private boolean childVisible;
+        private RowApplication app = RowApplication.getInstance();
         RelativeLayout childLayout;
         View mView;
         String key = "";
@@ -194,22 +170,23 @@ public class ResultContentHistoryFragment extends Fragment {
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
             childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
+            childLayout.setVisibility(View.GONE); //TODO review
         }
 
         public void bindSportActivity(ResourcesFromActivity model) {
             TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
 
-            headerTextView.setText(key);
+            headerTextView.setText(key + " | Workout:"+ model.getTotalMeters()+ " m");
 
             setAllParameters(model);
         }
 
         private void setAllParameters(ResourcesFromActivity model) {
-            setParameters(R.id.res_analysis_meters_total, 0, "Distance(m):", Long.toString(model.getTotalMeters()));
-            setParameters(R.id.res_analysis_speed_average, 0, "Average Speed", Float.toString(round(model.getAverageSpeed(),2)));
-            setParameters(R.id.res_analysis_speed_max, 0, "MaxSpeed", Float.toString(round(model.getMaxSpeed(),2)));
-            setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(model.getAverageStrokeRate()));
-            setParameters(R.id.res_analysis_elapsed_time, 0, "Duration: ", model.getElapsedTimeStr());
+            setParameters(R.id.res_analysis_meters_total, 0, app.getString(R.string.text_result_distance), Long.toString(model.getTotalMeters()));
+            setParameters(R.id.res_analysis_speed_average,0, app.getString(R.string.text_result_speed_ave), Float.toString(round(model.getAverageSpeed(),2)));
+            setParameters(R.id.res_analysis_speed_max, 0, app.getString(R.string.text_result_speedPer500m_max), Float.toString(round(model.getMaxSpeed(),2)));
+            setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,app.getString(R.string.text_result_StrokeRate_ave),Float.toString(model.getAverageStrokeRate()));
+            setParameters(R.id.res_analysis_elapsed_time, 0, app.getString(R.string.text_result_duration), model.getElapsedTimeStr());
         }
 
         @Override
@@ -247,8 +224,6 @@ public class ResultContentHistoryFragment extends Fragment {
     }
 
     public class CallBack extends ItemTouchHelper.SimpleCallback {
-
-
         private FirebaseRecyclerAdapter adapter; // this will be your recycler adapter
 
         private DatabaseReference root = FirebaseDatabase.getInstance().getReference();
@@ -280,5 +255,23 @@ public class ResultContentHistoryFragment extends Fragment {
 
     public void onMapClickAnalysis(View view) {
     }
+    //unused
+    public static class ResourcesHolder extends RecyclerView.ViewHolder {
+        private final TextView mNameField;
+        //private final TextView mTextField;
 
+        public ResourcesHolder(View itemView) {
+            super(itemView);
+            mNameField = (TextView) itemView.findViewById(R.id.list_item_child_meters_total);
+            //mTextField = (TextView) itemView.findViewById(android.R.id.);
+        }
+
+        public void setName(String name) {
+            mNameField.setText(name);
+        }
+
+        public void setText(String text) {
+            // mTextField.setText(text);
+        }
+    }
 }

@@ -45,7 +45,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
 
     //compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     // compile 'com.github.kibotu:KalmanRx:-SNAPSHOT'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.google.android.gms:play-services:11.8.0'

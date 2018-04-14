@@ -115,7 +115,7 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     }
                 });
-        Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.toast_register_succses, Toast.LENGTH_SHORT).show();
     }
 
     private void createNewUser(FirebaseUser userFromRegistration) {
@@ -132,7 +132,7 @@ public class SignInActivity extends AppCompatActivity {
 
         User user = new User(uId,username, email,password);
 
-            mDatabase.child("users").child(userId).setValue(user);
+            mDatabase.child(getString(R.string.ref_database_users)).child(userId).setValue(user);
     }
 
     private boolean checkEmail() {
@@ -140,8 +140,8 @@ public class SignInActivity extends AppCompatActivity {
         if (email.isEmpty() || !isEmailValid(email)) {
 
             signupInputLayoutEmail.setErrorEnabled(true);
-            signupInputLayoutEmail.setError(getString(R.string.err_msg_email));
-            signupInputEmail.setError(getString(R.string.err_msg_required));
+            signupInputLayoutEmail.setError(getString(R.string.err_toast_email));
+            signupInputEmail.setError(getString(R.string.err_toast_required));
             requestFocus(signupInputEmail);
             return false;
         }
@@ -154,8 +154,8 @@ public class SignInActivity extends AppCompatActivity {
         String password = signupInputPassword.getText().toString().trim();
         if (password.isEmpty() || !isPasswordValid(password)) {
 
-            signupInputLayoutPassword.setError(getString(R.string.err_msg_password));
-            signupInputPassword.setError(getString(R.string.err_msg_required));
+            signupInputLayoutPassword.setError(getString(R.string.err_toast_password));
+            signupInputPassword.setError(getString(R.string.err_toast_required));
             requestFocus(signupInputPassword);
             return false;
         }

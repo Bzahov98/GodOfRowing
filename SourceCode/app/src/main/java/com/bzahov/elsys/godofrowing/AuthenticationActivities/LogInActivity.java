@@ -113,8 +113,8 @@ public class LogInActivity extends Activity {
             String password = loginInputPassword.getText().toString().trim();
 
             if (anonymousSwitch.isChecked()) {
-                email = "anonymous@gmail.com";
-                password = "anonymous";
+                email = getString(R.string.acc_anonym_email);
+                password = getString(R.string.acc_anonym_pass);
             } else {
                 if (!checkEmail()) {
                     return;
@@ -140,7 +140,7 @@ public class LogInActivity extends Activity {
                         progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             // there was an error
-                            Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, getString(R.string.err_toast_login_auth), Toast.LENGTH_LONG).show();
                             Log.e(TAG, "signInWithEmail", task.getException());
                         } else {
                             Intent returnIntent = new Intent(); //+
@@ -158,8 +158,8 @@ public class LogInActivity extends Activity {
             if (email.isEmpty() || !isEmailValid(email)) {
 
                 loginInputLayoutEmail.setErrorEnabled(true);
-                loginInputLayoutEmail.setError(getString(R.string.err_msg_email));
-                loginInputEmail.setError(getString(R.string.err_msg_required));
+                loginInputLayoutEmail.setError(getString(R.string.err_toast_email));
+                loginInputEmail.setError(getString(R.string.err_toast_required));
                 requestFocus(loginInputEmail);
                 return false;
             }
@@ -172,8 +172,8 @@ public class LogInActivity extends Activity {
             String password = loginInputPassword.getText().toString().trim();
             if (password.isEmpty() || !isPasswordValid(password)) {
 
-                loginInputLayoutPassword.setError(getString(R.string.err_msg_password));
-                loginInputPassword.setError(getString(R.string.err_msg_required));
+                loginInputLayoutPassword.setError(getString(R.string.err_toast_password));
+                loginInputPassword.setError(getString(R.string.err_toast_required));
                 requestFocus(loginInputPassword);
                 return false;
             }

@@ -23,8 +23,7 @@ import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bzahov.elsys.godofrowing.RowApplication;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -39,12 +38,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-import java.util.Map;
 
 public class ResultContentAnalysisFragment extends Fragment implements OnMapReadyCallback, ValueEventListener {
     private static final String TAG = "ResConttAnalysisFrg";
@@ -54,28 +51,29 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
-    private FirebaseUser useraaa;
     private DatabaseReference usersActivitiesRef;
     private List<MyLocation> allLocations;
     MyLocation allLocations2;
     private GoogleMap googleMap;
+    //md gouse, https://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-fragment-not-attached-to-activity
+    private RowApplication app = RowApplication.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.activity_result_analysis, container, false);
 
-        preparationOfView(v, savedInstanceState);
+        preparationOfView(v,savedInstanceState);
         checkUserInfo();
+        addDataListener();
+        return v;
+    }
 
-        usersActivitiesRef = database.getReference("users").child(mUser.getUid()).child("activities");
-        Query query = usersActivitiesRef.orderByChild("currentTime").limitToLast(1);
+    private void addDataListener() {
+        usersActivitiesRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
+        Query query = usersActivitiesRef.orderByChild(app.getString(R.string.ref_database_sortby_currentTime)).limitToLast(1);
         Log.e("Query getRef()",query.getRef().toString());
         query.addValueEventListener(this);
-        Query locationsQuery = usersActivitiesRef.orderByChild("currentTime").limitToLast(1).getRef().child("myLocationsList");
-        //locationsQuery.addValueEventListener(new ValueEventListener() {
-        //}})
-        return v;
     }
 
     @Override
@@ -84,9 +82,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         for(DataSnapshot activitySnapShot: dataSnapshot.getChildren()){
             receivedData = activitySnapShot.getValue(ResourcesFromActivity.class);
         }
-        if (receivedData == null) {
-            return;
-        }
+        if (receivedData == null) return;
 
         Log.e("Query Ref",dataSnapshot.getRef().toString());
         Log.e("Query DataS","\n "+dataSnapshot.toString() );
@@ -94,18 +90,13 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
 
         allLocations = receivedData.getMyLocationsList();
-        /*ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        GenericTypeIndicator<Map<String,ResourcesFromActivity>> indicator = new GenericTypeIndicator<Map<String, ResourcesFromActivity>>() {};
-        MyLocation allLocations2 = mapper.convertValue(dataSnapshot.getValue(indicator), MyLocation.class);
-        Log.e("Mapper",allLocations2.toString());*/
         //https://stackoverflow.com/questions/37547399/how-to-deserialise-a-subclass-in-firebase-using-getvaluesubclass-class/37548330#37548330
-
         addMarkersToMap();
         setAllValuesOfViews(receivedData);
     }
 
     private void addMarkersToMap() {
+
         if (allLocations != null) {
             mapView.setVisibility(View.VISIBLE);
             //Log.e("Map", "---"+allLocations.get(2).getTime());
@@ -115,35 +106,37 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
                 Log.e("first Loc:", firstLocation.getLng() + " " + firstLocation.getLat());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLocation.getLat(), firstLocation.getLng()), 17f));
             }
+            
             for (MyLocation location : allLocations) {
-                Log.e("::",location.toString()); //TODO: add more rowing data for each location!
-                //TODO: Find a way to add title and subtitle of mark at v2 Google maps!! - DONE
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_dialog_close_dark));
-                markerOptions.position(new LatLng(location.getLat(), location.getLng()));
-                markerOptions.title(
-                        "Speed - " + Float.toString(round(location.getSpeed(), 2)) + " m/s \n");
-                markerOptions.snippet("Speed - "+ Float.toString(round(location.getSpeed(), 2)) + " m/s \n" +
-                        "Stroke Rate Ave: - "   + Float.toString(round(location.getAverageStrokeRate(), 2)) + " per minute\n" +
-                        "Stroke Rate Min  - " + /* */"" + "\n"+
-                        "Speed average    - " + Float.toString(round(location.getAverageSpeed(),2))+ "\n"+
-                        "Stroke Rate Max  - " + /* */"" + "\n"+
-                        "Total Meters - " + (location.getTotalMeters()) + "\n"+
-                        "Traveled Meters for storke"+/*location.getTotalMeters()-oldLocation.getTotalMeters()*/ "\n");
-
-                Marker as = googleMap.addMarker(markerOptions);
+                addNewMarkerToMap(location);
             }
-        }else {
+        }else { // No data, hide map
             mapView.setVisibility(View.GONE);
         }
     }
 
+    private void addNewMarkerToMap(MyLocation location) {
+        //TODO: add more rowing data for each location!
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_dialog_close_dark));
+        markerOptions.position(new LatLng(location.getLat(), location.getLng()));
+        markerOptions.title( app.getString(R.string.text_result_speed) + Float.toString(round(location.getSpeed(), 2)) + app.getString(R.string.text_mPerS_short)+"\n");
+        markerOptions.snippet(app.getString(R.string.text_result_speed) + Float.toString(round(location.getSpeed(), 2)) + app.getString(R.string.text_mPerS_short) +
+                app.getString(R.string.text_result_StrokeRate_ave)   + Float.toString(round(location.getAverageStrokeRate(), 2)) + app.getString(R.string.text_result_perMin) +
+                app.getString(R.string.text_result_strokeRate_min) + "" + "\n"+
+                app.getString(R.string.text_result_speed_ave) + Float.toString(round(location.getAverageSpeed(),2))+ "\n"+
+                app.getString(R.string.text_result_strokeRate_max) + "" + "\n"+
+                app.getString(R.string.text_result_totMeters) + (location.getTotalMeters()) + "\n"+
+                "Traveled Meters for storke"+/*location.getTotalMeters()-oldLocation.getTotalMeters()*/ "\n");
+        Marker as = googleMap.addMarker(markerOptions);
+    }
+
     private void setAllValuesOfViews(ResourcesFromActivity receivedData) {
-        setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
-        setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
-        setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getMaxSpeed(),2)));
-        setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(round(receivedData.getAverageStrokeRate(),2)));
-        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeStr());
+        setParameters(R.id.res_analysis_meters_total, 0,null, Long.toString(receivedData.getTotalMeters()));
+        setParameters(R.id.res_analysis_speed_average,0,null, Float.toString(round(receivedData.getAverageSpeed(),2)));
+        setParameters(R.id.res_analysis_speed_max,    0,null, Float.toString(round(receivedData.getMaxSpeed(),2)));
+        setParameters(R.id.res_analysis_empty,        0,null, Float.toString(round(receivedData.getAverageStrokeRate(),2)));
+        setParameters(R.id.res_analysis_elapsed_time, 0,null, receivedData.getElapsedTimeStr());
     }
 
     @Override
@@ -155,13 +148,17 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
         this.googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.146168, 24.711175), 13.8f));
 
-        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        setMapMarkers(googleMap);
 
+        mapView.onResume();
+    }
+
+    private void setMapMarkers(GoogleMap googleMap) {
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker arg0) {
                 return null;
             }
-
             @Override
             public View getInfoContents(Marker marker) {
 
@@ -180,11 +177,9 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
                 info.addView(title);
                 info.addView(snippet);
-
                 return info;
             }
         });
-        mapView.onResume();
     }
 
     public void onMapClickAnalysis(View view) {
@@ -192,8 +187,8 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
 
     private void preparationOfView(View v,Bundle savedInstanceState) {
 
-        ScrollView a = (ScrollView) v.findViewById(R.id.res_analysis_scroll_view);
-        analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
+        ScrollView sv = (ScrollView) v.findViewById(R.id.res_analysis_scroll_view);
+        analysisContainer = (RelativeLayout) sv.findViewById(R.id.tab_content_analysis_layout);
 
         mapView = (MapView) v.findViewById(R.id.res_analysis_map);
         //mapView.setVisibility(View.VISIBLE); // TODO Review
@@ -206,14 +201,17 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             mapView.getMapAsync(this);
         }
         //mapView.setVisibility(View.VISIBLE); // TODO Review
-        analysisContainer = (RelativeLayout) a.findViewById(R.id.tab_content_analysis_layout);
+        analysisContainer = (RelativeLayout) sv.findViewById(R.id.tab_content_analysis_layout);
+        setAllParamsToDefaut();
 
-        //set defaut values
-        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , "Distance(m): " , "0000");
-        setParameters(R.id.res_analysis_elapsed_time ,R.drawable.icon_timer   , "Duration: "    , "0:00:00");
-        setParameters(R.id.res_analysis_empty        ,R.drawable.icon_analysis, "StrokePerMin"  , "0");
-        setParameters(R.id.res_analysis_speed_average,R.drawable.icon_speed   , "Ave sec/500m"  , " 0:00");
-        setParameters(R.id.res_analysis_speed_max,    R.drawable.icon_speed   , "Max Speed/500m", " 0:00");
+    }
+
+    private void setAllParamsToDefaut() {
+        setParameters(R.id.res_analysis_meters_total ,R.drawable.icon_meters  , app.getString(R.string.text_result_distance), app.getString(R.string.text_meters_zero));
+        setParameters(R.id.res_analysis_elapsed_time ,R.drawable.icon_timer   , app.getString(R.string.text_result_duration), app.getString(R.string.text_result_duration_zero));
+        setParameters(R.id.res_analysis_empty        ,R.drawable.icon_analysis, app.getString(R.string.text_result_strokePerMin), app.getString(R.string.zero));
+        setParameters(R.id.res_analysis_speed_average,R.drawable.icon_speed   , app.getString(R.string.text_result_ave_sec500m), app.getString(R.string.text_result_speed_zero));
+        setParameters(R.id.res_analysis_speed_max,    R.drawable.icon_speed   , app.getString(R.string.text_result_speedPer500m_max), app.getString(R.string.text_result_speed_zero));
     }
 
     private void checkUserInfo() {
@@ -234,7 +232,6 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             }
         };
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-
     }
 
     public static float round(float source, int positions) {

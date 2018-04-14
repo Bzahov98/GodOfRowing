@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tab_content_analysis_layout"
     android:layout_width="match_parent"
@@ -20,7 +21,7 @@
         android:layout_height="176dp"
         android:id="@+id/res_analysis_map"
         android:onClick="onMapClickAnalysis"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_below="@+id/res_analysis_meters_total"
 
         />
@@ -140,5 +141,34 @@
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_elapsed_time"
         android:layout_alignParentStart="true" />
+    <include
+        android:id="@+id/res_analysis_empty2"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_result_paramers"
+        android:layout_below="@+id/res_analysis_empty"
+        android:layout_alignParentStart="true" />
+    <include
+        android:id="@+id/res_analysis_empty3"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_result_paramers"
+        android:layout_below="@+id/res_analysis_empty2"
+        android:layout_alignParentStart="true" />
+    <include
+        android:id="@+id/res_analysis_empty4"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_result_paramers"
+        android:layout_below="@+id/res_analysis_empty3"
+        android:layout_alignParentStart="true" />
+    <include
+        android:id="@+id/res_analysis_empty5"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_result_paramers"
+        android:layout_below="@+id/res_analysis_empty4"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

@@ -40,7 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -128,7 +128,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         setFragments();
         checkUserAuth();
         powerOn();
-
     }
 
     private void setFragments() {
@@ -149,7 +148,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     // User is signed in
                     mUser = firebaseAuth.getCurrentUser();
                     //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getEmail());
-                    Toast.makeText(getBaseContext(),"Welcome " + user.getEmail(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),getString(R.string.text_Welcome) + user.getEmail(),Toast.LENGTH_SHORT).show();
                    // showSettingsAlert = isFirst?false:true;
                     //showSettingsAlert();
                 } else {
@@ -158,7 +157,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                     // showSettingsAlert = false;
                     Intent logInActInt = new Intent(MainActivity.this, LogInActivity.class);
                     startActivityForResult(logInActInt,REQUEST_LOGIN_INTENT);
-
                     //Log.d(TAG, "onAuthStateChanged:signed_out: ");
                 }
             }
@@ -179,7 +177,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         stopFrg = (TextView) findViewById(R.id.mapControllerStop);
         aveSPMView = ((TextView)findViewById(R.id.main_table_ave_SPM));
         //chronometer.setBase(SystemClock.currentThreadTimeMillis());
-        chronometer.setText("0:00\n ElapsedTime");
+
+        chronometer.setText(R.string.text_Zero_ChronomView);
         HorizontalScrollView scrollView = (HorizontalScrollView) findViewById(R.id.main_HScrow_View);
         LayoutInflater li = LayoutInflater.from(getBaseContext());
         View v = li.inflate(R.layout.context_main_paramether, null, false);
@@ -234,7 +233,6 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         isStarted = false;
         isFirst = true;
         currentStrokeRateSum = 0;
-
         database = FirebaseDatabase.getInstance();
 
         averageSpeed = 0;
@@ -259,7 +257,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         aveSpeedView.setText(Long.toString(totalMeters) + "\nave meters");
         speedView.setText(Long.toString(totalMeters) + "\n m/s");
 
-        startFrg.setText("Start Activity");
+        startFrg.setText(R.string.start_activity);
     }
 
     private void powerOn() {
@@ -269,24 +267,34 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void SendDataToDatabase() {
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
+
+        //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date()).replaceAll("[,. ]", "");
 
         DateFormat dateFormat = new SimpleDateFormat("yyMMdd-HH:mm:ss");
-        DateFormat dateFormatWrap = new SimpleDateFormat("yyMMddHHmmss");
-       // String currentDateTimeString = dateFormat.format(new Date());
+        DateFormat dateFormatWrap = new SimpleDateFormat(getString(R.string.format_DataBaseTime));
+        String currentDateTimeString = dateFormatWrap.format(new Date());
 
         String postTime = dateFormatWrap.format(new Date());
         String postTimePresentation = dateFormatWrap.format(new Date());
+        //https://stackoverflow.com/questions/45915212/firebase-data-sorting-by-date-stamp
 
         if (allStrokes == null || allLocations == null) return;
-
+        Log.e("DATA:", totalMeters + averageStrokeRate + maxSpeed + averageSpeed + elapsedTimeStr + "");
+        //(averageStrokeRate);
+        long curTimeMillis = System.currentTimeMillis();
         ResourcesFromActivity rfa = new ResourcesFromActivity(allMyLocations,totalMeters,
-                averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, postTime);
+                averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, currentDateTimeString,curTimeMillis);
         //DatabaseReference debugDataRef = database.getReference("message");//+ currentDateTimeString);
         //debugDataRef.setValue(rfa)
-        DatabaseReference dataRef = database.getReference().child("users/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
-        //Log.e(TAG,currentDateTimeString +" IIII\n "+ dataRef +"\n" + rfa.toString());
-        if (rfa == null) return;
+
+        DatabaseReference dataRef = database.getReference().child(getString(R.string.ref_database_users)+"/"+ mUser.getUid() + "/"+getString(R.string.ref_database_activities) + "/" + currentDateTimeString);
+        //DatabaseReference dataRef = database.getReference().child("users"+"/"+ mUser.getUid() + "/activities/" + currentDateTimeString);
+        /*DatabaseReference dataRef = database.getReference();
+        dataRef.child(getString(R.string.ref_database_users)+ "/"+ mUser.getUid());
+        dataRef.child(getString(R.string.ref_database_activities)+ "/" + currentDateTimeString);
+        //dataRef.child("/" + currentDateTimeString);
+        */       // + "/activities/" + currentDateTimeString)
+        Log.e(TAG,currentDateTimeString +" IIII\n "+ dataRef +"\n" + rfa.toString());
 
         dataRef.setValue(rfa);
     }
@@ -331,7 +339,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void resumeTrainingActivity() {
-        startFrg.setText("Pause");
+        startFrg.setText(R.string.text_Pause);
         startFrg.setBackgroundColor(Color.rgb(255,69,0)); // Orange
         chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
         chronometer.start();
@@ -344,7 +352,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private void pauseTrainingActivity() {
-        startFrg.setText("Resume");
+        startFrg.setText(R.string.text_Resume);
         startFrg.setBackgroundColor(Color.GREEN);
 
         stopTime = System.currentTimeMillis();
@@ -381,7 +389,10 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
     private void calculateAverageSpeed() {
         float newAverSpeed = 0f;
-
+        if (allSpeeds.isEmpty()){
+            averageSpeed = 0;
+            return;
+        }
         for (Float curSpeed : allSpeeds) {
             newAverSpeed += curSpeed;
             if(curSpeed>maxSpeed){
@@ -395,6 +406,8 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         averageSpeed =  newAverSpeed /  count ;
         if (averageSpeed == Double.POSITIVE_INFINITY || averageSpeed == Double.POSITIVE_INFINITY * -1)
             averageSpeed = 0;
+        if (maxSpeed == Double.POSITIVE_INFINITY || maxSpeed == Double.POSITIVE_INFINITY * -1)
+            maxSpeed = 0;
     }
 
     private static int calcSecondsPer500meters(float speed) {
@@ -426,23 +439,32 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     private static int[] splitToComponentTimes(long input) {
-        int hours = (int) input / 3600;
-        int remainder = (int) input - hours * 3600;
-        int mins = remainder / 60;
-        remainder = remainder - mins * 60;
-        int secs = remainder;
+        int[] result = {0,0,0};
 
-        int[] result = {hours , mins , secs};
+        if (input == 0){
+            return result;
+        }
+
+        int hours = result[0] = (int) input / 3600;
+        int remainder = (int) input - hours * 3600;
+        int mins = result[1] = remainder / 60;
+        remainder = remainder - mins * 60;
+        int secs = result[2] = remainder;
+
         return result;
     }
 
     private float calcAverageStrokeRate() {
+        if (currentStrokeRate== 0.0f || numStrokes== 0 || currentStrokeRateSum == 0){
+            Log.e("CalcAveStrRate","Err with stroke rate,curStrRate: " + currentStrokeRate + "NumStrokes: " + numStrokes);
+            return -1;
+        }
         currentStrokeRateSum += currentStrokeRate;
         averageStrokeRate =  currentStrokeRateSum /  numStrokes ;
         //Log.e("STROKE",currentStrokeRate + " " + currentStrokeRateSum + " " + numStrokes);
         return averageStrokeRate ;
     }
-
+    // TODO
     private static float roundFloat(float source, int positions) {
         long multiplier = (long) Math.pow(10, positions);
         return  ((float)((int) (source * multiplier)) / multiplier);
@@ -552,7 +574,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
     /**
-     * FOR DEBUG PURPOSES
+     * FOR DEBUG PURPOSES TODO
      * On Click on StrokeRate Text View, for simulate new stroke
      */
     public void strokeCounterRateOnClick(View view) {
@@ -575,24 +597,23 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         //Toast.makeText(getBaseContext(),timeBetweenStrokes + " ",Toast.LENGTH_SHORT).show();
         if (numStrokes == 0 || timeBetweenStrokes == 0 || timeBetweenStrokes >=60){
-            strokeView.setText(0 + "\nSPM");
+            strokeView.setText(getString(R.string.NoStrokeTextView));
             currentStrokeRate = 0;
-
         }else {
             currentStrokeRate = 60.0f/timeBetweenStrokes;
             //currentStrokeRateInt = 60/(int)timeBetweenStrokes;
             //Toast.makeText(getBaseContext(),currentStrokeRate + " "+ currentStrokeRate,Toast.LENGTH_SHORT).show();
-            if (currentStrokeRate > 80){
+            if (currentStrokeRate > 100){ // abnormal data
                 return;
             }
-            strokeView.setText((int)currentStrokeRate + "\nSPM");
+            strokeView.setText((int)currentStrokeRate + getString(R.string.text_SPM));
             //allStrokes.add(roundFloat(currentStrokeRate,2));
             if (isStarted) {
                 calcAverageStrokeRate();
             }
         }
         String s = Float.toString(roundFloat(averageStrokeRate,1));
-        aveSPMView.setText(s + "\nave/SPM");
+        aveSPMView.setText(s + getString(R.string.text_aveSPM));
         lastStroke = newStroke;
     }
 
@@ -639,7 +660,7 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 currentSpeed = newLocation.getSpeed();
                 allSpeeds.add(currentSpeed);
                 // MyLocation a = new MyLocation(newLocation);//,elapsedTimeStr);/*maxSpeed,averageSpeed);/*,currentStrokeRate,averageStrokeRate,totalMeters);
-                MyLocation a = new MyLocation(newLocation);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);*/
+                MyLocation a = new MyLocation(newLocation,elapsedTimeStr,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);/**,elapsedTimeStr,maxSpeed,averageSpeed,currentStrokeRate,averageStrokeRate,totalMeters);*/
                 saveLocCounter++;
                 if ( saveLocCounter <= 2 ){
                     allMyLocations.add(a);
@@ -657,19 +678,19 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
                 int[] speedCurentSplitted = splitToComponentTimes(speedCurrentToSec);
                 int[] speedAverageSplitted = splitToComponentTimes(speedAverageToSec);
 
-                speedView.setText(speedCurentSplitted[1] + ":" + speedCurentSplitted[2] + "\nper 500m");
-                aveSpeedView.setText(speedAverageSplitted[1] + ":" + speedAverageSplitted[2] + "\nave per 500m");
-                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ "\n m per sec");
+                speedView.setText(speedCurentSplitted[1] + ":" + speedCurentSplitted[2] + getString(R.string.text_per500m));
+                aveSpeedView.setText(speedAverageSplitted[1] + ":" + speedAverageSplitted[2] + getString(R.string.text_perAve500m));
+                meterperSec.setText(Float.toString(roundFloat(currentSpeed,1))+ getString(R.string.text_mPerS_long));
             }
             int size = allLocations.size()-1;
             if (size > 1) {
                 locationBefore = allLocations.get(size-1);
                 float newDistance = locationBefore.distanceTo(newLocation);
                 Log.e("TraveledMeters","traveled Meters: "+newDistance);
-                if (newDistance < 30f){ // for not
+                if (newDistance < 30f){ // for abnormal data
                     totalMeters += newDistance;
                     meterView.setText(Long.toString(totalMeters));
-                }else Log.e("TraveledMeters","Imaginere traveled Meters movement "+ newDistance);
+                }else Log.e("TraveledMeters","Imaginary traveled Meters movement "+ newDistance);
 
             }
             /***}else { // pause
@@ -753,4 +774,3 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
     }
 
 }
-

@@ -85,8 +85,10 @@ public abstract class BaseChartFragment extends Fragment {
 		lineGraphChart.setNoDataText("No Data at the moment");
 		lineGraphChart.setTouchEnabled(false);
 		lineGraphChart.setDragEnabled(false);
-		lineGraphChart.setHardwareAccelerationEnabled(true);
+		lineGraphChart.setScaleEnabled(false);
+		lineGraphChart.setDrawGridBackground(false);
 		lineGraphChart.setPinchZoom(false);
+		lineGraphChart.setHardwareAccelerationEnabled(true);
 
 		chartGraphData = new LineData();
 		lineGraphChart.setData(chartGraphData);
