@@ -12,16 +12,17 @@
         android:id="@+id/main_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.2"
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
-
-
     </android.support.design.widget.AppBarLayout>-->
+
     <TableLayout
         android:id="@+id/main_param_table"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.6"
+        android:layout_weight="1.4"
+        android:weightSum="4"
         android:background="#000">
         <!-- Row 1 -->
         <TableRow
@@ -29,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="#000"
+            android:layout_weight="1"
             android:weightSum="2">
 
             <RelativeLayout
@@ -79,6 +81,7 @@
             android:id="@+id/main_table_row_2"
             android:layout_width="match_parent"
             android:background="#000"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="2dp"
             android:weightSum="3">
@@ -120,6 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
+            android:layout_weight="1"
             android:weightSum="2"
             >
 
@@ -152,6 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
+            android:layout_weight="0.6"
             android:weightSum="3">
 
             <TextView
@@ -194,15 +199,15 @@
         android:id="@+id/main_HScrow_View"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:layout_weight="0.4">
+        android:background="@color/black"
+        android:layout_weight="0.5">
     </HorizontalScrollView>
 
     <FrameLayout
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.1"
         android:background="#F21">
 <!--
         <android.support.design.widget.TabLayout.TabView
@@ -260,6 +265,7 @@
                 android:visibility="gone"
                 android:onClick="StopActivityOnClick"
                 android:background="#912"
+                android:paddingBottom="30dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
 

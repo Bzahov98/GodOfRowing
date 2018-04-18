@@ -1,11 +1,9 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -24,15 +22,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
-import com.bzahov.elsys.godofrowing.Fragments.AlertUserLoggedFragment;
-import com.bzahov.elsys.godofrowing.Fragments.MainGraphFragment;
-import com.bzahov.elsys.godofrowing.Fragments.MainLinAccGraphFragment;
-import com.bzahov.elsys.godofrowing.Fragments.MainMapFragment;
-import com.bzahov.elsys.godofrowing.Fragments.ResultContentAnalysisFragment;
-import com.bzahov.elsys.godofrowing.Fragments.ResultContentHistoryFragment;
-import com.bzahov.elsys.godofrowing.Fragments.ResultContentSplitterFragment;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.ConnectionResult;
+import com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments.ResultContentAnalysisFragment;
+import com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments.ResultContentHistoryFragment;
+import com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments.ResultContentSplitterFragment;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,19 +34,8 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
     private static final int REQUEST_LOGIN_INTENT = 2;
     private static final String GROUP_REFERENCE = "Groups";
     private static String TAG = AnalysisNavigationActivity.class.getSimpleName();
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;

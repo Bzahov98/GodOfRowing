@@ -19,7 +19,7 @@ public class RowApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //offline data collection
     }
 
     public static synchronized RowApplication getInstance() {
