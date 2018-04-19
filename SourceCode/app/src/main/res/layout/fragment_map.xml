@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!--<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="79dp"
+        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:translationZ="10dp"
+        android:layout_marginBottom="21dp"
+        android:id="@+id/mapController3">
+
+        <TextView
+
+            android:id="@+id/mapControllerStart3"
+            android:text="Start Activity"
+            android:onClick="controllerOfTrainingActivityOnClick"
+            android:background="#494"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:linksClickable="false"
+            android:textColorLink="@android:color/holo_green_dark"
+            android:padding="7dp" />
+
+        <TextView
+            android:id="@+id/mapControllerStopPause3"
+            android:text="Stop"
+            android:visibility="gone"
+            android:onClick="StopActivityOnClick"
+            android:background="#912"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:padding="7dp" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:id="@+id/mapController"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/mapControllerStopPause"
+            android:text="Stop"
+            android:layout_centerInParent="false"
+            android:onClick="StopActivityOnClick"
+            android:background="#912"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/mapControllerStart"
+            android:padding="7dp" />
+
+        <TextView
+
+            android:id="@+id/mapControllerStart"
+            android:text="Start"
+            android:onClick="controllerOfTrainingActivityOnClick"
+            android:background="#494"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:linksClickable="false"
+            android:textColorLink="@android:color/holo_green_dark"
+            android:padding="7dp" />
+
+    </RelativeLayout>
+    -->
+
+</RelativeLayout>

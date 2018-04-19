@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|bottom"
+    android:gravity="center"
+    android:layout_marginBottom="21dp"
+    android:id="@+id/mapController">
+
+    <TextView
+
+        android:id="@+id/mapControllerStart"
+        android:text="@string/start_activity"
+        android:onClick="controllerOfTrainingActivityOnClick"
+        android:background="#494"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:linksClickable="false"
+        android:textColorLink="@android:color/holo_green_dark"
+        android:padding="7dp" />
+
+    <TextView
+        android:id="@+id/mapControllerStop"
+        android:text="@string/controller_stop"
+        android:visibility="gone"
+        android:onClick="StopActivityOnClick"
+        android:background="#912"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        android:padding="7dp" />
+
+</LinearLayout>
