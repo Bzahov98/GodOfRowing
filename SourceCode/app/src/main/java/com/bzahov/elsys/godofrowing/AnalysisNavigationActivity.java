@@ -1,7 +1,9 @@
 package com.bzahov.elsys.godofrowing;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +43,7 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
-    private FloatingActionButton fab;
+    protected FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,11 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         checkUserAuth();
-       /* fab = (FloatingActionButton) findViewById(R.id.MainActivity_fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.res_analysis_fab);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,12 +71,13 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-       */
+        */
     }
 
        public void fabOnClick(View view) {
 
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -102,9 +105,25 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
         }
 
         @Override
+        public boolean onContextItemSelected(MenuItem item) {
+            Toast.makeText(getContext(),"bbbasdas",Toast.LENGTH_SHORT).show();
+
+            return super.onContextItemSelected(item);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+
+            Toast.makeText(getContext(),"asdas",Toast.LENGTH_SHORT).show();
+            return super.onOptionsItemSelected(item);
+
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_analysis_navigation, container, false);
+
             // TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             //  textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
@@ -122,18 +141,28 @@ public class AnalysisNavigationActivity extends AppCompatActivity {
         }
 
         @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+
+            //fab.setVisibility(View.GONE);
+        }
+
+
+        @Override
         public Fragment getItem(int position) {
+           // Toast.makeText(getApplicationContext(),"asdas",Toast.LENGTH_SHORT).show();
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0){
-                //fab.setVisibility(View.VISIBLE);
+               // fab.setVisibility(View.GONE);
                 return new ResultContentAnalysisFragment();
             }
             if (position == 1){
                 //fab.setVisibility(View.GONE);
                 return new ResultContentSplitterFragment();
             }if (position == 2){
-                //fab.setVisibility(View.GONE);
+               /// fab.setVisibility(View.VISIBLE);
+               // fab.setBackgroundDrawable(getDrawable(R.drawable.icon_timer));
                 return new ResultContentHistoryFragment();
             }
            /* if (position == 2){

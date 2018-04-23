@@ -107,7 +107,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"/>
         <TextView
-            android:id="@+id/list_item_head_text_workout"
+            android:id="@+id/start_date_head_text_date"
             android:layout_width="wrap_content"
             android:textStyle="bold"
             android:paddingTop="10dp"
@@ -122,7 +122,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
         <ImageView
-            android:id="@+id/res_layout_parameter_image_end"
+            android:id="@+id/start_date_parameter_image_end"
             android:tint="#f9f6f6"
             android:foregroundTint="#f9f6f6"
             android:layout_width="50dp"
@@ -134,6 +134,7 @@
 
     </RelativeLayout>
 
+    <!--SPM-->
     <include
         android:id="@+id/res_analysis_empty"
         android:layout_height="wrap_content"
@@ -141,16 +142,20 @@
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_elapsed_time"
         android:layout_alignParentStart="true" />
+
+   <!--USELESS-->
     <include
         android:id="@+id/res_analysis_empty2"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:visibility="gone"
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_empty"
         android:layout_alignParentStart="true" />
     <include
         android:id="@+id/res_analysis_empty3"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_width="match_parent"
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_empty2"
@@ -159,6 +164,7 @@
         android:id="@+id/res_analysis_empty4"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:visibility="gone"
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_empty3"
         android:layout_alignParentStart="true" />
@@ -166,6 +172,7 @@
         android:id="@+id/res_analysis_empty5"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:visibility="gone"
         layout="@layout/layout_result_paramers"
         android:layout_below="@+id/res_analysis_empty4"
         android:layout_alignParentStart="true" />

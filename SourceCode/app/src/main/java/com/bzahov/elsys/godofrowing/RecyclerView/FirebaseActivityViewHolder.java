@@ -27,7 +27,7 @@ public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implemen
 
     public void bindRestaurant(ResourcesFromActivity restaurant) {
         //ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.list_item_child_meters_total);
-        TextView nameTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+        TextView nameTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
         TextView totalMetersTextView = (TextView) mView.findViewById(R.id.list_item_child_meters_total);
     //    TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
 

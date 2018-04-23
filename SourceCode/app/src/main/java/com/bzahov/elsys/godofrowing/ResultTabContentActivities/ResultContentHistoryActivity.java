@@ -204,9 +204,9 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             TextView aaa = (TextView) childLayout.findViewById(R.id.res_analysis_empty);
 
 
-            TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
             //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
-            TextView childMetersView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+            TextView childMetersView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
             RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
@@ -266,7 +266,7 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
                 TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
                 nameView.setText(name);
             }if (value != null){
-                TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
+                TextView  valueView = ((TextView) viewById.findViewById(R.id.start_date_head_text_date));
                 valueView.setText(value);
             }
         }

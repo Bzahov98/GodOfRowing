@@ -105,6 +105,7 @@
     <string name="dialog_gps_button_positive_settings">Settings</string>
     <string name="err_toast_gps_connect_failed">GPS Connection Failed</string>
     <string name="title_activity_base_navig">BaseNavigActivity</string>
+    <string name="err_date_before_today">Please choose date before Today!</string>
 
 
 </resources>

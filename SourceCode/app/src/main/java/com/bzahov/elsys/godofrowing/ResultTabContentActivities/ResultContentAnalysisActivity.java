@@ -2,12 +2,10 @@ package com.bzahov.elsys.godofrowing.ResultTabContentActivities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -21,11 +19,7 @@ import com.bzahov.elsys.godofrowing.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -196,7 +190,7 @@ public class ResultContentAnalysisActivity extends Activity implements ValueEven
             TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
             nameView.setText(name);
         }if (value != null){
-            TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
+            TextView  valueView = ((TextView) viewById.findViewById(R.id.start_date_head_text_date));
             valueView.setText(value);
         }
     }

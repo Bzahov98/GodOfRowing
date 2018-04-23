@@ -249,7 +249,7 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
             nameView.setText(name);
         }if (value != null){
-            TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
+            TextView  valueView = ((TextView) viewById.findViewById(R.id.start_date_head_text_date));
             valueView.setText(value);
         }
     }

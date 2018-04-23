@@ -1,11 +1,15 @@
 package com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,11 +17,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import android.support.v4.app.Fragment;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
+import com.bzahov.elsys.godofrowing.Fragments.Dialogs.DatePickerDialog;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.bzahov.elsys.godofrowing.RowApplication;
@@ -59,11 +68,33 @@ public class ResultContentHistoryFragment extends Fragment {
     private ArrayList<ResourcesFromActivity> mAdapterItems;
     private ArrayList<String> mAdapterKeys;
     private FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder> mMyAdapter;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.activity_result_history, container, false);
+
+        checkUserAuth();
+        setUpFabButton(v);
+        setDataReference();
+        handleInstanceState(savedInstanceState);
+        setupRecyclerview(v);
+
+        return v;
+    }
+
+    private void setDataReference() {
+        if (mAuth.getCurrentUser() == null) {
+            mAuth.getCurrentUser().reload();
+        } else {
+            mUser = FirebaseAuth.getInstance().getCurrentUser();
+            mListItemRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
+            mQuery = mListItemRef.limitToLast(5); //TODO Fix Mem Usage!!! eat too much memory
+        }
+    }
+
+    private void checkUserAuth() {
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -76,18 +107,76 @@ public class ResultContentHistoryFragment extends Fragment {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }};
+    }
 
 
-        if (mAuth.getCurrentUser() == null) {
-            mAuth.getCurrentUser().reload();
-        } else {
-            mUser = FirebaseAuth.getInstance().getCurrentUser();
-            mListItemRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
-        }
-        handleInstanceState(savedInstanceState);
-        setupFirebase();
-        setupRecyclerview(v);
-        return v;
+    private void showEditDialog() {
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        DatePickerDialog editNameDialogFragment = DatePickerDialog.newInstance("Some Title");
+
+        editNameDialogFragment.show(fm, "fragment_edit_name");
+
+    }
+
+    private void setUpFabButton(View v) {
+        fab = (FloatingActionButton) v.findViewById(R.id.res_analysis_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+
+                showEditDialog();
+
+                //DatePickerDialog dialog = new DatePickerDialog();
+                //dialog.show(getFragmentManager(),"dass");
+                /*AnalysisNavigationActivity ft = (AnalysisNavigationActivity)getActivity().getSupportFragmentManager().beginTransaction();
+                DatePickerDialog dialog = DatePickerDialog.newInstance();
+                dialog.show(getActivity().getFragmentManager(),"aaa");
+                */
+                 //alertDatePicker();
+            }
+        });
+    }
+
+    public void alertDatePicker() {
+
+        /*
+         * Inflate the XML view. activity_main is in res/layout/date_picker.xml
+         */
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.dialog_date_range, null, false);
+
+        // the time picker on the alert dialog, this is how to get the value
+        final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
+
+        // so that the calendar view won't appear
+        myDatePicker.setCalendarViewShown(false);
+
+        // the alert dialog
+        new AlertDialog.Builder(getActivity()).setView(view)
+                .setTitle("Set Date")
+                .setPositiveButton("Go", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        /*
+                         * In the docs of the calendar class, January = 0, so we
+                         * have to add 1 for getting correct month.
+                         * http://goo.gl/9ywsj
+                         */
+                        int month = myDatePicker.getMonth() + 1;
+                        int day = myDatePicker.getDayOfMonth();
+                        int year = myDatePicker.getYear();
+
+                        Toast.makeText(getContext(),"" + month + " "+ day+ " "+ year,Toast.LENGTH_SHORT).show();
+
+                        dialog.cancel();
+
+                    }
+
+                }).show();
     }
 
     // Restoring the item list and the keys of the items: they will be passed to the adapter
@@ -100,14 +189,14 @@ public class ResultContentHistoryFragment extends Fragment {
     private void setupFirebase() {
         //Firebase.setAndroidContext(this);
         //String firebaseLocation = getResources().getString(R.string.firebase_location);
-        mQuery = mListItemRef;//database.getReference();
+        //mQuery = mListItemRef.limitToFirst(5);//database.getReference(); //TODO
     }
 
     private void setupRecyclerview(View v) {
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
         //mMyAdapter = new HistoryAdapter(mQuery, ResourcesFromActivity.class, mAdapterItems, mAdapterKeys);
 
-        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryFragment.FirebaseResViewHolder.class, mListItemRef) {
+        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryFragment.FirebaseResViewHolder.class, mQuery) {
 
             @Override
             public void populateViewHolder(ResultContentHistoryFragment.FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
@@ -172,7 +261,7 @@ public class ResultContentHistoryFragment extends Fragment {
         }
 
         public void bindSportActivity(ResourcesFromActivity model) {
-            TextView headerTextView = (TextView) mView.findViewById(R.id.list_item_head_text_header);
+            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
 
             headerTextView.setText(key + " | Workout:"+ model.getTotalMeters()+ " m");
 
@@ -211,7 +300,7 @@ public class ResultContentHistoryFragment extends Fragment {
                 TextView nameView = ((TextView) viewById.findViewById(R.id.res_layout_parameter_name));
                 nameView.setText(name);
             }if (value != null){
-                TextView  valueView = ((TextView) viewById.findViewById(R.id.list_item_head_text_workout));
+                TextView  valueView = ((TextView) viewById.findViewById(R.id.start_date_head_text_date));
                 valueView.setText(value);
             }
         }

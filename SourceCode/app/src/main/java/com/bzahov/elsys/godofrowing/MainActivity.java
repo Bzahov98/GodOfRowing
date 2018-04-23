@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
-import com.bzahov.elsys.godofrowing.Fragments.AlertUserLoggedFragment;
+import com.bzahov.elsys.godofrowing.Fragments.Dialogs.AlertUserLoggedFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainFragments.GraphFragments.MainControllerFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainFragments.GraphFragments.MainGforceGraphFragment;
 import com.bzahov.elsys.godofrowing.Fragments.MainFragments.GraphFragments.MainGraphFragment;
@@ -262,8 +262,11 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
 
         //https://stackoverflow.com/questions/45915212/firebase-data-sorting-by-date-stamp
 
-        if (allStrokes == null || allLocations == null) return;
-        Log.e("DATA:", totalMeters + averageStrokeRate + maxSpeed + averageSpeed + elapsedTimeStr + "");
+        if (isInvalidTraining()){
+            Toast.makeText(getBaseContext(),"Invalid Training, not uploded!!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Log.e("DATA:", totalMeters + averageStrokeRate + maxSpeed + averageSpeed + elapsedTimeStr);
         long curTimeMillis = System.currentTimeMillis();
         ResourcesFromActivity rfa = new ResourcesFromActivity(allMyLocations,totalMeters,
                 averageStrokeRate,maxSpeed,averageSpeed,elapsedTimeStr, currentDateTimeString,curTimeMillis);
@@ -278,9 +281,13 @@ public class MainActivity extends FragmentActivity implements MainMapFragment.Ma
         dataRef.child(getString(R.string.ref_database_activities)+ "/" + currentDateTimeString);
         //dataRef.child("/" + currentDateTimeString);
         */       // + "/activities/" + currentDateTimeString)
-        Log.e(TAG,currentDateTimeString +" IIII\n "+ dataRef +"\n" + rfa.toString());
+        //Log.e(TAG,currentDateTimeString +" IIII\n "+ dataRef +"\n" + rfa.toString());
 
         dataRef.setValue(rfa);
+    }
+
+    private boolean isInvalidTraining() {
+        return totalMeters == 0;
     }
 
     /***private void writeNew(String userId, String username, String title, String body) {

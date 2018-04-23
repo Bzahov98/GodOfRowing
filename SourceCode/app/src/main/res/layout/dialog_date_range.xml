@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="3">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/icon_timer" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Choose start Date:" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#69665e">
+
+        <ImageView
+            android:id="@+id/start_date_head_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:foregroundTint="#f9f6f6"
+            android:paddingBottom="10dp"
+            android:paddingRight="2dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/icon_timer"
+            android:tint="#f9f6f6" />
+
+        <TextView
+            android:id="@+id/start_date_head_text_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/start_date_head_icon"
+            android:gravity="start"
+            android:paddingTop="10dp"
+            android:text="Start Time:"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/start_date_head_text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/start_date_head_text_header"
+            android:layout_toLeftOf="@+id/start_date_parameter_image_factory"
+            android:gravity="start"
+            android:padding="10dp"
+            android:text="not set yet"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />
+
+        <ImageButton
+            android:id="@+id/start_date_parameter_image_factory"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/start_date_parameter_image_end"
+            android:foregroundTint="#f9f6f6"
+            android:onClick="factoryStartDate"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:src="@drawable/icon_erase" />
+
+        <ImageButton
+            android:id="@+id/start_date_parameter_image_end"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:foregroundTint="#f9f6f6"
+            android:onClick="collectStartDate"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:src="@drawable/icon_plus" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/end_date"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/start_date"
+        android:layout_alignEnd="@+id/start_date"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:background="#69665e">
+
+        <ImageView
+            android:id="@+id/end_date_head_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:foregroundTint="#f9f6f6"
+            android:paddingBottom="10dp"
+            android:paddingRight="2dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/icon_timer"
+            android:tint="#f9f6f6" />
+
+        <TextView
+            android:id="@+id/end_date_head_text_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/end_date_head_icon"
+            android:gravity="start"
+            android:paddingTop="10dp"
+            android:text="End Time:  "
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/end_date_head_text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/end_date_head_text_header"
+            android:layout_toLeftOf="@+id/end_date_parameter_image_end"
+            android:gravity="start"
+            android:padding="10dp"
+            android:text="present"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />
+
+        <ImageButton
+            android:id="@+id/end_date_parameter_image_factory"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/end_date_parameter_image_end"
+            android:foregroundTint="#f9f6f6"
+            android:tintMode="src_atop"
+            android:padding="0dp"
+            android:cropToPadding="true"
+            android:onClick="factoryEndDate"
+            android:src="@drawable/icon_erase" />
+        <ImageButton
+            android:id="@+id/end_date_parameter_image_end"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:foregroundTint="#f9f6f6"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:src="@drawable/icon_plus"
+            />
+
+    </RelativeLayout>
+
+    <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/myDatePicker"
+        android:layout_below="@+id/end_date"
+        android:layout_above="@+id/action_buttons"
+        android:layout_width="match_parent"
+        android:verticalScrollbarPosition="right"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/action_buttons"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="50dp" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:id="@+id/range_btn_cancel"
+            android:text="Cancel"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:id="@+id/range_btn_done"
+            android:text="Done"
+            android:layout_weight="3"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
