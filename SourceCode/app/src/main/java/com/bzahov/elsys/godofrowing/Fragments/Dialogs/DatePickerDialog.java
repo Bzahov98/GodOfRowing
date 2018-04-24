@@ -1,5 +1,7 @@
 package com.bzahov.elsys.godofrowing.Fragments.Dialogs;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 //import android.app.DialogFragment;
 import android.os.Bundle;
@@ -16,8 +18,12 @@ import android.widget.Toast;
 
 import com.bzahov.elsys.godofrowing.R;
 import com.bzahov.elsys.godofrowing.RowApplication;
+import com.bzahov.elsys.godofrowing.Support.DateFunctions;
 
 import java.util.Calendar;
+
+import static com.bzahov.elsys.godofrowing.Support.DateFunctions.convertDatetoMillis;
+import static com.bzahov.elsys.godofrowing.Support.DateFunctions.formatToStr;
 
 /**
  * God of Rowing
@@ -37,14 +43,24 @@ public class DatePickerDialog extends DialogFragment {
     private String currMonthStr="01";
     private String currDayStr="2000";
     private String currDateStr=  "2000:01:01";
-    private Calendar c;
+    private long startDateMillis;
+    private long endDateMillis;
+
+    private Calendar todaysDay;
     private ImageButton startEraseBtn;
     private ImageButton endEraseBtn;
     private RowApplication app = RowApplication.getInstance();
     private Button doneBtn;
     private Button cancelBtn;
 
-    public DatePickerDialog(){
+    public DatePickerDialog(){}
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setViews(view);
+        setDefaultDates();
+        setListeners();
 
     }
 
@@ -63,30 +79,26 @@ public class DatePickerDialog extends DialogFragment {
         return inflater.inflate(R.layout.dialog_date_range, container);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setViews(view);
-        setDefaultDates();
-        setListeners();
-
-    }
-
     private void setListeners() {
         startDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDateSequences(myDatePicker);
-                if (isDateBefore(c)){
+                if (DateFunctions.isDateBefore(currDay,currMonth,currYear, todaysDay)){
                     startDate.setText(currDateStr);
+                    startDateMillis = convertDatetoMillis(currDateStr+ app.getString(R.string.time_start_day),app.getString(R.string.time_pattern));
+
                 }else Toast.makeText(getContext(), app.getString(R.string.err_date_before_today),Toast.LENGTH_SHORT).show();
             }
         });
+
         endDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDateSequences(myDatePicker);
                 endDate.setText(currDateStr);
+                endDateMillis = convertDatetoMillis(currDateStr+app.getString(R.string.time_end_day),app.getString(R.string.time_pattern));
+
                 //}else Toast.makeText(getContext(), app.getString(R.string.err_date_before_today),Toast.LENGTH_SHORT).show();
 
             }
@@ -97,13 +109,18 @@ public class DatePickerDialog extends DialogFragment {
             public void onClick(View v) {
                 setDateSequences(1,1,2010);
                 startDate.setText(currDateStr);
+                startDateMillis = convertDatetoMillis(currDateStr+ app.getString(R.string.time_start_day),app.getString(R.string.time_pattern));
+
             }
         });
+
         endEraseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDateSequences(c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.MONTH),c.get(Calendar.YEAR));
+                setDateSequences(todaysDay.get(Calendar.DAY_OF_MONTH), todaysDay.get(Calendar.MONTH), todaysDay.get(Calendar.YEAR));
                 endDate.setText(currDateStr);
+                endDateMillis = convertDatetoMillis(currDateStr+app.getString(R.string.time_end_day),app.getString(R.string.time_pattern));
+
             }
         });
 
@@ -111,6 +128,15 @@ public class DatePickerDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // .. TODO Connect with Fragment
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isSuccessfully",true);
+                bundle.putLong("startDate", startDateMillis);
+                bundle.putLong("endDate", endDateMillis);
+
+                Intent intent = new Intent().putExtras(bundle);
+
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
                 getDialog().dismiss();
             }
         });
@@ -118,6 +144,13 @@ public class DatePickerDialog extends DialogFragment {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isSuccessfully",false);
+
+                Intent intent = new Intent().putExtras(bundle);
+
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
                 getDialog().dismiss();
             }
         });
@@ -138,43 +171,27 @@ public class DatePickerDialog extends DialogFragment {
         cancelBtn = (Button) view.findViewById(R.id.range_btn_cancel);
 
 
-        c = Calendar.getInstance();
+        todaysDay = Calendar.getInstance();
         myDatePicker.setCalendarViewShown(false);
     }
 
     private void setDefaultDates() {
         setDateSequences(1,1,2010);
         startDate.setText(currDateStr);
+        startDateMillis = convertDatetoMillis(currDateStr+app.getString(R.string.time_start_day),app.getString(R.string.time_pattern));
+        Log.e("millis",""+ Long.toString(startDateMillis));
 
-        setDateSequences(c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.MONTH),c.get(Calendar.YEAR));
+
+        setDateSequences(todaysDay.get(Calendar.DAY_OF_MONTH), todaysDay.get(Calendar.MONTH), todaysDay.get(Calendar.YEAR));
         endDate.setText(currDateStr);
+        endDateMillis = convertDatetoMillis(currDateStr+app.getString(R.string.time_end_day),app.getString(R.string.time_pattern));
 
-        myDatePicker.setMaxDate(c.getTimeInMillis());
-    }
-
-    private boolean isDateBefore(Calendar calendar) {
-        if (currYear<=calendar.get(Calendar.YEAR)){
-            if (currMonth<=calendar.get(Calendar.MONTH)){
-                if (currDay<= calendar.get(Calendar.DAY_OF_MONTH)){
-                    return true;
-                }
-            }
-        }return false;
-    }
-
-    private boolean isDateAfter(Calendar calendar) {
-        if (currYear>=calendar.get(Calendar.YEAR)){
-            if (currMonth>=calendar.get(Calendar.MONTH)){
-                if (currDay > calendar.get(Calendar.DAY_OF_MONTH)){
-                    return true;
-                }
-            }
-        }return false;
+        myDatePicker.setMaxDate(todaysDay.getTimeInMillis());
     }
 
     private void setDateSequences(int day, int month, int year) {
         currDay = day;
-        currDayStr =formatToStr(currDay);
+        currDayStr = formatToStr(currDay);
         currMonth = month;
         currMonthStr = formatToStr(currMonth+1);
         currYear = year;
@@ -184,7 +201,7 @@ public class DatePickerDialog extends DialogFragment {
 
     private void getDateSequences(DatePicker datePicker){
         currDay = datePicker.getDayOfMonth();
-        currDayStr =formatToStr(currDay);
+        currDayStr = formatToStr(currDay);
         currMonth = datePicker.getMonth();
         currMonthStr = formatToStr(currMonth+1);
         currYear = datePicker.getYear();
@@ -192,12 +209,6 @@ public class DatePickerDialog extends DialogFragment {
         currDateStr = currYearStr + ":" + currMonthStr+ ":" + currDayStr;
     }
 
-    private String formatToStr(int num){
-        if (num<10){
-             return "0"+ String.valueOf(num);
-        }else
-            return String.valueOf(num);
-    }
     /*@Override
     public View onCreateView(Bundle savedInstanceState) {
         final String userEmail = getArguments().getString("userEmail");

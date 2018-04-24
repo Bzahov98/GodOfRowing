@@ -1,5 +1,6 @@
 package com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -69,19 +70,28 @@ public class ResultContentHistoryFragment extends Fragment {
     private ArrayList<String> mAdapterKeys;
     private FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder> mMyAdapter;
     private FloatingActionButton fab;
+    private long range_startDate = 0;
+    private long range_endDate = 0;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.activity_result_history, container, false);
 
+        setUpViews(v);
         checkUserAuth();
         setUpFabButton(v);
         setDataReference();
         handleInstanceState(savedInstanceState);
-        setupRecyclerview(v);
+        setupRecyclerview();
 
         return v;
+    }
+
+    private void setUpViews(View v) {
+        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        fab = (FloatingActionButton) v.findViewById(R.id.res_analysis_fab);
     }
 
     private void setDataReference() {
@@ -90,7 +100,7 @@ public class ResultContentHistoryFragment extends Fragment {
         } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             mListItemRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
-            mQuery = mListItemRef.limitToLast(5); //TODO Fix Mem Usage!!! eat too much memory
+            mQuery = mListItemRef.limitToLast(25); //TODO Fix Mem Usage!!! eat too much memory
         }
     }
 
@@ -114,14 +124,15 @@ public class ResultContentHistoryFragment extends Fragment {
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        DatePickerDialog editNameDialogFragment = DatePickerDialog.newInstance("Some Title");
+       // DatePickerDialog editNameDialogFragment = DatePickerDialog.newInstance("Some Title");
+        DatePickerDialog pickerDialog = new DatePickerDialog();//.newInstance("Some Title");
 
-        editNameDialogFragment.show(fm, "fragment_edit_name");
+        pickerDialog.setTargetFragment(this,101);
+        pickerDialog.show(fm, "fragment_picker");
 
     }
 
     private void setUpFabButton(View v) {
-        fab = (FloatingActionButton) v.findViewById(R.id.res_analysis_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,44 +152,6 @@ public class ResultContentHistoryFragment extends Fragment {
         });
     }
 
-    public void alertDatePicker() {
-
-        /*
-         * Inflate the XML view. activity_main is in res/layout/date_picker.xml
-         */
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog_date_range, null, false);
-
-        // the time picker on the alert dialog, this is how to get the value
-        final DatePicker myDatePicker = (DatePicker) view.findViewById(R.id.myDatePicker);
-
-        // so that the calendar view won't appear
-        myDatePicker.setCalendarViewShown(false);
-
-        // the alert dialog
-        new AlertDialog.Builder(getActivity()).setView(view)
-                .setTitle("Set Date")
-                .setPositiveButton("Go", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        /*
-                         * In the docs of the calendar class, January = 0, so we
-                         * have to add 1 for getting correct month.
-                         * http://goo.gl/9ywsj
-                         */
-                        int month = myDatePicker.getMonth() + 1;
-                        int day = myDatePicker.getDayOfMonth();
-                        int year = myDatePicker.getYear();
-
-                        Toast.makeText(getContext(),"" + month + " "+ day+ " "+ year,Toast.LENGTH_SHORT).show();
-
-                        dialog.cancel();
-
-                    }
-
-                }).show();
-    }
-
     // Restoring the item list and the keys of the items: they will be passed to the adapter
     private void handleInstanceState(Bundle savedInstanceState) {
 
@@ -192,10 +165,10 @@ public class ResultContentHistoryFragment extends Fragment {
         //mQuery = mListItemRef.limitToFirst(5);//database.getReference(); //TODO
     }
 
-    private void setupRecyclerview(View v) {
-        final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
-        //mMyAdapter = new HistoryAdapter(mQuery, ResourcesFromActivity.class, mAdapterItems, mAdapterKeys);
-
+    private void setupRecyclerview() {
+        if (mMyAdapter != null){
+            mMyAdapter.cleanup();
+        }
         mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryFragment.FirebaseResViewHolder.class, mQuery) {
 
             @Override
@@ -356,4 +329,41 @@ public class ResultContentHistoryFragment extends Fragment {
             // mTextField.setText(text);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 101) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                if (bundle.containsKey("isSuccessfully")) {
+
+                    Boolean isSuccessfully = bundle.getBoolean("isSuccessfully");
+                    Log.e(TAG,isSuccessfully.toString());
+                    if (isSuccessfully){
+
+                        if (bundle.containsKey("startDate")){
+                            range_startDate = bundle.getLong("startDate");
+                        }
+                        if (bundle.containsKey("endDate")){
+                            range_endDate = bundle.getLong("endDate");
+                        }
+                        updateRef();
+                    }
+                    // Use the returned value
+                }
+            }
+        }
+    }
+
+    private void updateRef() {
+        String childName = app.getString(R.string.ref_database_sortby_currentTime);
+        mQuery = mListItemRef.orderByChild(childName)
+                .startAt(range_startDate)
+                .endAt(range_endDate);
+        setupRecyclerview();
+    }
+
 }
