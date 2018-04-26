@@ -1,5 +1,7 @@
 package com.bzahov.elsys.godofrowing.Support;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,16 +28,19 @@ public class DateFunctions {
         if (year<=compDate.get(Calendar.YEAR)){
             if (month<=compDate.get(Calendar.MONTH)){
                 if (day<= compDate.get(Calendar.DAY_OF_MONTH)){
-                    return true;
-                }
+
+                    Log.e("before true",day+":"+ month +":"+year+"\n"+compDate.toString());
+                    return true;}
             }
-        }return false;
+        }Log.e("before false",day+":"+ month +":"+year+"\n"+compDate.get(Calendar.DAY_OF_MONTH)+":"+compDate.get(Calendar.MONTH)+":"+year);
+
+        return false;
     }
 
     public static boolean isDateAfter(int day,int month, int year, Calendar compDate) {
         if (year>=compDate.get(Calendar.YEAR)){
             if (month>=compDate.get(Calendar.MONTH)){
-                if (day> compDate.get(Calendar.DAY_OF_MONTH)){
+                if (day>= compDate.get(Calendar.DAY_OF_MONTH)){
                     return true;
                 }
             }

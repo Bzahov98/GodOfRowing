@@ -33,6 +33,7 @@ import java.util.List;
 /**
  * Created by bobo-pc on 2/8/2017.
  */
+@Deprecated
 public class ResultContentAnalysisActivity extends Activity implements ValueEventListener {
 //UNUSED //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
 
@@ -141,7 +142,7 @@ public class ResultContentAnalysisActivity extends Activity implements ValueEven
     public void onDataChange(DataSnapshot dataSnapshot){
         ResourcesFromActivity receivedData = dataSnapshot.getValue(ResourcesFromActivity.class);
 
-        allLocations = receivedData.getMyLocationsList();
+        allLocations = receivedData.getAllTrainLocations();
        // AddMarkersToMap();
         if (allLocations != null) {
             if (allLocations.size() > 1){
@@ -150,11 +151,11 @@ public class ResultContentAnalysisActivity extends Activity implements ValueEven
             }
         }
 
-        setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTotalMeters()));
-        setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getAverageSpeed(),2)));
-        setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getMaxSpeed(),2)));
-        setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(receivedData.getAverageStrokeRate()));
-        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getElapsedTimeStr());
+        setParameters(R.id.res_analysis_meters_total, 0, null, Long.toString(receivedData.getTrainingOverview().getTotalMeters()));
+        setParameters(R.id.res_analysis_speed_average, 0, null, Float.toString(round(receivedData.getTrainingOverview().getAverageSpeed(),2)));
+        setParameters(R.id.res_analysis_speed_max, 0, null, Float.toString(round(receivedData.getTrainingOverview().getMaxSpeed(),2)));
+        setParameters(R.id.res_analysis_empty,R.drawable.icon_analysis,"Ave StrokePerMin",Float.toString(receivedData.getTrainingOverview().getAverageStrokeRate()));
+        setParameters(R.id.res_analysis_elapsed_time, 0, null, receivedData.getTrainingOverview().getElapsedTimeStr());
 
     }
 

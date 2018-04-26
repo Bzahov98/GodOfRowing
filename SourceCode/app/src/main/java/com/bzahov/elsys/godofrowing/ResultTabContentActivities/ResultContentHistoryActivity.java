@@ -34,6 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by bobo-pc on 2/8/2017.
  */
+@Deprecated
 public class ResultContentHistoryActivity extends AppCompatActivity {
     //UNUSED //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!! //UNUSED!!!
     private final String TAG = "HistoryActivity";
@@ -113,7 +114,7 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             @Override
             public void populateViewHolder(FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
                // resourcesViewHolder.setName(resourcesFromActivity.getCurrentTime());
-                Log.e("holder",position+ " " + resourcesFromActivity.getCurrentTime() + "\n" + resourcesFromActivity.toString());
+                Log.e("holder",position+ " " + resourcesFromActivity.getTrainingOverview().getCurrentTime() + "\n" + resourcesFromActivity.toString());
                 resourcesViewHolder.setKey(getRef(position).getKey());
                 resourcesViewHolder.bindSportActivity(resourcesFromActivity);
   //              ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new
@@ -204,17 +205,17 @@ public class ResultContentHistoryActivity extends AppCompatActivity {
             TextView aaa = (TextView) childLayout.findViewById(R.id.res_analysis_empty);
 
 
-            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
+            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text);
             //TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
-            TextView childMetersView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
+            TextView childMetersView = (TextView) mView.findViewById(R.id.start_date_head_text);
             RelativeLayout first = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
 
             headerTextView.setText(key);
-            totalMeters.setText(Long.toString(model.getTotalMeters()));
+            totalMeters.setText(Long.toString(model.getTrainingOverview().getTotalMeters()));
             map.setVisibility(View.GONE);
 
-            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
-            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTotalMeters()));
+            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTrainingOverview().getTotalMeters()));
+            setParameters(R.id.list_item_layout_container,0,"Distance(m):",Long.toString(model.getTrainingOverview().getTotalMeters()));
 
 
   //          categoryTextView.setText(restaurant.getCategories().get(0));

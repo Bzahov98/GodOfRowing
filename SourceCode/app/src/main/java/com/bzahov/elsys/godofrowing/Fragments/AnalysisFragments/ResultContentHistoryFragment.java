@@ -2,33 +2,29 @@ package com.bzahov.elsys.godofrowing.Fragments.AnalysisFragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
 
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Fragments.Dialogs.DatePickerDialog;
+import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
+import com.bzahov.elsys.godofrowing.Models.TrainingOverview;
 import com.bzahov.elsys.godofrowing.R;
 import com.bzahov.elsys.godofrowing.RowApplication;
 import com.bzahov.elsys.godofrowing.Support.MathFunct;
@@ -48,7 +44,7 @@ import java.util.ArrayList;
 public class ResultContentHistoryFragment extends Fragment {
     private final String TAG = "HistoryActivity";
 
-
+    private static final int DIALOG_REQUEST = 101;
     private final static String SAVED_ADAPTER_ITEMS = "SAVED_ADAPTER_ITEMS";
     private final static String SAVED_ADAPTER_KEYS = "SAVED_ADAPTER_KEYS";
 
@@ -68,7 +64,7 @@ public class ResultContentHistoryFragment extends Fragment {
     private Query mQuery;
     private ArrayList<ResourcesFromActivity> mAdapterItems;
     private ArrayList<String> mAdapterKeys;
-    private FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder> mMyAdapter;
+    private FirebaseRecyclerAdapter<ResourcesFromActivity, FbResVwHolder> mMyAdapter;
     private FloatingActionButton fab;
     private long range_startDate = 0;
     private long range_endDate = 0;
@@ -78,14 +74,12 @@ public class ResultContentHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.activity_result_history, container, false);
-
         setUpViews(v);
         checkUserAuth();
         setUpFabButton(v);
         setDataReference();
         handleInstanceState(savedInstanceState);
         setupRecyclerview();
-
         return v;
     }
 
@@ -95,11 +89,13 @@ public class ResultContentHistoryFragment extends Fragment {
     }
 
     private void setDataReference() {
+        Log.d("aa","saas");
         if (mAuth.getCurrentUser() == null) {
             mAuth.getCurrentUser().reload();
         } else {
             mUser = FirebaseAuth.getInstance().getCurrentUser();
             mListItemRef = database.getReference(app.getString(R.string.ref_database_users)).child(mUser.getUid()).child(app.getString(R.string.ref_database_activities));
+            Log.e(TAG,mListItemRef.toString());
             mQuery = mListItemRef.limitToLast(25); //TODO Fix Mem Usage!!! eat too much memory
         }
     }
@@ -119,42 +115,34 @@ public class ResultContentHistoryFragment extends Fragment {
             }};
     }
 
-
     private void showEditDialog() {
-
         FragmentManager fm = getActivity().getSupportFragmentManager();
-
-       // DatePickerDialog editNameDialogFragment = DatePickerDialog.newInstance("Some Title");
         DatePickerDialog pickerDialog = new DatePickerDialog();//.newInstance("Some Title");
-
-        pickerDialog.setTargetFragment(this,101);
+        pickerDialog.setTargetFragment(this,DIALOG_REQUEST);
         pickerDialog.show(fm, "fragment_picker");
 
+    }
+
+    private void updateQuery() {
+        String childName = app.getString(R.string.ref_database_sortby_currentTime);
+        mQuery = mListItemRef.orderByChild(childName)
+                .startAt(range_startDate)
+                .endAt(range_endDate);
+        Log.d("Date Query","" + mQuery.toString());
+        setupRecyclerview();
     }
 
     private void setUpFabButton(View v) {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null);
-
                 showEditDialog();
-
-                //DatePickerDialog dialog = new DatePickerDialog();
-                //dialog.show(getFragmentManager(),"dass");
-                /*AnalysisNavigationActivity ft = (AnalysisNavigationActivity)getActivity().getSupportFragmentManager().beginTransaction();
-                DatePickerDialog dialog = DatePickerDialog.newInstance();
-                dialog.show(getActivity().getFragmentManager(),"aaa");
-                */
-                 //alertDatePicker();
             }
         });
     }
 
     // Restoring the item list and the keys of the items: they will be passed to the adapter
     private void handleInstanceState(Bundle savedInstanceState) {
-
         mAdapterItems = new ArrayList<ResourcesFromActivity>();
         mAdapterKeys = new ArrayList<String>();
     }
@@ -169,31 +157,25 @@ public class ResultContentHistoryFragment extends Fragment {
         if (mMyAdapter != null){
             mMyAdapter.cleanup();
         }
-        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, ResultContentHistoryFragment.FirebaseResViewHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, ResultContentHistoryFragment.FirebaseResViewHolder.class, mQuery) {
+        mMyAdapter = new FirebaseRecyclerAdapter<ResourcesFromActivity, FbResVwHolder>(ResourcesFromActivity.class, R.layout.category_history_list_item, FbResVwHolder.class, mQuery) {
 
             @Override
-            public void populateViewHolder(ResultContentHistoryFragment.FirebaseResViewHolder resourcesViewHolder, ResourcesFromActivity resourcesFromActivity, int position) {
-                // resourcesViewHolder.setName(resourcesFromActivity.getCurrentTime());
-                Log.e("holder",position+ " " + resourcesFromActivity.getCurrentTime() + "\n" + resourcesFromActivity.toString());
+            public void populateViewHolder(FbResVwHolder resourcesViewHolder, ResourcesFromActivity model, int position) {
                 resourcesViewHolder.setKey(getRef(position).getKey());
-                resourcesViewHolder.bindSportActivity(resourcesFromActivity);
-                //              ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new
-//                        CallBack(0, ItemTouchHelper.RIGHT, mMyAdapter); // Making the SimpleCallback
+                // delete unnecessary data
+                model.setAllTrainLocations(new ArrayList<MyLocation>());
 
-//                ItemTouchHelper touchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-
-                //touchHelper.attachToRecyclerView(recyclerView);
-
+                TrainingOverview overView = model.getTrainingOverview();
+                resourcesViewHolder.bindSportActivity(overView);
             }
 
             @Override
-            public void onBindViewHolder(ResultContentHistoryFragment.FirebaseResViewHolder viewHolder, int position) {
+            public void onBindViewHolder(FbResVwHolder viewHolder, int position) {
                 super.onBindViewHolder(viewHolder, position);
-                //viewHolder.setText("aaa");
             }
 
             @Override
-            public boolean onFailedToRecycleView(ResultContentHistoryFragment.FirebaseResViewHolder holder) {
+            public boolean onFailedToRecycleView(FbResVwHolder holder) {
                 return super.onFailedToRecycleView(holder);
             }
         };
@@ -201,19 +183,13 @@ public class ResultContentHistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_history, menu);
-        return true;
-    }*/
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         if(mMyAdapter != null) mMyAdapter.cleanup();
     }
 
-    public static class FirebaseResViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class FbResVwHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final int MAX_WIDTH = 200;
         private static final int MAX_HEIGHT = 200;
         private boolean childVisible;
@@ -223,25 +199,24 @@ public class ResultContentHistoryFragment extends Fragment {
         String key = "";
         Context mContext;
 
-        public FirebaseResViewHolder(View itemView) {
+        public FbResVwHolder(View itemView) {
             super(itemView);
             childVisible = false;
             mView = itemView;
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
             childLayout = (RelativeLayout) mView.findViewById(R.id.list_item_layout_container);
-            childLayout.setVisibility(View.GONE); //TODO review
+            childLayout.setVisibility(View.GONE);
         }
 
-        public void bindSportActivity(ResourcesFromActivity model) {
-            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
-
+        public void bindSportActivity(TrainingOverview model) {
+            TextView headerTextView = (TextView) mView.findViewById(R.id.start_date_head_text);
             headerTextView.setText(key + " | Workout:"+ model.getTotalMeters()+ " m");
-
             setAllParameters(model);
         }
 
-        private void setAllParameters(ResourcesFromActivity model) {
+        private void setAllParameters(TrainingOverview model) {
+            Log.e("setAll",model.toString());
             setParameters(R.id.res_analysis_meters_total, 0, app.getString(R.string.text_result_distance), Long.toString(model.getTotalMeters()));
             setParameters(R.id.res_analysis_speed_average,0, app.getString(R.string.text_result_speed_ave), Float.toString(MathFunct.roundFloat(model.getAverageSpeed(),2)));
             setParameters(R.id.res_analysis_speed_max, 0, app.getString(R.string.text_result_speedPer500m_max), Float.toString(MathFunct.roundFloat(model.getMaxSpeed(),2)));
@@ -283,33 +258,6 @@ public class ResultContentHistoryFragment extends Fragment {
         }
     }
 
-    public class CallBack extends ItemTouchHelper.SimpleCallback {
-        private FirebaseRecyclerAdapter adapter; // this will be your recycler adapter
-
-        private DatabaseReference root = FirebaseDatabase.getInstance().getReference();
-
-        public CallBack(int dragDirs, int swipeDirs, FirebaseRecyclerAdapter adapter) {
-            super(dragDirs, swipeDirs);
-            this.adapter = adapter;
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            // ResourcesFromActivity object = adapter.getItem(position);
-
-            Log.e("gh",""+position);
-        }
-
-    }
-
-    public void onMapClickAnalysis(View view) {
-    }
     //unused
     public static class ResourcesHolder extends RecyclerView.ViewHolder {
         private final TextView mNameField;
@@ -333,37 +281,29 @@ public class ResultContentHistoryFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 101) {
-
+        if (requestCode == DIALOG_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 Bundle bundle = data.getExtras();
                 if (bundle.containsKey("isSuccessfully")) {
-
                     Boolean isSuccessfully = bundle.getBoolean("isSuccessfully");
-                    Log.e(TAG,isSuccessfully.toString());
+                    Log.d("Date range","clicked done btn: "+isSuccessfully.toString());
                     if (isSuccessfully){
-
                         if (bundle.containsKey("startDate")){
                             range_startDate = bundle.getLong("startDate");
+                            Log.d("Date range","start date:" + range_startDate);
                         }
                         if (bundle.containsKey("endDate")){
                             range_endDate = bundle.getLong("endDate");
+                            Log.d("Date range","end date:" + range_endDate);
                         }
-                        updateRef();
+                        if (bundle.containsKey("showingNum")){
+                            /*showingNum = bundle.getLong("showingNum");
+                            Log.d("Date range","showingNum:" + showingNum);*/
+                        }
+                        updateQuery();
                     }
-                    // Use the returned value
                 }
             }
         }
     }
-
-    private void updateRef() {
-        String childName = app.getString(R.string.ref_database_sortby_currentTime);
-        mQuery = mListItemRef.orderByChild(childName)
-                .startAt(range_startDate)
-                .endAt(range_endDate);
-        setupRecyclerview();
-    }
-
 }

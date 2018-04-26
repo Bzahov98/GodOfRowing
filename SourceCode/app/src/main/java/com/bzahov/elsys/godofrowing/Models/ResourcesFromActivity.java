@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +13,10 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class ResourcesFromActivity {
 
-    public String currentTime;
     public long curTimeMillis;
-    public long elapsedTime;
-    public String elapsedTimeStr;
-    public float averageSpeed;
-    public float maxSpeed;
-    public float averageStrokeRate;
-    public long totalMeters;
-    public List<MyLocation> myLocationsList = new ArrayList<>();
+
+    public TrainingOverview trainingOverview = new TrainingOverview();
+    public List<MyLocation> allTrainLocations = new ArrayList<>();
     public List<Location> allLocations = new ArrayList<>();
     public List<Float> allStrokes = new ArrayList<>();
 
@@ -30,15 +24,15 @@ public class ResourcesFromActivity {
         // Default constructor required for calls to DataSnapshot.getValue(ResourcesFromActivity.class)
     }
 
-    public ResourcesFromActivity(String currentTime, long elapsedTime, String elapsedTimeStr, float averageSpeed, float maxSpeed, float averageStrokeRate, long totalMeters, List<MyLocation> myLocationsList, List<Location> allLocations, List<Float> allStrokes) {
-        this.currentTime = currentTime;
-        this.elapsedTime = elapsedTime;
-        this.elapsedTimeStr = elapsedTimeStr;
-        this.averageSpeed = averageSpeed;
-        this.maxSpeed = maxSpeed;
-        this.averageStrokeRate = averageStrokeRate;
-        this.totalMeters = totalMeters;
-        this.myLocationsList = myLocationsList;
+    public ResourcesFromActivity(String currentTime, long elapsedTime, String elapsedTimeStr, float averageSpeed, float maxSpeed, float averageStrokeRate, long totalMeters, List<MyLocation> allTrainLocations, List<Location> allLocations, List<Float> allStrokes) {
+        this.trainingOverview.currentTime = currentTime;
+        this.trainingOverview.elapsedTime = elapsedTime;
+        this.trainingOverview.elapsedTimeStr = elapsedTimeStr;
+        this.trainingOverview.averageSpeed = averageSpeed;
+        this.trainingOverview.maxSpeed = maxSpeed;
+        this.trainingOverview.averageStrokeRate = averageStrokeRate;
+        this.trainingOverview.totalMeters = totalMeters;
+        this.allTrainLocations = allTrainLocations;
         this.allLocations = allLocations;
         this.allStrokes = allStrokes;
     }
@@ -54,11 +48,11 @@ public class ResourcesFromActivity {
         /*this.allStrokes = allStrokes;
         this.allSpeeds = allSpeeds;
         this.allLocations = allLocations;*/
-        this.totalMeters = totalMeters;
-        this.averageStrokeRate = averageStrokeRate;
-        this.maxSpeed = maxSpeed;
-        this.averageSpeed = averageSpeed;
-        this.elapsedTime = elapsedTime;
+        this.trainingOverview.totalMeters = totalMeters;
+        this.trainingOverview.averageStrokeRate = averageStrokeRate;
+        this.trainingOverview.maxSpeed = maxSpeed;
+        this.trainingOverview.averageSpeed = averageSpeed;
+        this.trainingOverview.elapsedTime = elapsedTime;
 
     }
 
@@ -75,46 +69,35 @@ public class ResourcesFromActivity {
         /*this.allStrokes = allStrokes;
         this.allSpeeds = allSpeeds;
         this.allLocations = allLocations;*/
-        this.myLocationsList = allLocations;
-        this.totalMeters = totalMeters;
+        this.allTrainLocations = allLocations;
+        this.trainingOverview.totalMeters = totalMeters;
         this.curTimeMillis= curTimeMillis;
-        this.averageStrokeRate = averageStrokeRate;
-        this.maxSpeed = maxSpeed;
-        this.averageSpeed = averageSpeed;
-        this.elapsedTimeStr = elapsedTimeStr;
-        this.currentTime = currentTime;
+        this.trainingOverview.setCurTimeMillis(curTimeMillis);
+        this.trainingOverview.averageStrokeRate = averageStrokeRate;
+        this.trainingOverview.maxSpeed = maxSpeed;
+        this.trainingOverview.averageSpeed = averageSpeed;
+        this.trainingOverview.elapsedTimeStr = elapsedTimeStr;
+        this.trainingOverview.currentTime = currentTime;
     }
 
     public ResourcesFromActivity(long totalMeters, String elapsedTimeStr, float averageStrokeRate, String currentTime) {
-        this.totalMeters = totalMeters;
-        this.averageStrokeRate = averageStrokeRate;
-        this.maxSpeed = 0;
-        this.averageSpeed = 0;
-        this.elapsedTimeStr = elapsedTimeStr;
-        this.currentTime = currentTime;
-    }
-
-    @Exclude
-    public static String splitToComponentTimes(long input) {
-        int hours = (int) input / 3600;
-        int remainder = (int) input - hours * 3600;
-        int mins = remainder / 60;
-        remainder = remainder - mins * 60;
-        int secs = remainder;
-
-        String result = hours + ":" + mins +":" + secs;
-        return result;
+        this.trainingOverview.totalMeters = totalMeters;
+        this.trainingOverview.averageStrokeRate = averageStrokeRate;
+        this.trainingOverview.maxSpeed = 0;
+        this.trainingOverview.averageSpeed = 0;
+        this.trainingOverview.elapsedTimeStr = elapsedTimeStr;
+        this.trainingOverview.currentTime = currentTime;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("averageSpeed", averageSpeed);
-        result.put("maxSpeed", maxSpeed);
-        result.put("averageStrokeRate", averageStrokeRate);
-        result.put("totalMeters", getTotalMeters());
-        result.put("elapsedTime", elapsedTime);
-        result.put("currentTime",currentTime);
+        result.put("averageSpeed", trainingOverview.averageSpeed);
+        result.put("maxSpeed", trainingOverview.maxSpeed);
+        result.put("averageStrokeRate", trainingOverview.averageStrokeRate);
+        result.put("totalMeters", trainingOverview.totalMeters);
+        result.put("elapsedTime", trainingOverview.elapsedTime);
+        result.put("currentTime", trainingOverview.currentTime);
         result.put("curTimeMillis",curTimeMillis);
 
         return result;
@@ -124,89 +107,37 @@ public class ResourcesFromActivity {
     public String toString() {
         return "ResourcesFromActivity{" +
                 "curTimeMillis='" + curTimeMillis + '\'' +
-                "currentTime='" + currentTime + '\'' +
-                ", elapsedTime=" + elapsedTime +
-                ", elapsedTimeStr='" + elapsedTimeStr + '\'' +
-                ", averageSpeed=" + averageSpeed +
-                ", maxSpeed=" + maxSpeed +
-                ", averageStrokeRate=" + averageStrokeRate +
-                ", totalMeters=" + totalMeters +
-                ", myLocationsList=" + myLocationsList.toString() +
+                "currentTime='" + trainingOverview.currentTime + '\'' +
+                ", elapsedTime=" + trainingOverview.elapsedTime +
+                ", elapsedTimeStr='" + trainingOverview.elapsedTimeStr + '\'' +
+                ", averageSpeed=" + trainingOverview.averageSpeed +
+                ", maxSpeed=" + trainingOverview.maxSpeed +
+                ", averageStrokeRate=" + trainingOverview.averageStrokeRate +
+                ", totalMeters=" + trainingOverview.totalMeters +
+                ", allTrainLocations=" + allTrainLocations.toString() +
                 ", allLocations=" + allLocations.toString() +
                 ", allStrokes=" + allStrokes.toString() +
                 '}';
     }
 
-    public void setCurrentTime(String currentTime) {
-        this.currentTime = currentTime;
+    public void setTrainingOverview(TrainingOverview trainingOverview) {
+        this.trainingOverview = trainingOverview;
     }
 
-    public void setElapsedTime(long elapsedTime) {
-        this.elapsedTime = elapsedTime;
-    }
-
-    public void setElapsedTimeStr(String elapsedTimeStr) {
-        this.elapsedTimeStr = elapsedTimeStr;
-    }
-
-    public void setAverageSpeed(float averageSpeed) {
-        this.averageSpeed = averageSpeed;
-    }
-
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    public void setAverageStrokeRate(float averageStrokeRate) {
-        this.averageStrokeRate = averageStrokeRate;
-    }
-
-    public void setTotalMeters(long totalMeters) {
-        this.totalMeters = totalMeters;
-    }
-
-    public void setMyLocationsList(List<MyLocation> myLocationsList) {
-        this.myLocationsList = myLocationsList;
+    public void setAllTrainLocations(List<MyLocation> allTrainLocations) {
+        this.allTrainLocations = allTrainLocations;
     }
 
     public void setAllLocations(List<Location> allLocations) {
         this.allLocations = allLocations;
     }
- 
+
     public void setAllStrokes(List<Float> allStrokes) {
         this.allStrokes = allStrokes;
     }
 
-    public String getCurrentTime() {
-        return currentTime;
-    }
-
-    public long getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public String getElapsedTimeStr() {
-        return elapsedTimeStr;
-    }
-
-    public float getAverageSpeed() {
-        return averageSpeed;
-    }
-
-    public float getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public float getAverageStrokeRate() {
-        return averageStrokeRate;
-    }
-
-    public long getTotalMeters() {
-        return totalMeters;
-    }
-
-    public List<MyLocation> getMyLocationsList() {
-        return myLocationsList;
+    public List<MyLocation> getAllTrainLocations() {
+        return allTrainLocations;
     }
 
     public List<Location> getAllLocations() {
@@ -216,4 +147,68 @@ public class ResourcesFromActivity {
     public List<Float> getAllStrokes() {
         return allStrokes;
     }
+
+    public TrainingOverview getTrainingOverview() {
+        return trainingOverview;
+    }
+
+    /*
+    public void setCurrentTime(String currentTime) {
+        this.trainingOverview.currentTime = currentTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.trainingOverview.elapsedTime = elapsedTime;
+    }
+
+    public void setElapsedTimeStr(String elapsedTimeStr) {
+        this.trainingOverview.elapsedTimeStr = elapsedTimeStr;
+    }
+
+    public void setAverageSpeed(float averageSpeed) {
+        this.trainingOverview.averageSpeed = averageSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.trainingOverview.maxSpeed = maxSpeed;
+    }
+
+    public void setAverageStrokeRate(float averageStrokeRate) {
+        this.trainingOverview.averageStrokeRate = averageStrokeRate;
+    }
+
+    public void setTotalMeters(long totalMeters) {
+        this.trainingOverview.totalMeters = totalMeters;
+    }
+
+/*
+    public String getCurrentTime() {
+        return trainingOverview.currentTime;
+    }
+
+    public long getElapsedTime() {
+        return trainingOverview.elapsedTime;
+    }
+
+    public String getElapsedTimeStr() {
+        return trainingOverview.elapsedTimeStr;
+    }
+
+    public float getAverageSpeed() {
+        return trainingOverview.averageSpeed;
+    }
+
+    public float getMaxSpeed() {
+        return trainingOverview.maxSpeed;
+    }
+
+    public float getAverageStrokeRate() {
+        return trainingOverview.averageStrokeRate;
+    }
+
+    public long getTotalMeters() {
+        return trainingOverview.totalMeters;
+    }
+*/
+
 }

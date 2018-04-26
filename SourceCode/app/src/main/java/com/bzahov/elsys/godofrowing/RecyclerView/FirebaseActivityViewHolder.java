@@ -12,7 +12,7 @@ import com.bzahov.elsys.godofrowing.R;
 /**
  * Created by bobo-pc on 3/7/2017.
  */
-public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+/*public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
@@ -27,7 +27,7 @@ public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implemen
 
     public void bindRestaurant(ResourcesFromActivity restaurant) {
         //ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.list_item_child_meters_total);
-        TextView nameTextView = (TextView) mView.findViewById(R.id.start_date_head_text_header);
+        TextView nameTextView = (TextView) mView.findViewById(R.id.start_date_head_text);
         TextView totalMetersTextView = (TextView) mView.findViewById(R.id.list_item_child_meters_total);
     //    TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
 
@@ -36,9 +36,9 @@ public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implemen
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
                 .into(restaurantImageView);*/
-
-        nameTextView.setText(Long.toString(restaurant.getTotalMeters()));
-        totalMetersTextView.setText(Long.toString(restaurant.getTotalMeters()) + " (1)");
+/*
+        nameTextView.setText(Long.toString(rest.getTotalMeters()));
+        totalMetersTextView.setText(Long.toString(rest.getTotalMeters()) + " (1)");
         //ratingTextView.setText("Rating: " + restaurant.getRating() + "/5");
     }
 
@@ -66,7 +66,8 @@ public class FirebaseActivityViewHolder extends RecyclerView.ViewHolder implemen
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-        });*/
+        });
         Toast.makeText(mContext, "OnClickView", Toast.LENGTH_SHORT).show();
     }
 }
+*/

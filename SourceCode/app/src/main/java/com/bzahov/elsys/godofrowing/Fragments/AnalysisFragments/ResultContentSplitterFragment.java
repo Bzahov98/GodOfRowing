@@ -16,7 +16,6 @@ import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
 import com.bzahov.elsys.godofrowing.R;
 import com.bzahov.elsys.godofrowing.RowApplication;
-import com.google.android.gms.maps.MapView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +26,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicMarkableReference;
 
 /**
  * Created by bobo-pc on 5/29/2017.
@@ -100,7 +98,7 @@ public class ResultContentSplitterFragment extends Fragment implements ValueEven
         Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
 */
 //        Toast.makeText(getContext(),"onData" ,Toast.LENGTH_SHORT).show();
-        allLocations = receivedData.getMyLocationsList();
+        allLocations = receivedData.getAllTrainLocations();
 
         //setAllValuesOfViews(receivedData);
     }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.bzahov.elsys.godofrowing.AuthenticationActivities.LogInActivity;
 import com.bzahov.elsys.godofrowing.Models.MyLocation;
 import com.bzahov.elsys.godofrowing.Models.ResourcesFromActivity;
+import com.bzahov.elsys.godofrowing.Models.TrainingOverview;
 import com.bzahov.elsys.godofrowing.R;
 
 import com.bzahov.elsys.godofrowing.RowApplication;
@@ -83,13 +84,14 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
             receivedData = activitySnapShot.getValue(ResourcesFromActivity.class);
         }
         if (receivedData == null) return;
+        TrainingOverview overview = (TrainingOverview) receivedData.getTrainingOverview();
 
-        Log.e("Query Ref",dataSnapshot.getRef().toString());
+        /*Log.e("Query Ref",dataSnapshot.getRef().toString());
         Log.e("Query DataS","\n "+dataSnapshot.toString() );
         Log.e("Query getVal()","\n "+ receivedData.toString() );
-        Log.e("Query","\n "+ Long.toString(receivedData.getTotalMeters()));
+        Log.e("Query","\n "+ Long.toString(overview.getTotalMeters()));*/
 
-        allLocations = receivedData.getMyLocationsList();
+        allLocations = receivedData.getAllTrainLocations();
         //https://stackoverflow.com/questions/37547399/how-to-deserialise-a-subclass-in-firebase-using-getvaluesubclass-class/37548330#37548330
         addMarkersToMap();
         setAllValuesOfViews(receivedData);
@@ -132,11 +134,12 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     }
 
     private void setAllValuesOfViews(ResourcesFromActivity receivedData) {
-        setParameters(R.id.res_analysis_meters_total, 0,null, Long.toString(receivedData.getTotalMeters()));
-        setParameters(R.id.res_analysis_speed_average,0,null, Float.toString(round(receivedData.getAverageSpeed(),2)));
-        setParameters(R.id.res_analysis_speed_max,    0,null, Float.toString(round(receivedData.getMaxSpeed(),2)));
-        setParameters(R.id.res_analysis_empty,        0,null, Float.toString(round(receivedData.getAverageStrokeRate(),2)));
-        setParameters(R.id.res_analysis_elapsed_time, 0,null, receivedData.getElapsedTimeStr());
+        TrainingOverview overview =(TrainingOverview) receivedData.getTrainingOverview();
+        setParameters(R.id.res_analysis_meters_total, 0,null, Long.toString(overview.getTotalMeters()));
+        setParameters(R.id.res_analysis_speed_average,0,null, Float.toString(round(overview.getAverageSpeed(),2)));
+        setParameters(R.id.res_analysis_speed_max,    0,null, Float.toString(round(overview.getMaxSpeed(),2)));
+        setParameters(R.id.res_analysis_empty,        0,null, Float.toString(round(overview.getAverageStrokeRate(),2)));
+        setParameters(R.id.res_analysis_elapsed_time, 0,null, overview.getElapsedTimeStr());
     }
 
     @Override
@@ -290,9 +293,10 @@ public class ResultContentAnalysisFragment extends Fragment implements OnMapRead
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         final Bundle mapViewSaveState = new Bundle(savedInstanceState);
-        mapView.onSaveInstanceState(mapViewSaveState);
-        savedInstanceState.putBundle("mapViewSaveState", mapViewSaveState);
-
+        if (mapView !=null){
+            mapView.onSaveInstanceState(mapViewSaveState);
+            savedInstanceState.putBundle("mapViewSaveState", mapViewSaveState);
+        }
         Bundle customBundle = new Bundle();
         // put custom objects if needed to customBundle
 

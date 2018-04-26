@@ -4,8 +4,8 @@
 
     <string name="ref_database_users">users</string>
     <string name="ref_database_sortby_currentTime">curTimeMillis</string>
-    <string name="ref_database_activities">allActivities</string>
-    <string name="ref_database_training_location_list">myLocationsList</string>
+    <string name="ref_database_activities">allActivities2</string>
+    <string name="ref_database_training_location_list">allTrainLocations</string>
     <string name="format_DataBaseTime">yyyy:MM:dd HH:mm</string>
 
     <string name="def_parameter_name">Accel</string>
@@ -19,6 +19,7 @@
     <string name="action_settings">Settings</string>
     <string name="notFinished">commingSoon</string>
 
+    <string name="err_toast_gps_connect_failed">GPS Connection Failed</string>
     <string name="toast_register_succses">You are successfully Registered !!</string>
     <string name="err_toast_register_pass_min">Password too short, enter min 6 characters!</string>
     <string name="err_toast_login_auth">Authentication error, Please enter a valid email and password or sign up</string>
@@ -26,8 +27,8 @@
     <string name="err_toast_required">Required !!</string>
     <string name="err_toast_password">Enter a valid password with min 6 characters.</string>
     <string name="err_permission_location_denied">Permission Location denied</string>
-    <string name="err_date_before_today">Please choose date before Today!</string>
-    <string name="err_toast_gps_connect_failed">GPS Connection Failed</string>
+    <string name="err_date_before_end">Please choose date, before End Date!</string>
+    <string name="err_date_after_start">Please choose date, after Start Date!</string>
 
     <string name="hint_email">Email*</string>
     <string name="hint_password">Password*</string>
@@ -111,6 +112,10 @@
     <string name="time_end_day">-23:59:59"</string>
     <string name="time_start_day">-00:00:00</string>
     <string name="time_pattern">yyyy:MM:dd-HH:mm:ss</string>
+    <string name="dialog_search_start_date">Start Date:</string>
+    <string name="dialog_search_end_date">End Date:   </string>
+    <string name="dialog_search_start_time">Start Time:</string>
+    <string name="dialog_search_end_time"  >End Time  :</string>
 
 
 </resources>
